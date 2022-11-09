@@ -1,0 +1,70 @@
+package com.test.utils;
+
+import cucumber.api.Scenario;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.BrowserMobProxyServer;
+import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONObject;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.asserts.SoftAssert;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+public class BasePage {
+
+    private WebDriver driver;
+    public Properties prop;
+    public JavascriptExecutor jsExecutor;
+    private WebDriverWait wait;
+    public static final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
+    private static final int PAGE_LOAD_TIMEOUT = 60;
+    private static final int WAIT_TIME = 30;
+    public String scenarioName;
+    public byte[] allScreenshots = null;
+    public Scenario myScenario;
+    public SoftAssert softAssert = new SoftAssert();
+    public BrowserMobProxy proxy = new BrowserMobProxyServer();
+    private ArrayList<String> tabs;
+
+    private static ThreadLocal<WebDriver> threadDriver = new ThreadLocal<WebDriver>();
+
+    public void loadProperties() {
+        try {
+            Properties configProp = new Properties();
+            FileInputStream cp =  new FileInputStream(System.getProperty("user.dir") + "/src/test/resources/properties/config.properties");
+            configProp.load(cp);
+            this.prop = new Properties();
+//            String filePath = "/src/test/resources/properties/sit.properties";
+            String filePath = "/src/test/resources/properties/"+configProp.getProperty("ENV") +".properties";
+            FileInputStream fs = new FileInputStream(System.getProperty("user.dir") + filePath);
+            this.prop.load(fs);
+            LOGGER.info("==============>>>>>> Test Started <<<<<<=============");
+            /*Set Wait instance*/
+//            wait = setWaitUntill(driver);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            LOGGER.info("No Properties file found");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
