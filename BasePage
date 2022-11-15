@@ -378,3 +378,317 @@ public class BasePage {
             LOGGER.info("===>>> Element not Visible to Clear");
         }
     }
+    
+    public void selectTextByPartialText(WebElement element, String partialText) {
+        try {
+            if (checkIfELementIsAvailable(element)) {
+                Select select = new Select(element);
+                select.getOptions()
+                        .stream()
+                        .filter(option -> option.getText()
+                                .toLowerCase().contains(partialText.toLowerCase())).findFirst().ifPresent(option -> select.selectByValue(option.getAttribute("value")));
+            } else {
+                waitTillElementFound(element);
+                Select select = new Select(element);
+                select.getOptions()
+                        .stream()
+                        .filter(option -> option.getText()
+                                .toLowerCase().contains(partialText.toLowerCase())).findFirst().ifPresent(option -> select.selectByValue(option.getAttribute("value")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("===>>> Element not Visible to Select");
+        }
+    }
+
+
+    public void selectTextByValue(WebElement element, String value) {
+        try {
+            if (checkIfELementIsAvailable(element)) {
+                Select select = new Select(element);
+                select.selectByValue(value);
+            } else {
+                waitTillElementFound(element);
+                Select select = new Select(element);
+                select.selectByValue(value);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("===>>> Element not Visible to Select");
+        }
+    }
+
+    public void statusMessage(WebElement element) {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("========>>>>>>>> No Text selected to Highlight");
+        }
+    }
+
+
+    public void highlightElement(WebElement element) {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            for (int i = 0; i < 3; i++) {
+                js.executeScript("arguments[0].setAttribute('style', arguments[1]);", element, "color: red; border: 2px solid red;background-color: yellow;animation: blinker 5s linear infinite;");
+                Thread.sleep(100);
+                if(i==0 && prop.getProperty("enableScreenshotWhenHighlighted").contains("true")) {
+                    captureScreeshot(scenarioName);
+                }
+                js.executeScript("arguments[0].setAttribute('style', arguments[1]);", element, "");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("========>>>>>>>> No Text selected to Highlight");
+        }
+    }
+    public void changeStyle(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('style', arguments[1]);",element,"style.border = '3px dotted blue'");
+    }
+
+    public void highlightElementWithScreenshot(WebElement element, String screenshotName) {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            for (int i = 0; i < 3; i++) {
+                js.executeScript("arguments[0].setAttribute('style', arguments[1]);", element, "color: red; border: 2px solid red;background-color: yellow;animation: blinker 5s linear infinite;");
+                Thread.sleep(500);
+                captureScreeshot(screenshotName);
+                js.executeScript("arguments[0].setAttribute('style', arguments[1]);", element, "");
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("--->>>> No Text selected to Highlight");
+        }
+    }
+
+    public WebElement quickWait(String path) {
+        WebElement element = null;
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(WAIT_TIME, SECONDS)
+                .pollingEvery(5, SECONDS)
+                .ignoring(org.openqa.selenium.NoSuchElementException.class).ignoring(TimeoutException.class);
+
+        try {
+            element = wait.until(new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    return driver.findElement(By.xpath(path));
+                }
+
+            });
+        } catch (TimeoutException el) {
+            LOGGER.info("======>>>>> Unable to find element : " + path);
+        }
+
+        return (element != null) ? element : null;
+    }
+
+    public WebElement getElementFromXpath(String path) {
+        WebElement element = null;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        for (int i = 0; i <= 2; i++) {
+
+            try {
+                element = (WebElement) js.executeScript("return document.evaluate('" + path + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;");
+                if (element != null) {
+                    break;
+                } else {
+                    Thread.sleep(3000);
+                }
+            } catch (TimeoutException | InterruptedException el) {
+                LOGGER.info("======>>>>> Unable to find element : " + path);
+            } catch (org.openqa.selenium.NoSuchElementException | NoSuchElementException el1) {
+                el1.printStackTrace();
+                LOGGER.info("======>>>>> Unable to find element - Attempt : " + i + "Path:" + path);
+            }
+
+        }
+        return (element != null) ? element : null;
+    }
+
+    public boolean isElementAvilable(WebElement element) {
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(WAIT_TIME, SECONDS)
+                .pollingEvery(5, SECONDS)
+                .ignoring(org.openqa.selenium.NoSuchElementException.class).ignoring(TimeoutException.class);
+        WebElement el = null;
+        try {
+            el = wait.until(ExpectedConditions.visibilityOf(element));
+        } catch (TimeoutException e) {
+            LOGGER.info("======>>>>> Unable to find element : " + element.getText());
+        }
+
+        return (el != null) ? true : false;
+    }
+
+
+    public WebElement waitForElementAndReturnJS(String path) {
+        WebElement element = null;
+
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(WAIT_TIME, SECONDS)
+                .pollingEvery(5, SECONDS)
+                .ignoring(org.openqa.selenium.NoSuchElementException.class);
+
+        try {
+            element = wait.until(new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    return getElementByXpathJS(path);
+                }
+
+            });
+        } catch (TimeoutException el) {
+            el.printStackTrace();
+            LOGGER.info("======>>>>> Unable to find element : " + path);
+        }
+
+        return (element != null) ? element : null;
+    }
+
+    public WebElement getElementByXpathJS(String xPath) {
+        WebElement element = null;
+        try {
+            element = (WebElement) (((JavascriptExecutor) driver).executeScript("document.evaluate(" + xPath + ",document, null, XPathResult.ANY_TYPE, null )"));
+        } catch (Exception e) {
+            LOGGER.info("===>>>> Unable to Load the element with Path :" + xPath);
+        }
+        return (element != null) ? element : null;
+    }
+
+//    public WebElement getElementByXpathJS1(String xPath) {
+//        WebElement element = null;
+//        try {
+//            element = (WebElement) ((JavascriptExecutor) driver).executeScript("return arguments[0].value;", driver.findElement(By.xpath(xPath)));
+////            element = (WebElement) (((JavascriptExecutor) driver).executeScript("document.evaluate(" + xPath + ",document, null, XPathResult.ANY_TYPE, null )"));
+//        } catch (Exception e) {
+//            LOGGER.info("===>>>> Unable to Load the element with Path :" + xPath);
+//        }
+//        return (element != null) ? element : null;
+//    }
+
+
+    public void scrollToElementAndClick(WebElement element) {
+        try {
+            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + element.getLocation().y + ")");
+            highlightElement(element);
+            element.click();
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("=======>>>>>> Unable to Click the element : " + element.toString());
+        }
+    }
+
+    public void checkElementPresence(WebElement element) {
+        new WebDriverWaitWithMessage(driver, WAIT_TIME)
+                .failWith("No Element found")
+                .until(new ExpectedCondition<Boolean>() {
+                           @Override
+                           public Boolean apply(WebDriver webDriver) {
+                               try {
+                                   return element.isDisplayed();
+                               } catch (NoSuchElementException ignored) {
+                                   return false;
+                               } catch (StaleElementReferenceException ignored) {
+                                   return false;
+                               }
+                           }
+                       }
+                );
+
+    }
+    private void restAssuredObject() {
+        JSONObject reqparam = new JSONObject();
+        reqparam.put("username", "dpanov76@test.com");
+        Response response = null;
+        response = RestAssured.given().auth().basic("dummy@example.com", "dummyDummDumm123")
+                .log()
+                .everything()
+                .relaxedHTTPSValidation()
+                .header("Accept", "*/*").header("Content-Type", "application/json").header("Accept-Charset", "UTF-8")
+                .body(reqparam)
+                .post("https://api.auth.sys-integ.test.athome.domgen.com/token/issue");
+
+    }
+
+    public WebElement findElementUtil(String locatorType, String locator) {
+        WebElement el = null;
+        try {
+            switch (locatorType.toLowerCase()) {
+
+                case "id":
+                    el = driver.findElement(By.id(locator));
+                    break;
+
+                case "css":
+                    el = driver.findElement(By.cssSelector(locator));
+                    break;
+
+                case "link":
+                    el = driver.findElement(By.linkText(locator));
+                    break;
+
+                case "className":
+                    el = driver.findElement(By.className(locator));
+                    break;
+
+                case "name":
+                    el = driver.findElement(By.name(locator));
+                    break;
+
+                case "tagName":
+                    el = driver.findElement(By.tagName(locator));
+                    break;
+
+                case "xpath":
+                    el = driver.findElement(By.xpath(locator));
+                    break;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return el;
+    }
+
+    public boolean checkIfElementIsNotNull(WebElement element) {
+        return (element != null) ? true : false;
+    }
+
+    public String getWebElementValue(WebElement element) {
+        String value = null;
+        try {
+            if (element != null && element.isDisplayed()) {
+                value = element.getAttribute("value");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    public void switchToNextTab(){
+        hardWait("1000");
+        this.tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+    }
+
+    public void clickOutside() {
+        Actions action = new Actions(driver);
+        action.moveByOffset(0, 0).click().build().perform();
+    }
+
+    public void navigateToaNewTab(String url) {
+        hardWait("1000");
+        ((JavascriptExecutor) driver).executeScript("window.open()");
+        this.tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+        driver.navigate().to(url);
+    }
+
+}
+
