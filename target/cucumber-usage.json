@@ -1,0 +1,222 @@
+[
+  {
+    "source": "^I enter username and password and click Login for New Plan View$",
+    "steps": [
+      {
+        "name": "I enter username and password and click Login for New Plan View",
+        "aggregatedDurations": {
+          "average": 31.0775135,
+          "median": 31.0775135
+        },
+        "durations": [
+          {
+            "duration": 31.0775135,
+            "location": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:8"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I verify all the labels are present under RA Data$",
+    "steps": [
+      {
+        "name": "I verify all the labels are present under RA Data",
+        "aggregatedDurations": {
+          "average": 5.8381058,
+          "median": 5.8381058
+        },
+        "durations": [
+          {
+            "duration": 5.8381058,
+            "location": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:34"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I verify the Inflight Repair Summary screen launch$",
+    "steps": [
+      {
+        "name": "I verify the Inflight Repair Summary screen launch",
+        "aggregatedDurations": {
+          "average": 3.0087852,
+          "median": 3.0087852
+        },
+        "durations": [
+          {
+            "duration": 3.0087852,
+            "location": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:29"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I verify review claim page open in new tab after clicking on Open claim button$",
+    "steps": [
+      {
+        "name": "I verify review claim page open in new tab after clicking on Open claim button",
+        "aggregatedDurations": {
+          "average": 8.3172901,
+          "median": 8.3172901
+        },
+        "durations": [
+          {
+            "duration": 8.3172901,
+            "location": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:35"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I verify the Login is successful$",
+    "steps": [
+      {
+        "name": "I verify the Login is successful",
+        "aggregatedDurations": {
+          "average": 3.1750034,
+          "median": 3.1750034
+        },
+        "durations": [
+          {
+            "duration": 3.1750034,
+            "location": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:9"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I verify the Workflow Details have Started,Finished,Duration labels and matches the duration value$",
+    "steps": [
+      {
+        "name": "I verify the Workflow Details have Started,Finished,Duration labels and matches the duration value",
+        "aggregatedDurations": {
+          "average": 18.2534918,
+          "median": 18.2534918
+        },
+        "durations": [
+          {
+            "duration": 18.2534918,
+            "location": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:33"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I navigate to D\u0026G CC Agent Portal$",
+    "steps": [
+      {
+        "name": "I navigate to D\u0026G CC Agent Portal",
+        "aggregatedDurations": {
+          "average": 10.9079104,
+          "median": 10.9079104
+        },
+        "durations": [
+          {
+            "duration": 14.0757834,
+            "location": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:7"
+          },
+          {
+            "duration": 7.7400374,
+            "location": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:7"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I search the claim for the Plan \"([^\"]*)\"$",
+    "steps": [
+      {
+        "name": "I search the claim for the Plan \"BH20052675\"",
+        "aggregatedDurations": {
+          "average": 95.4144136,
+          "median": 95.4144136
+        },
+        "durations": [
+          {
+            "duration": 95.4144136,
+            "location": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:27"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I verify RA Data Agent Input and Open Claim button displayed$",
+    "steps": [
+      {
+        "name": "I verify RA Data Agent Input and Open Claim button displayed",
+        "aggregatedDurations": {
+          "average": 10.9152404,
+          "median": 10.9152404
+        },
+        "durations": [
+          {
+            "duration": 10.9152404,
+            "location": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:31"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I click on the Inflight Repair Workflow link to verify the Interaction History$",
+    "steps": [
+      {
+        "name": "I click on the Inflight Repair Workflow link to verify the Interaction History",
+        "aggregatedDurations": {
+          "average": 6.1431173,
+          "median": 6.1431173
+        },
+        "durations": [
+          {
+            "duration": 6.1431173,
+            "location": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:32"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I click the recent Claim number on plan history section$",
+    "steps": [
+      {
+        "name": "I click the recent Claim number on plan history section",
+        "aggregatedDurations": {
+          "average": 6.8928146,
+          "median": 6.8928146
+        },
+        "durations": [
+          {
+            "duration": 6.8928146,
+            "location": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:28"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "^I verify the Customer Interaction History section launch$",
+    "steps": [
+      {
+        "name": "I verify the Customer Interaction History section launch",
+        "aggregatedDurations": {
+          "average": 4.1263191,
+          "median": 4.1263191
+        },
+        "durations": [
+          {
+            "duration": 4.1263191,
+            "location": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:30"
+          }
+        ]
+      }
+    ]
+  }
+]

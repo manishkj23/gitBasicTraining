@@ -1,0 +1,696 @@
+package com.test.utils;
+
+
+import cucumber.api.Scenario;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.BrowserMobProxyServer;
+import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONObject;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.asserts.SoftAssert;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+public class BasePage {
+
+    private WebDriver driver;
+    public Properties prop;
+    public JavascriptExecutor jsExecutor;
+    private WebDriverWait wait;
+    public static final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
+    private static final int PAGE_LOAD_TIMEOUT = 60;
+    private static final int WAIT_TIME = 30;
+    public String scenarioName;
+    public byte[] allScreenshots = null;
+    public Scenario myScenario;
+    public SoftAssert softAssert = new SoftAssert();
+    public BrowserMobProxy proxy = new BrowserMobProxyServer();
+    private ArrayList<String> tabs;
+
+    private static ThreadLocal<WebDriver> threadDriver = new ThreadLocal<WebDriver>();
+
+    public void loadProperties() {
+        try {
+            Properties configProp = new Properties();
+            FileInputStream cp =  new FileInputStream(System.getProperty("user.dir") + "/src/test/resources/properties/config.properties");
+            configProp.load(cp);
+            this.prop = new Properties();
+//            String filePath = "/src/test/resources/properties/sit.properties";
+            String filePath = "/src/test/resources/properties/"+configProp.getProperty("ENV") +".properties";
+            FileInputStream fs = new FileInputStream(System.getProperty("user.dir") + filePath);
+            this.prop.load(fs);
+            LOGGER.info("==============>>>>>> Test Started <<<<<<=============");
+            /*Set Wait instance*/
+//            wait = setWaitUntill(driver);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            LOGGER.info("No Properties file found");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public ChromeOptions getChromeOptions() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--disable-extensions");
+        options.setExperimentalOption("useAutomationExtension", false);
+        options.addArguments("--proxy-server='direct://'");
+        options.addArguments("--proxy-bypass-list=*");
+        options.addArguments("--start-maximized");
+        if (prop.getProperty("browserState").contains("headless")) {
+            options.addArguments("--headless");
+        }
+        options.setPageLoadStrategy(PageLoadStrategy.NONE);
+        return options;
+    }
+
+    public void loadDriver() {
+
+        loadProperties();   //Load the Property File
+
+        //Driver instance
+        switch (prop.getProperty("browser")) {
+            case "chrome":
+            default: {
+                String path = System.getProperty("user.dir") + ProjectDefaults.LOCATION_CHROME_DRIVER;
+                System.setProperty(ProjectDefaults.WEBDRIVER_CHROME_DRIVER, path);
+                driver = new ChromeDriver(getChromeOptions());
+                driver.manage().window().maximize();
+                driver.manage().deleteAllCookies();
+                break;
+            }
+            case "firefox": {
+                String path = System.getProperty("user.dir") + ProjectDefaults.LOCATION_FIREFOX_DRIVER;
+                System.setProperty(ProjectDefaults.WEBDRIVER_FIREFOX_DRIVER, path);
+                driver = new FirefoxDriver();
+                driver.manage().window().maximize();
+                driver.manage().deleteAllCookies();
+                break;
+            }
+        }
+        if (driver != null) {
+            loadJS(driver);           // Load JavaScript Executor - use where ever required in the container
+        }
+    }
+
+    private JavascriptExecutor loadJS(WebDriver driver) {
+        if (this.jsExecutor == null) {
+            return this.jsExecutor = (JavascriptExecutor) driver;
+        } else {
+            return this.jsExecutor;
+        }
+    }
+
+    /**
+     * Get webdriver instance
+     */
+    public WebDriver getDriver() {
+        if (driver == null) {
+            loadDriver();
+        }
+        return driver;
+    }
+
+    public void navigateToLandingPage() {
+        try {
+            driver.get(prop.getProperty("baseurl"));
+            waitForPageToLoad();
+            LOGGER.info("====>>>> Page Loaded : " + prop.getProperty("baseurl"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("Unable to Navigate to Page : " + prop.getProperty("baseurl"));
+        }
+
+    }
+
+    public void navigateToPage(String url) {
+        try {
+            driver.get(url);
+            waitForPageToLoad();
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("Unable to Navigate to Page : " + url);
+        }
+
+    }
+
+    public void refreshPage() {
+        try {
+            driver.navigate().refresh();
+            waitForPageToLoad();
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("Unable to refresh the Page : ");
+        }
+
+    }
+
+    public void scrollToElement(WebElement element) {
+        try {
+//            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: \"smooth\", block: \"center\", inline: \"nearest\"});", element);
+            Thread.sleep(2000);
+        } catch (Exception e) {
+            LOGGER.info("===========>>>>>>>>>> Unable to scroll to the Element : " + element.getText());
+        }
+
+    }
+
+    public void waitForPageToLoad() {
+        try {
+            new WebDriverWait(driver, PAGE_LOAD_TIMEOUT).until((ExpectedCondition<Boolean>) wd ->
+                    ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
+        } catch (Exception e) {
+            LOGGER.info("Failed to wait for Page to load ");
+            e.printStackTrace();
+        }
+    }
+
+    public void waitFor() {
+        try {
+            driver.manage().timeouts().implicitlyWait(WAIT_TIME, SECONDS);
+            LOGGER.info("Wait for " + WAIT_TIME + " Seconds");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void waitToLoadElement() {
+        try {
+            driver.manage().timeouts().implicitlyWait(WAIT_TIME, SECONDS);
+            LOGGER.info("Wait for " + WAIT_TIME + " Seconds");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clearCookies() {
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void captureScreeshot(String scrName) {
+
+        File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        try {
+            FileUtils.copyFile(scrFile, new File(System.getProperty("user.dir") + "/target/screenshots/" + scenarioName + "/scr_"
+                    + scrName + "_" + System.currentTimeMillis() + ".jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkIfELementIsAvailable(WebElement element) {
+        boolean elementExist = waitForElementVisible(element);
+        return (elementExist) ? true : false;
+
+
+    }
+
+    public boolean checkElementIsAvailableByXpath(String path) {
+        boolean status = false;
+        List<WebElement> elements = driver.findElements(By.xpath(path));
+        if (elements.size() > 0) {
+            status = true;
+        }
+        return status;
+    }
+
+    public void sendFieldInputData(WebElement el, String value) {
+        if (checkIfELementIsAvailable(el)) {
+            if (!el.getText().isEmpty()) {
+                el.clear();
+            }
+            el.sendKeys(value);
+        } else {
+            LOGGER.info("=====>>>>>> Failed to Key in the data");
+        }
+    }
+
+    public void clickElement(WebElement element) {
+        try {
+            if (isClickable(element)) {
+                element.click();
+            } else {
+                LOGGER.info("========>>>>>>>>> Unable to click the Element : " + element.getText());
+            }
+        } catch (NoSuchElementException e) {
+            LOGGER.info("=======>>>>>> Unable to click the Element : " + element.getText());
+        }
+    }
+
+    public boolean waitForElementVisible(WebElement element) {
+        boolean status = false;
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, WAIT_TIME);
+            wait.until(ExpectedConditions.visibilityOf(element));
+            status = true;
+        } catch (Exception e) {
+            LOGGER.info("=============>>>>>>> Unable to wait to for the element: " + element + " to be visible");
+        }
+        return status;
+    }
+
+    public void waitTillElementFound(WebElement element) {
+        FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(WAIT_TIME, TimeUnit.SECONDS)
+                .pollingEvery(5, TimeUnit.SECONDS)
+                .ignoring(NoSuchElementException.class);
+        try {
+            WebElement el = wait.until(new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    for(int i=1;i<=3;i++) {
+                        wait.until(ExpectedConditions.visibilityOf(element));
+                        if (element.isDisplayed()) {
+                            break;
+                        } else {
+                            hardWait("2000");
+                        }
+                    }
+                    return (element.isDisplayed()) ? element : null;
+                }
+            });
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+        } catch (StaleElementReferenceException st) {
+            st.printStackTrace();
+        }
+
+    }
+
+    public boolean isClickable(WebElement element) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, WAIT_TIME);
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            return true;
+        } catch (Exception e) {
+            LOGGER.info("Element : " + element.getText() + "not found at the moment");
+            return false;
+        }
+    }
+
+    public void hardWait(String msecs) {
+        try {
+            Thread.sleep(Long.valueOf(msecs));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** Click the element with JavaScript executor.
+     * @param element
+     * */
+    public void clickWithJsExecutor(WebElement element) {
+
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        try {
+            scrollToElement(element);
+            highlightElement(element);
+            isClickable(element);
+            executor.executeScript("arguments[0].click();", element);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("==========>>>>>>>> Unable to click Element ");
+        }
+    }
+
+    public void selectTextByVisibleText(WebElement element, String value) {
+        try {
+            if (checkIfELementIsAvailable(element)) {
+                Select select = new Select(element);
+                select.selectByVisibleText(value);
+            } else {
+                waitTillElementFound(element);
+                Select select = new Select(element);
+                select.selectByVisibleText(value);
+            }
+        } catch (Exception e) {
+            LOGGER.info("===>>> Element not Visible to Select");
+        }
+    }
+
+    public void selectTextByIndex(WebElement element, int idx) {
+        try {
+            if (checkIfELementIsAvailable(element)) {
+                Select select = new Select(element);
+                select.selectByIndex(idx);
+            } else {
+                waitTillElementFound(element);
+                Select select = new Select(element);
+                select.selectByIndex(idx);
+            }
+        } catch (Exception e) {
+            LOGGER.info("===>>> Element not Visible to Select");
+        }
+    }
+
+    public void clearText(WebElement element) {
+        try {
+            if (checkIfELementIsAvailable(element) && !element.getText().isEmpty()) {
+                element.clear();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("===>>> Element not Visible to Clear");
+        }
+    }
+
+    public void selectTextByPartialText(WebElement element, String partialText) {
+        try {
+            if (checkIfELementIsAvailable(element)) {
+                Select select = new Select(element);
+                select.getOptions()
+                        .stream()
+                        .filter(option -> option.getText()
+                                .toLowerCase().contains(partialText.toLowerCase())).findFirst().ifPresent(option -> select.selectByValue(option.getAttribute("value")));
+            } else {
+                waitTillElementFound(element);
+                Select select = new Select(element);
+                select.getOptions()
+                        .stream()
+                        .filter(option -> option.getText()
+                                .toLowerCase().contains(partialText.toLowerCase())).findFirst().ifPresent(option -> select.selectByValue(option.getAttribute("value")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("===>>> Element not Visible to Select");
+        }
+    }
+
+
+    public void selectTextByValue(WebElement element, String value) {
+        try {
+            if (checkIfELementIsAvailable(element)) {
+                Select select = new Select(element);
+                select.selectByValue(value);
+            } else {
+                waitTillElementFound(element);
+                Select select = new Select(element);
+                select.selectByValue(value);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("===>>> Element not Visible to Select");
+        }
+    }
+
+    public void statusMessage(WebElement element) {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("========>>>>>>>> No Text selected to Highlight");
+        }
+    }
+
+
+    public void highlightElement(WebElement element) {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            for (int i = 0; i < 3; i++) {
+                js.executeScript("arguments[0].setAttribute('style', arguments[1]);", element, "color: red; border: 2px solid red;background-color: yellow;animation: blinker 5s linear infinite;");
+                Thread.sleep(100);
+                if(i==0 && prop.getProperty("enableScreenshotWhenHighlighted").contains("true")) {
+                    captureScreeshot(scenarioName);
+                }
+                js.executeScript("arguments[0].setAttribute('style', arguments[1]);", element, "");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("========>>>>>>>> No Text selected to Highlight");
+        }
+    }
+    public void changeStyle(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('style', arguments[1]);",element,"style.border = '3px dotted blue'");
+    }
+
+    public void highlightElementWithScreenshot(WebElement element, String screenshotName) {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            for (int i = 0; i < 3; i++) {
+                js.executeScript("arguments[0].setAttribute('style', arguments[1]);", element, "color: red; border: 2px solid red;background-color: yellow;animation: blinker 5s linear infinite;");
+                Thread.sleep(500);
+                captureScreeshot(screenshotName);
+                js.executeScript("arguments[0].setAttribute('style', arguments[1]);", element, "");
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("--->>>> No Text selected to Highlight");
+        }
+    }
+
+    public WebElement quickWait(String path) {
+        WebElement element = null;
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(WAIT_TIME, SECONDS)
+                .pollingEvery(5, SECONDS)
+                .ignoring(org.openqa.selenium.NoSuchElementException.class).ignoring(TimeoutException.class);
+
+        try {
+            element = wait.until(new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    return driver.findElement(By.xpath(path));
+                }
+
+            });
+        } catch (TimeoutException el) {
+            LOGGER.info("======>>>>> Unable to find element : " + path);
+        }
+
+        return (element != null) ? element : null;
+    }
+
+    public WebElement getElementFromXpath(String path) {
+        WebElement element = null;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        for (int i = 0; i <= 2; i++) {
+
+            try {
+                element = (WebElement) js.executeScript("return document.evaluate('" + path + "', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;");
+                if (element != null) {
+                    break;
+                } else {
+                    Thread.sleep(3000);
+                }
+            } catch (TimeoutException | InterruptedException el) {
+                LOGGER.info("======>>>>> Unable to find element : " + path);
+            } catch (org.openqa.selenium.NoSuchElementException | NoSuchElementException el1) {
+                el1.printStackTrace();
+                LOGGER.info("======>>>>> Unable to find element - Attempt : " + i + "Path:" + path);
+            }
+
+        }
+        return (element != null) ? element : null;
+    }
+
+    public boolean isElementAvilable(WebElement element) {
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(WAIT_TIME, SECONDS)
+                .pollingEvery(5, SECONDS)
+                .ignoring(org.openqa.selenium.NoSuchElementException.class).ignoring(TimeoutException.class);
+        WebElement el = null;
+        try {
+            el = wait.until(ExpectedConditions.visibilityOf(element));
+        } catch (TimeoutException e) {
+            LOGGER.info("======>>>>> Unable to find element : " + element.getText());
+        }
+
+        return (el != null) ? true : false;
+    }
+
+
+    public WebElement waitForElementAndReturnJS(String path) {
+        WebElement element = null;
+
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(WAIT_TIME, SECONDS)
+                .pollingEvery(5, SECONDS)
+                .ignoring(org.openqa.selenium.NoSuchElementException.class);
+
+        try {
+            element = wait.until(new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    return getElementByXpathJS(path);
+                }
+
+            });
+        } catch (TimeoutException el) {
+            el.printStackTrace();
+            LOGGER.info("======>>>>> Unable to find element : " + path);
+        }
+
+        return (element != null) ? element : null;
+    }
+
+    public WebElement getElementByXpathJS(String xPath) {
+        WebElement element = null;
+        try {
+            element = (WebElement) (((JavascriptExecutor) driver).executeScript("document.evaluate(" + xPath + ",document, null, XPathResult.ANY_TYPE, null )"));
+        } catch (Exception e) {
+            LOGGER.info("===>>>> Unable to Load the element with Path :" + xPath);
+        }
+        return (element != null) ? element : null;
+    }
+
+//    public WebElement getElementByXpathJS1(String xPath) {
+//        WebElement element = null;
+//        try {
+//            element = (WebElement) ((JavascriptExecutor) driver).executeScript("return arguments[0].value;", driver.findElement(By.xpath(xPath)));
+////            element = (WebElement) (((JavascriptExecutor) driver).executeScript("document.evaluate(" + xPath + ",document, null, XPathResult.ANY_TYPE, null )"));
+//        } catch (Exception e) {
+//            LOGGER.info("===>>>> Unable to Load the element with Path :" + xPath);
+//        }
+//        return (element != null) ? element : null;
+//    }
+
+
+    public void scrollToElementAndClick(WebElement element) {
+        try {
+            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0," + element.getLocation().y + ")");
+            highlightElement(element);
+            element.click();
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("=======>>>>>> Unable to Click the element : " + element.toString());
+        }
+    }
+
+    public void checkElementPresence(WebElement element) {
+        new WebDriverWaitWithMessage(driver, WAIT_TIME)
+                .failWith("No Element found")
+                .until(new ExpectedCondition<Boolean>() {
+                           @Override
+                           public Boolean apply(WebDriver webDriver) {
+                               try {
+                                   return element.isDisplayed();
+                               } catch (NoSuchElementException ignored) {
+                                   return false;
+                               } catch (StaleElementReferenceException ignored) {
+                                   return false;
+                               }
+                           }
+                       }
+                );
+
+    }
+    private void restAssuredObject() {
+        JSONObject reqparam = new JSONObject();
+        reqparam.put("username", "dpanov76@test.com");
+        Response response = null;
+        response = RestAssured.given().auth().basic("dummy@example.com", "dummyDummDumm123")
+                .log()
+                .everything()
+                .relaxedHTTPSValidation()
+                .header("Accept", "*/*").header("Content-Type", "application/json").header("Accept-Charset", "UTF-8")
+                .body(reqparam)
+                .post("https://api.auth.sys-integ.test.athome.domgen.com/token/issue");
+
+    }
+
+    public WebElement findElementUtil(String locatorType, String locator) {
+        WebElement el = null;
+        try {
+            switch (locatorType.toLowerCase()) {
+
+                case "id":
+                    el = driver.findElement(By.id(locator));
+                    break;
+
+                case "css":
+                    el = driver.findElement(By.cssSelector(locator));
+                    break;
+
+                case "link":
+                    el = driver.findElement(By.linkText(locator));
+                    break;
+
+                case "className":
+                    el = driver.findElement(By.className(locator));
+                    break;
+
+                case "name":
+                    el = driver.findElement(By.name(locator));
+                    break;
+
+                case "tagName":
+                    el = driver.findElement(By.tagName(locator));
+                    break;
+
+                case "xpath":
+                    el = driver.findElement(By.xpath(locator));
+                    break;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return el;
+    }
+
+    public boolean checkIfElementIsNotNull(WebElement element) {
+        return (element != null) ? true : false;
+    }
+
+    public String getWebElementValue(WebElement element) {
+        String value = null;
+        try {
+            if (element != null && element.isDisplayed()) {
+                value = element.getAttribute("value");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    public void switchToNextTab(){
+        hardWait("1000");
+        this.tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+    }
+
+    public void clickOutside() {
+        Actions action = new Actions(driver);
+        action.moveByOffset(0, 0).click().build().perform();
+    }
+
+    public void navigateToaNewTab(String url) {
+        hardWait("1000");
+        ((JavascriptExecutor) driver).executeScript("window.open()");
+        this.tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+        driver.navigate().to(url);
+    }
+
+}

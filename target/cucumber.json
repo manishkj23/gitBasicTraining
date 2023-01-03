@@ -1,0 +1,361 @@
+[
+  {
+    "comments": [
+      {
+        "line": 1,
+        "value": "##\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d"
+      },
+      {
+        "line": 2,
+        "value": "## ORBIT REGRESSION PACK NEW PLAN VIEW - UAT"
+      },
+      {
+        "line": 3,
+        "value": "##\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d"
+      }
+    ],
+    "line": 4,
+    "elements": [
+      {
+        "line": 6,
+        "name": "User to Login",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 14075783400,
+              "status": "passed"
+            },
+            "line": 7,
+            "name": "I navigate to D\u0026G CC Agent Portal",
+            "match": {
+              "location": "LoginStepDef.iNavigateToDGCCAgentPortal()"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 31102292300,
+              "error_message": "java.lang.AssertionError: Timeout waiting for Page Load Request to complete.\r\n\tat org.junit.Assert.fail(Assert.java:88)\r\n\tat com.test.utils.SeleniumHelper.waitForPageLoaded(SeleniumHelper.java:140)\r\n\tat com.test.steps.LoginStepDef.iEnterUsernameAndPasswordAndClickLoginNPV(LoginStepDef.java:91)\r\n\tat ✽.When I enter username and password and click Login for New Plan View(src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature:8)\r\n",
+              "status": "failed"
+            },
+            "line": 8,
+            "name": "I enter username and password and click Login for New Plan View",
+            "match": {
+              "location": "LoginStepDef.iEnterUsernameAndPasswordAndClickLoginNPV()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 9,
+            "name": "I verify the Login is successful",
+            "match": {
+              "location": "OrbitHomePageStepDef.iVerifyTheLoginIsSuccessful()"
+            },
+            "keyword": "Then "
+          }
+        ]
+      },
+      {
+        "line": 24,
+        "name": "TC#01 - Verify Customer Interaction History with Vulnerabilities - No",
+        "description": "",
+        "id": "automation-for-orbit-regression-pack-:-npv---inflight-repair-workflow---srv-11318-inflight-repair-contact-view---customer-interaction-history;tc#01---verify-customer-interaction-history-with-vulnerabilities---no;;2",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 12,
+            "name": "I search the claim for the Plan \"BH20052675\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "BH20052675",
+                  "offset": 33
+                }
+              ],
+              "location": "OrbitHomePageStepDef.iSearchTheClaimForThePlan(String)"
+            },
+            "matchedColumns": [
+              0
+            ],
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 13,
+            "name": "I click the recent Claim number on plan history section",
+            "match": {
+              "location": "NPVHomePageStepDef.i_click_the_recent_claim_number_on_plan_history_section()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 14,
+            "name": "I verify the Inflight Repair Summary screen launch",
+            "match": {
+              "location": "NPVHomePageStepDef.i_verify_the_inflight_repair_summary_screen_launch()"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 15,
+            "name": "I verify the Customer Interaction History section launch",
+            "match": {
+              "location": "NPVHomePageStepDef.i_verify_the_customer_interaction_history_section_launch()"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 16,
+            "name": "I verify RA Data Agent Input and Open Claim button displayed",
+            "match": {
+              "location": "NPVHomePageStepDef.i_verify_ra_data_agent_input_and_open_claim_button_displayed()"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 17,
+            "name": "I click on the Inflight Repair Workflow link to verify the Interaction History",
+            "match": {
+              "location": "NPVHomePageStepDef.i_click_on_the_inflight_repair_workflow_link_to_verify_the_interaction_history()"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 18,
+            "name": "I verify the Workflow Details have Started,Finished,Duration labels and matches the duration value",
+            "match": {
+              "location": "NPVHomePageStepDef.i_verify_the_workflow_details_have_startedfinishedduration_fields()"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 19,
+            "name": "I verify all the labels are present under RA Data",
+            "match": {
+              "location": "NPVHomePageStepDef.i_verify_all_the_labels_are_present_under_ra_data()"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 20,
+            "name": "I verify review claim page open in new tab after clicking on Open claim button",
+            "match": {
+              "location": "NPVHomePageStepDef.i_verify_review_claim_page_open_in_new_tab_after_clicking_on_open_claim_button()"
+            },
+            "keyword": "Then "
+          }
+        ]
+      },
+      {
+        "line": 6,
+        "name": "User to Login",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 7740037400,
+              "status": "passed"
+            },
+            "line": 7,
+            "name": "I navigate to D\u0026G CC Agent Portal",
+            "match": {
+              "location": "LoginStepDef.iNavigateToDGCCAgentPortal()"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 31077513500,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "I enter username and password and click Login for New Plan View",
+            "match": {
+              "location": "LoginStepDef.iEnterUsernameAndPasswordAndClickLoginNPV()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 3175003400,
+              "status": "passed"
+            },
+            "line": 9,
+            "name": "I verify the Login is successful",
+            "match": {
+              "location": "OrbitHomePageStepDef.iVerifyTheLoginIsSuccessful()"
+            },
+            "keyword": "Then "
+          }
+        ]
+      },
+      {
+        "line": 39,
+        "name": "TC#02 - Verify Toolbox displayed in Inflight Repair Summary screen.",
+        "description": "",
+        "id": "automation-for-orbit-regression-pack-:-npv---inflight-repair-workflow---srv-11318-inflight-repair-contact-view---customer-interaction-history;tc#02---verify-toolbox-displayed-in-inflight-repair-summary-screen.;;2",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 95414413600,
+              "status": "passed"
+            },
+            "line": 27,
+            "name": "I search the claim for the Plan \"BH20052675\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "BH20052675",
+                  "offset": 33
+                }
+              ],
+              "location": "OrbitHomePageStepDef.iSearchTheClaimForThePlan(String)"
+            },
+            "matchedColumns": [
+              0
+            ],
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 6892814600,
+              "status": "passed"
+            },
+            "line": 28,
+            "name": "I click the recent Claim number on plan history section",
+            "match": {
+              "location": "NPVHomePageStepDef.i_click_the_recent_claim_number_on_plan_history_section()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 3008785200,
+              "status": "passed"
+            },
+            "line": 29,
+            "name": "I verify the Inflight Repair Summary screen launch",
+            "match": {
+              "location": "NPVHomePageStepDef.i_verify_the_inflight_repair_summary_screen_launch()"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "duration": 4126319100,
+              "status": "passed"
+            },
+            "line": 30,
+            "name": "I verify the Customer Interaction History section launch",
+            "match": {
+              "location": "NPVHomePageStepDef.i_verify_the_customer_interaction_history_section_launch()"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 10915240400,
+              "status": "passed"
+            },
+            "line": 31,
+            "name": "I verify RA Data Agent Input and Open Claim button displayed",
+            "match": {
+              "location": "NPVHomePageStepDef.i_verify_ra_data_agent_input_and_open_claim_button_displayed()"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "duration": 6143117300,
+              "status": "passed"
+            },
+            "line": 32,
+            "name": "I click on the Inflight Repair Workflow link to verify the Interaction History",
+            "match": {
+              "location": "NPVHomePageStepDef.i_click_on_the_inflight_repair_workflow_link_to_verify_the_interaction_history()"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "duration": 18253491800,
+              "status": "passed"
+            },
+            "line": 33,
+            "name": "I verify the Workflow Details have Started,Finished,Duration labels and matches the duration value",
+            "match": {
+              "location": "NPVHomePageStepDef.i_verify_the_workflow_details_have_startedfinishedduration_fields()"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "duration": 5838105800,
+              "status": "passed"
+            },
+            "line": 34,
+            "name": "I verify all the labels are present under RA Data",
+            "match": {
+              "location": "NPVHomePageStepDef.i_verify_all_the_labels_are_present_under_ra_data()"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "duration": 8317290100,
+              "status": "passed"
+            },
+            "line": 35,
+            "name": "I verify review claim page open in new tab after clicking on Open claim button",
+            "match": {
+              "location": "NPVHomePageStepDef.i_verify_review_claim_page_open_in_new_tab_after_clicking_on_open_claim_button()"
+            },
+            "keyword": "Then "
+          }
+        ]
+      }
+    ],
+    "name": "Automation for Orbit Regression Pack : NPV - Inflight Repair Workflow - SRV-11318 Inflight Repair Contact View - Customer Interaction History",
+    "description": "",
+    "id": "automation-for-orbit-regression-pack-:-npv---inflight-repair-workflow---srv-11318-inflight-repair-contact-view---customer-interaction-history",
+    "keyword": "Feature",
+    "uri": "src/test/resources/features.FeatureFiles/InflightCustomerInteractionHistory.feature"
+  }
+]
