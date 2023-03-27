@@ -175,12 +175,4 @@ public class SiteMapDashboardStepDef {
         siteMap.verifyErrorMessageDisappearInDashboardsDropdown();
     }
 
-
-
-
-
-
-
-
-
 }
