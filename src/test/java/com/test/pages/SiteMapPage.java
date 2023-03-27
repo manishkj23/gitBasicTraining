@@ -4,6 +4,7 @@ import com.test.utils.BasePage;
 import com.test.utils.CommonUtils;
 import com.test.utils.SeleniumHelper;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -223,6 +224,58 @@ public class SiteMapPage {
     @FindBy(xpath = dgDashboardFilterGroup_dashboardDropdownSelectOptionPath)
     WebElement dgDashboardFilterGroup_dashboardDropdownSelectOption;
 
+    @FindBy(xpath = "//div[@class='ServiceAdminTopPanel']//legend[@title='D&G Access Level Manager']")
+    WebElement pageAccessLevelManagerDashboard;
+
+    @FindBy(xpath = "//div[@id='SPSLADay_wrapper']//table[@id='SPSLADay']")
+    WebElement accessLevelManagerTableGrid;
+
+    @FindBy(xpath = "//div[@class='DTTT_container']//a[@id='ToolTables_SPSLADay_0']/span[contains(text(),'Edit')]")
+    WebElement accessLevelManagerTableEditButton;
+
+    @FindBy(xpath = "//div[@class='DTTT_container']//a[@id='ToolTables_SPSLADay_1']/span[contains(text(),'Insert')]")
+    WebElement accessLevelManagerTableInsertButton;
+
+    @FindBy(xpath = "//form[@id='AcecssLevelManagerFormID']//legend[contains(text(),'Insert D&G Access Level')]")
+    WebElement accessLevelManagerInsertPopUp;
+
+    @FindBy(xpath = "//form[@id='AcecssLevelManagerFormID']//label[@for='AccessLevelID']")
+    WebElement accessLevelManagerInsertPopUpAccessLevelField;
+
+    private final String accessLevelManagerInsertPopUpAccessLevelTextBoxPath = "//span[@class='ui-combobox']/input[@class='ui-state-default ui-combobox-input comboAccessLevelID-input ui-autocomplete-input ui-widget ui-widget-content ui-corner-left']";
+    @FindBy(xpath = accessLevelManagerInsertPopUpAccessLevelTextBoxPath)
+    WebElement accessLevelManagerInsertPopUpAccessLevelTextBox;
+
+    private final String accessLevelManagerInsertPopUpAccessLevelTextPath = "//div[@id='AcecssLevelManagerFormIDPanel']//form[@id='AcecssLevelManagerFormID']//fieldset//span[@class='ui-combobox'][1]";
+    @FindBy(xpath = accessLevelManagerInsertPopUpAccessLevelTextPath)
+    WebElement accessLevelManagerInsertPopUpAccessLevelText;
+
+    @FindBy(xpath = "//div[@class='faultTypePanel']//form[@id='faultTypeForm']//legend[contains(text(),'D&G Client Groups')]")
+    WebElement dgClientGroupBannerDisplayed;
+
+    @FindBy(xpath = "//div[@id='DGClientGroupsResults_wrapper']//table[@id='DGClientGroupsResults']")
+    WebElement dgClientGroupTableDisplayed;
+
+    @FindBy(xpath = "//div[@class='AdminItemPanel']//p[@class='secondParaSA'][contains(text(),\"D&G Client Groups\")]")
+    WebElement clickDAndGClientGroupDashboardPane;
+
+    @FindBy(xpath = "//div[contains(@class,'bottomButtonsPanelHolder')]//div[contains(@class,'bottomButtonsPanel')]//button[@id='edit']")
+    WebElement dgClientGroupEditButton;
+
+    @FindBy(xpath = "//div[contains(@class,'bottomButtonsPanelHolder')]//div[contains(@class,'bottomButtonsPanel')]//button[contains(text(),'Insert')]")
+    WebElement dgClientGroupInsertButton;
+
+    @FindBy(xpath = "//div[@id='DGClientGroupsFormPanel']//form[@id='DGClientGroupsForm']//legend[contains(text(),'DG Client Groups')]")
+    WebElement dgClientGroupInsertPopUP;
+
+    @FindBy(xpath = "//div[@id='DGClientGroupsFormPanel']//form[@id='DGClientGroupsForm']//legend[contains(text(),'DG Client Groups')]")
+    WebElement dgClientGroupNewPRURLField;
+
+    @FindBy(xpath = "//div[@id='DGClientGroupsFormPanel']//form[@id='DGClientGroupsForm']//legend[contains(text(),'DG Client Groups')]")
+    WebElement dgClientGroupNewPRShortDomainField;
+
+
+
 
 
 
@@ -380,6 +433,16 @@ public class SiteMapPage {
                 base.sendFieldInputData(searchBox, value);
                 base.isElementAvilable(clickDAndGCustomReportDashboardPane);
                 base.clickWithJsExecutor(clickDAndGCustomReportDashboardPane);
+                base.waitForPageToLoad();
+            } else if (value.contains("Access")) {
+                base.sendFieldInputData(searchBox, value);
+                base.isElementAvilable(clickDAndGCustomReportDashboardPane);
+                base.clickWithJsExecutor(clickDAndGCustomReportDashboardPane);
+                base.waitForPageToLoad();
+            } else if (value.contains("Client Group")) {
+                base.sendFieldInputData(searchBox, value);
+                base.isElementAvilable(clickDAndGClientGroupDashboardPane);
+                base.clickWithJsExecutor(clickDAndGClientGroupDashboardPane);
                 base.waitForPageToLoad();
             }
         } catch (Exception e) {
@@ -671,9 +734,7 @@ public class SiteMapPage {
         try {
             if (dgServiceProvider_newIndicatorYesRadioButton.isSelected()) {
                 status = true;
-            }
-            else
-            {
+            } else {
                 base.highlightElement(dgServiceProvider_newIndicatorYesRadioButton);
                 base.clickWithJsExecutor(dgServiceProvider_newIndicatorYesRadioButton);
                 status = true;
@@ -688,13 +749,10 @@ public class SiteMapPage {
        Click on Save and Ok button in the form
        SRV-13266 - WB Integration - Prevent claims without appointment being booked */
     public void clickOnSaveButtonInServiceProviderForm() throws InterruptedException {
-        if(base.waitForElementVisible(dgServiceProvider_SaveButton))
-        {
+        if (base.waitForElementVisible(dgServiceProvider_SaveButton)) {
             base.highlightElement(dgServiceProvider_SaveButton);
             base.clickWithJsExecutor(dgServiceProvider_SaveButton);
-        }
-        else
-        {
+        } else {
             base.waitToLoadElement();
             base.highlightElement(dgServiceProvider_SaveButton);
             base.clickWithJsExecutor(dgServiceProvider_SaveButton);
@@ -713,9 +771,7 @@ public class SiteMapPage {
             if (dgServiceProvider_newIndicatorNoRadioButton.isSelected()) {
                 base.highlightElement(dgServiceProvider_newIndicatorNoRadioButton);
                 status = true;
-            }
-            else
-            {
+            } else {
                 base.highlightElement(dgServiceProvider_newIndicatorNoRadioButton);
                 base.clickWithJsExecutor(dgServiceProvider_newIndicatorNoRadioButton);
                 status = true;
@@ -786,8 +842,7 @@ public class SiteMapPage {
         Click on Insert button in Dashboard Filter Group page
         SRV-10472 - Dynamic Refresh Upgrade */
     public void verifyErrorMessageInDashboardFilterGroup() throws InterruptedException {
-        if(base.checkIfELementIsAvailable(dgDashboardFilterGroup_groupNameError) && base.waitForElementVisible(dgDashboardFilterGroup_dashboardError))
-        {
+        if (base.checkIfELementIsAvailable(dgDashboardFilterGroup_groupNameError) && base.waitForElementVisible(dgDashboardFilterGroup_dashboardError)) {
             base.highlightElement(dgDashboardFilterGroup_groupNameError);
             String groupNameError = driver.findElement(By.xpath(dgDashboardFilterGroup_groupNameErrorPath)).getText();
             LOGGER.info("Group name error displayed: " + groupNameError);
@@ -796,9 +851,7 @@ public class SiteMapPage {
             String DashboardFilterError = driver.findElement(By.xpath(dgDashboardFilterGroup_dashboardErrorPath)).getText();
             LOGGER.info("Group name error displayed: " + DashboardFilterError);
             Thread.sleep(3000);
-        }
-        else
-        {
+        } else {
             base.waitTillElementFound(dgDashboardFilterGroup_groupNameError);
             base.highlightElement(dgDashboardFilterGroup_groupNameError);
             String groupNameError = driver.findElement(By.xpath(dgDashboardFilterGroup_groupNameErrorPath)).getText();
@@ -830,14 +883,273 @@ public class SiteMapPage {
     Verify error message disappear in the Dashboard dropdown
     SRV-10472 - Dynamic Refresh Upgrade */
     public void verifyErrorMessageDisappearInDashboardsDropdown() throws InterruptedException {
-        if(dgDashboardFilterGroup_dashboardError.getText().isEmpty())
+        if (dgDashboardFilterGroup_dashboardError.getText().isEmpty())
             LOGGER.info("Error Message disappear");
-        else{
+        else {
             LOGGER.info("Error message is not disappear");
         }
     }
 
 
+    /*Manish Kumar Jain, Dated: 22 Dec 2022,
+    Access Level Manager Board part of R45 ORB-112*/
+    public boolean isAccessLevelManagerBoardLoaded() {
+        boolean status = false;
+        try {
+            if (pageAccessLevelManagerDashboard.isDisplayed()) {
+                base.highlightElement(pageAccessLevelManagerDashboard);
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
 
+    public boolean isAccessLevelManagerTableDisplayed() {
+        boolean status = false;
+        try {
+            if (accessLevelManagerTableGrid.isDisplayed()) {
+                base.highlightElement(accessLevelManagerTableGrid);
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public boolean verifyEditAndInsertButtonsDisplayed() {
+        boolean status = false;
+        try {
+            if (accessLevelManagerTableEditButton.isDisplayed()) {
+                base.highlightElement(accessLevelManagerTableEditButton);
+                status = true;
+            }
+            if (accessLevelManagerTableInsertButton.isDisplayed()) {
+                base.highlightElement(accessLevelManagerTableInsertButton);
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public void clickOnInsertButtonAccessLevelManager() {
+        if (accessLevelManagerTableInsertButton.isEnabled()) {
+            base.highlightElement(accessLevelManagerTableInsertButton);
+            base.clickWithJsExecutor(accessLevelManagerTableInsertButton);
+        } else {
+            base.waitForPageToLoad();
+            base.highlightElement(accessLevelManagerTableInsertButton);
+            base.clickWithJsExecutor(accessLevelManagerTableInsertButton);
+        }
+    }
+
+    public boolean verifyInsertPopUpDisplayed() {
+        boolean status = false;
+        try {
+            if (base.waitForElementVisible(accessLevelManagerInsertPopUp)) {
+                base.highlightElement(accessLevelManagerInsertPopUp);
+                LOGGER.info("Insert pop launched successfully");
+                System.out.println("Access Level Insert pop up launched successfully");
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public void verifyAccessLevelDropdown() throws InterruptedException {
+        try {
+            if (base.waitForElementVisible(accessLevelManagerInsertPopUpAccessLevelField)) {
+                if (!accessLevelManagerInsertPopUpAccessLevelTextBox.getAttribute("value").isEmpty()) {
+                    base.checkElementPresence(accessLevelManagerInsertPopUpAccessLevelTextBox);
+                    accessLevelManagerInsertPopUpAccessLevelTextBox.clear();
+                    accessLevelManagerInsertPopUpAccessLevelTextBox.sendKeys(Keys.SPACE);
+                    base.hardWait("1000");
+                    seleniumHelper.actionToMoveDownOnList(accessLevelManagerInsertPopUpAccessLevelTextBox, 0);
+                    Thread.sleep(4000);
+//                    if (accessLevelManagerInsertPopUpAccessLevelTextBox.getAttribute("value").isEmpty()) {
+//                        base.checkElementPresence(accessLevelManagerInsertPopUpAccessLevelTextBox);
+//                        accessLevelManagerInsertPopUpAccessLevelTextBox.sendKeys(Keys.SPACE);
+//                        base.hardWait("1000");
+//                        seleniumHelper.actionToMoveDownOnList(accessLevelManagerInsertPopUpAccessLevelTextBox, 0);
+//                        Thread.sleep(5000);
+//                    }
+                }
+            }
+//            String fullEditAccess = driver.findElement(By.xpath(accessLevelManagerInsertPopUpAccessLevelTextBoxPath)).getText();
+//            Thread.sleep(3000);
+//            String fullEditAccess1 = accessLevelManagerInsertPopUpAccessLevelTextBox.getText();
+//            System.out.println("Access Level manager permission is:" + fullEditAccess1);
+//            if (fullEditAccess.equalsIgnoreCase("Full Edit")) {
+//                LOGGER.info("Full Edit access level is present in the dropdown");
+//                System.out.println("Full Edit access level is present in the dropdown");
+//            }
+//            else
+//            {
+//                LOGGER.info("Unable to fill the Access Level value");
+//            }
+        }
+        catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+
+    public void verifyAccessLevelOption() throws InterruptedException {
+        try {
+            if (base.waitForElementVisible(accessLevelManagerInsertPopUpAccessLevelField)) {
+                if (!accessLevelManagerInsertPopUpAccessLevelTextBox.getAttribute("value").isEmpty()) {
+                    base.checkElementPresence(accessLevelManagerInsertPopUpAccessLevelTextBox);
+                    accessLevelManagerInsertPopUpAccessLevelTextBox.clear();
+                    accessLevelManagerInsertPopUpAccessLevelTextBox.sendKeys(Keys.SPACE);
+                    base.hardWait("1000");
+                    seleniumHelper.actionToMoveDownOnList(accessLevelManagerInsertPopUpAccessLevelTextBox, 0);
+                    Thread.sleep(4000);
+                    accessLevelManagerInsertPopUpAccessLevelTextBox.click();
+                    Thread.sleep(5000);
+                    String level = driver.findElement(By.xpath(accessLevelManagerInsertPopUpAccessLevelTextBoxPath)).getText();
+                    Thread.sleep(5000);
+                    System.out.println("Access Level manager permission is displayed as :" + level);
+//                    if (accessLevelManagerInsertPopUpAccessLevelTextBox.getAttribute("value").isEmpty()) {
+//                        base.checkElementPresence(accessLevelManagerInsertPopUpAccessLevelTextBox);
+//                        accessLevelManagerInsertPopUpAccessLevelTextBox.sendKeys(Keys.SPACE);
+//                        base.hardWait("1000");
+//                        seleniumHelper.actionToMoveDownOnList(accessLevelManagerInsertPopUpAccessLevelTextBox, 0);
+//                        Thread.sleep(5000);
+//                    }
+                }
+            }
+            }
+//            String fullEditAccess = driver.findElement(By.xpath(accessLevelManagerInsertPopUpAccessLevelTextBoxPath)).getText();
+//            Thread.sleep(3000);
+//            String fullEditAccess1 = accessLevelManagerInsertPopUpAccessLevelTextBox.getText();
+//            System.out.println("Access Level manager permission is:" + fullEditAccess1);
+//            if (fullEditAccess.equalsIgnoreCase("Full Edit")) {
+//                LOGGER.info("Full Edit access level is present in the dropdown");
+//                System.out.println("Full Edit access level is present in the dropdown");
+//            }
+//            else
+//            {
+//                LOGGER.info("Unable to fill the Access Level value");
+//            }
+
+        catch(InterruptedException e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void verifyAccessLevelDropdownOptionAndClick() throws InterruptedException {
+        if (base.waitForElementVisible(accessLevelManagerInsertPopUpAccessLevelField)) {
+            if (!accessLevelManagerInsertPopUpAccessLevelTextBox.getAttribute("value").isEmpty()) {
+                base.checkElementPresence(accessLevelManagerInsertPopUpAccessLevelTextBox);
+                accessLevelManagerInsertPopUpAccessLevelTextBox.clear();
+                accessLevelManagerInsertPopUpAccessLevelTextBox.sendKeys(Keys.SPACE);
+                base.hardWait("1000");
+                List<WebElement> options = driver.findElements(By.xpath("accessLevelManagerInsertPopUpAccessLevelTextBoxPath"));
+                for (WebElement option : options) {
+                    if (option.getText().contains("Full Edit")) {
+                        option.click();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+
+    /*Manish Kumar Jain, Dated: 31st Jan 2023,
+    Access Level Manager Board part of R45 ORB-112*/
+    public boolean isDGClientGroupBoardLoaded() {
+        boolean status = false;
+        try {
+            if (dgClientGroupBannerDisplayed.isDisplayed()) {
+                base.highlightElement(dgClientGroupBannerDisplayed);
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public boolean isDGClientGroupTableDisplayed() {
+        boolean status = false;
+        try {
+            if (dgClientGroupTableDisplayed.isDisplayed()) {
+                base.highlightElement(dgClientGroupTableDisplayed);
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public boolean verifyDGClientGroupEditAndInsertButtonsDisplayed() {
+        boolean status = false;
+        try {
+            if (dgClientGroupEditButton.isDisplayed()) {
+                base.highlightElement(dgClientGroupEditButton);
+                status = true;
+            }
+            if (dgClientGroupInsertButton.isDisplayed()) {
+                base.highlightElement(dgClientGroupInsertButton);
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public void clickOnDGClientGroupInsertButton() {
+        if (dgClientGroupInsertButton.isEnabled()) {
+            base.highlightElement(dgClientGroupInsertButton);
+            base.clickWithJsExecutor(dgClientGroupInsertButton);
+        } else {
+            base.waitForPageToLoad();
+            base.highlightElement(dgClientGroupInsertButton);
+            base.clickWithJsExecutor(dgClientGroupInsertButton);
+        }
+    }
+
+    public boolean verifyDGClientGroupInsertPopUpDisplayed() {
+        boolean status = false;
+        try {
+            if (base.waitForElementVisible(dgClientGroupInsertPopUP)) {
+                base.highlightElement(dgClientGroupInsertPopUP);
+                LOGGER.info("Insert pop launched successfully");
+                System.out.println("D&G Client Insert pop up launched successfully");
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+
+    public boolean verifyNewFieldDisplayedInDGClientGroup() {
+        boolean status = false;
+        try {
+            if (base.waitForElementVisible(dgClientGroupNewPRURLField) && base.waitForElementVisible(dgClientGroupNewPRShortDomainField)) {
+                base.highlightElement(dgClientGroupNewPRURLField);
+                base.highlightElement(dgClientGroupNewPRShortDomainField);
+                LOGGER.info("New fields are present in the D&G Client Group Insert pop up ");
+                System.out.println("New fields are present in the D&G Client Group Insert pop up");
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
 
 }

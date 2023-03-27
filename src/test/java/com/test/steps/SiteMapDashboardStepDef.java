@@ -30,8 +30,8 @@ public class SiteMapDashboardStepDef {
         this.orbitHomePage = orbitHomePage;
     }
 
-    @Given("^I click SiteMap and I enter \"([^\"]*)\" and click search$")
-    public void i_click_sitemap_and_i_enter_something_and_click_search(String searchValue){
+    @Given("^I click SiteMap and I enter \"([^\"]*)\" and click search and click wizard$")
+    public void i_click_sitemap_and_i_enter_something_and_click_search_and_click_wizard(String searchValue){
         orbitHomePage.clickSiteMap();
         Assert.assertTrue("SiteMap Page Loaded",siteMap.isSiteMapPageLoaded());
         siteMap.searchAndClickWizard(searchValue);
@@ -173,6 +173,95 @@ public class SiteMapDashboardStepDef {
     @And("^I verify error message disappear$")
     public void i_verify_error_message_disappear() throws Throwable {
         siteMap.verifyErrorMessageDisappearInDashboardsDropdown();
+    }
+
+    @And("^I verify Access Level Manager board loaded successfully$")
+    public void iVerifyAccessLevelManagerBoardLoadedSuccessfully() throws InterruptedException {
+        Assert.assertTrue("Access Level Manager Page not Loaded successfully",siteMap.isAccessLevelManagerBoardLoaded());
+        Thread.sleep(5000);
+    }
+
+    @Then("^I click on Access Level Manager Insert button$")
+    public void i_click_on_insert_button_and_verify_insert_dg_access_level_pop_up() throws InterruptedException {
+        siteMap.clickOnInsertButtonAccessLevelManager();
+        Thread.sleep(5000);
+    }
+
+    @And("^I verify Access Level Manager table present in the grid$")
+    public void i_verify_access_level_manager_table_present_in_the_grid() throws InterruptedException {
+        Assert.assertTrue("Access Level Manager table is not present",siteMap.isAccessLevelManagerTableDisplayed());
+        Thread.sleep(5000);
+    }
+
+    @And("^I verify Edit and Insert buttons are present$")
+    public void i_verify_edit_and_insert_buttons_are_present() throws InterruptedException {
+        Assert.assertTrue("Edit & Insert button not displayed in Access Level Manager table",siteMap.verifyEditAndInsertButtonsDisplayed());
+        Thread.sleep(5000);
+    }
+
+    @And("^I verify Insert D&G Access Level pop up displayed$")
+    public void i_verify_insert_dg_access_level_pop_up_displayed() throws InterruptedException {
+        siteMap.verifyInsertPopUpDisplayed();
+        Thread.sleep(5000);
+    }
+
+    @Then("^I verify access level dropdown present in the pop up$")
+    public void i_verify_access_level_dropdown_present_in_the_pop_up() throws InterruptedException {
+//        siteMap.verifyAccessLevelOption();
+        siteMap.verifyAccessLevelDropdownOptionAndClick();
+        Thread.sleep(5000);
+    }
+
+
+    @Then("^I click on D&G Client Group Insert button$")
+    public void i_click_on_dg_client_group_insert_button() throws InterruptedException {
+        siteMap.clickOnDGClientGroupInsertButton();
+        Thread.sleep(5000);
+    }
+
+    @Then("^I verify new fields are present in the pop up$")
+    public void i_verify_new_fields_are_present_in_the_pop_up() throws InterruptedException {
+        Assert.assertTrue("New fields are not present in the D&G Client Group",siteMap.verifyNewFieldDisplayedInDGClientGroup());
+        Thread.sleep(3000);
+    }
+
+    @And("^I verify D&G Client Group header loaded successfully$")
+    public void i_verify_dg_client_group_header_loaded_successfully() throws InterruptedException {
+        Assert.assertTrue("D&G Client Group Page not Loaded successfully",siteMap.isDGClientGroupBoardLoaded());
+        Thread.sleep(5000);
+    }
+
+    @And("^I verify D&G Client Group table present in the grid$")
+    public void i_verify_dg_client_group_table_present_in_the_grid() throws InterruptedException {
+        Assert.assertTrue("D&G Client Group table is not present",siteMap.isDGClientGroupTableDisplayed());
+        Thread.sleep(5000);
+    }
+
+    @And("^I verify Edit and Insert buttons are present in D&G Client Group table$")
+    public void i_verify_edit_and_insert_buttons_are_present_in_dg_client_group_table() throws InterruptedException {
+        Assert.assertTrue("Edit & Insert button not displayed in Access Level Manager table",siteMap.verifyDGClientGroupEditAndInsertButtonsDisplayed());
+        Thread.sleep(5000);
+    }
+
+    @And("^I verify D&G Client Group pop up displayed$")
+    public void i_verify_dg_client_group_pop_up_displayed() throws InterruptedException {
+        Assert.assertTrue("D&G Client Group Pop Up not displayed",siteMap.verifyDGClientGroupInsertPopUpDisplayed());
+        Thread.sleep(5000);
+    }
+
+    @Then("^I verify Export and Insert buttons are enabled in Generic Appliance Data Wizard$")
+    public void i_verify_export_and_insert_buttons_are_enabled_in_generic_appliance_data_wizard(){
+
+    }
+
+    @And("^I verify Generic Appliance Data wizard loaded successfully$")
+    public void i_verify_generic_appliance_data_wizard_loaded_successfully(){
+
+    }
+
+    @And("^I verify Export and Insert buttons are present in Generic Appliance Data wizard$")
+    public void i_verify_export_and_insert_buttons_are_present_in_generic_appliance_data_wizard() {
+
     }
 
 

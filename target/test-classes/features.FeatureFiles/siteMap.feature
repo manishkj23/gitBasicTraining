@@ -158,12 +158,33 @@ Feature: Automation Pack for Orbit - Site Map
       | PlanNo     | ClaimType | PNC Number | ServiceOption                     | Status                           | ServiceProvider       | FaultArea   | Fault      |  |
       | C1Z0121545 | Breakdown | 948904188  | Home Visit (Normal Working Hours) | Out Card Left - Engineer Delayed | FLYINGTOOLBOX RESPOND | DOOR - Door | Door stuck |  |
 
- #================================ SRV-13348-Capture correct billing address for WorldPay calls ==============================================
+ #================================ ORB-112-Access Level Manager ==============================================
 
-  Scenario Outline: TC#03 - Verify new group heading present in Site Map as part of ORB-112
-    Given I click SiteMap and I enter "<SearchValue>" and click search
+  Scenario Outline: TC#03 - Verify new group heading "Access Level Manager" present in Site Map as part of ORB-112
+    Given I click SiteMap and I enter "<SearchValue>" and click search and click wizard
     And I verify Access Level Manager board loaded successfully
-    Then I verify new column added successfully
+    And I verify Access Level Manager table present in the grid
+    And I verify Edit and Insert buttons are present
+    Then I click on Access Level Manager Insert button
+    And I verify Insert D&G Access Level pop up displayed
+    Then I verify access level dropdown present in the pop up
+
     Examples:
-      | SearchValue |
-      | Access      |
+      | SearchValue              |
+      | D&G Access Level Manager |
+
+
+  #================================ ORB-1079 - Variable PR Offer links ==============================================
+
+  Scenario Outline: TC#04 - Verify new fields added in D&G Client Group in Site Map as part of ORB-1079
+    Given I click SiteMap and I enter "<SearchValue>" and click search and click wizard
+    And I verify D&G Client Group header loaded successfully
+    And I verify D&G Client Group table present in the grid
+    And I verify Edit and Insert buttons are present in D&G Client Group table
+    Then I click on D&G Client Group Insert button
+    And I verify D&G Client Group pop up displayed
+    Then I verify new fields are present in the pop up
+
+    Examples:
+      | SearchValue       |
+      | D&G Client Groups |
