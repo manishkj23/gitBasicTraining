@@ -251,6 +251,7 @@ public class SiteMapDashboardStepDef {
 
     @Then("^I verify Export and Insert buttons are enabled in Generic Appliance Data Wizard$")
     public void i_verify_export_and_insert_buttons_are_enabled_in_generic_appliance_data_wizard(){
+        System.out.println("Merging concept in GIT");
 
     }
 
@@ -263,13 +264,5 @@ public class SiteMapDashboardStepDef {
     public void i_verify_export_and_insert_buttons_are_present_in_generic_appliance_data_wizard() {
 
     }
-
-
-
-
-
-
-
-
 
 }

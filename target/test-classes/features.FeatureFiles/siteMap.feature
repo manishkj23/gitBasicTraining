@@ -188,3 +188,17 @@ Feature: Automation Pack for Orbit - Site Map
     Examples:
       | SearchValue       |
       | D&G Client Groups |
+
+    #================================ ORB-1079 - Variable PR Offer links ==============================================
+
+  Scenario Outline: TC#04 - Verify Non OEM appliance wizard is present in Site Map
+    Given I click SiteMap and I enter "<SearchValue>" and click search and click wizard
+    And I verify Generic Appliance Data wizard loaded successfully
+    And I verify Export and Insert buttons are present in Generic Appliance Data wizard
+    Then I verify Export and Insert buttons are enabled in Generic Appliance Data Wizard
+    And I verify D&G Client Group pop up displayed
+    Then I verify new fields are present in the pop up
+
+    Examples:
+      | SearchValue            |
+      | Generic Appliance Data |
