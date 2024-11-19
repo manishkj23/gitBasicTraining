@@ -11,6 +11,8 @@ import com.test.utils.OrbitUtils.PlanDetails;
 import com.test.utils.OrbitUtils.QuestionDatabase;
 import com.test.utils.SeleniumHelper;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
