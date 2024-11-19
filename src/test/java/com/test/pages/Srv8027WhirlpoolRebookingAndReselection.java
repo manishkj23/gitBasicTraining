@@ -192,12 +192,12 @@ public class Srv8027WhirlpoolRebookingAndReselection {
     public void searchForAClaimUsingClaimNo(String ClaimNo) {
         try {
             base.waitForElementVisible(claimNumberSearchInput);
-            if (base.checkIfELementIsAvailable(claimNumberSearchInput) & base.isElementAvilable(claimNumberSearchInput)) {
+            if (base.checkIfELementIsAvailable(claimNumberSearchInput) & base.isElementAvailable(claimNumberSearchInput)) {
                 base.sendFieldInputData(claimNumberSearchInput, ClaimNo);
                 Thread.sleep(3000);
             }
             base.waitTillElementFound(claimNumberSearchButton);
-            if (base.checkIfELementIsAvailable(claimNumberSearchButton) & base.isElementAvilable(claimNumberSearchButton)) {
+            if (base.checkIfELementIsAvailable(claimNumberSearchButton) & base.isElementAvailable(claimNumberSearchButton)) {
                 base.clickWithJsExecutor(claimNumberSearchButton);
                 Thread.sleep(3000);
             }
@@ -210,12 +210,12 @@ public class Srv8027WhirlpoolRebookingAndReselection {
     public void searchForAClaimUsingPlanNo(String PlanNo) {
         try {
             base.waitForElementVisible(planNumberSearchButton);
-            if (base.checkIfELementIsAvailable(planNumberSearchInput) & base.isElementAvilable(planNumberSearchInput)) {
+            if (base.checkIfELementIsAvailable(planNumberSearchInput) & base.isElementAvailable(planNumberSearchInput)) {
                 base.sendFieldInputData(planNumberSearchInput, PlanNo);
                 Thread.sleep(3000);
             }
             base.waitTillElementFound(planNumberSearchButton);
-            if (base.checkIfELementIsAvailable(planNumberSearchButton) & base.isElementAvilable(planNumberSearchButton)) {
+            if (base.checkIfELementIsAvailable(planNumberSearchButton) & base.isElementAvailable(planNumberSearchButton)) {
                 base.clickWithJsExecutor(planNumberSearchButton);
                 Thread.sleep(3000);
             }
@@ -258,7 +258,7 @@ public class Srv8027WhirlpoolRebookingAndReselection {
             } else {
                 base.waitToLoadElement();
                 base.waitForElementVisible(findNewAppointmentButton);
-                if (base.isElementAvilable(findNewAppointmentButton) & findNewAppointmentButton.isDisplayed()) {
+                if (base.isElementAvailable(findNewAppointmentButton) & findNewAppointmentButton.isDisplayed()) {
 //                    base.highlightElementWithScreenshot(findNewAppointmentButton, "Click on Find New Appointment button");
                     base.clickWithJsExecutor(findNewAppointmentButton);
                 }
@@ -414,19 +414,19 @@ public class Srv8027WhirlpoolRebookingAndReselection {
 
     public void clickOnSearchOtherServiceProviderButtonAndSelectAvailableDate() throws InterruptedException {
         if (base.waitForElementVisible(findNewAppointment_searchOtherServicepPoviderButton) & findNewAppointment_searchOtherServicepPoviderButton.isEnabled()) {
-            base.isElementAvilable(findNewAppointment_searchOtherServicepPoviderButton);
+            base.isElementAvailable(findNewAppointment_searchOtherServicepPoviderButton);
             base.highlightElement(findNewAppointment_searchOtherServicepPoviderButton);
             base.clickWithJsExecutor(findNewAppointment_searchOtherServicepPoviderButton);
             Thread.sleep(3000);
             if (base.waitForElementVisible(findNewAppointment_fieldCallCalendarNinthDayAvailability) & base.checkIfELementIsAvailable(findNewAppointment_fieldCallCalendarNinthDayAvailability)) {
-                base.isElementAvilable(findNewAppointment_fieldCallCalendarNinthDayAvailability);
+                base.isElementAvailable(findNewAppointment_fieldCallCalendarNinthDayAvailability);
                 base.highlightElement(findNewAppointment_fieldCallCalendarNinthDayAvailability);
                 base.clickWithJsExecutor(findNewAppointment_fieldCallCalendarNinthDayAvailability);
             }
         } else {
             System.out.println("Search other Service provider button is disabled");
             if (base.waitForElementVisible(findNewAppointment_fieldCallCalendarNinthDayAvailability) & base.checkIfELementIsAvailable(findNewAppointment_fieldCallCalendarNinthDayAvailability)) {
-                base.isElementAvilable(findNewAppointment_fieldCallCalendarNinthDayAvailability);
+                base.isElementAvailable(findNewAppointment_fieldCallCalendarNinthDayAvailability);
                 base.highlightElement(findNewAppointment_fieldCallCalendarNinthDayAvailability);
                 base.clickWithJsExecutor(findNewAppointment_fieldCallCalendarNinthDayAvailability);
             }
@@ -436,12 +436,12 @@ public class Srv8027WhirlpoolRebookingAndReselection {
 
     public void selectAvailableServiceProviderRadioButtonAndClickOnRebookButton() throws InterruptedException {
         if (base.waitForElementVisible(findNewAppointment_availableServiceProviderRadioButton) && base.checkIfELementIsAvailable(findNewAppointment_availableServiceProviderRadioButton)) {
-            base.isElementAvilable(findNewAppointment_availableServiceProviderRadioButton);
+            base.isElementAvailable(findNewAppointment_availableServiceProviderRadioButton);
             base.highlightElement(findNewAppointment_availableServiceProviderRadioButton);
             base.clickWithJsExecutor(findNewAppointment_availableServiceProviderRadioButton);
         }
         if (base.waitForElementVisible(findNewAppointment_rebookButtonForReselectionSP) && base.checkIfELementIsAvailable(findNewAppointment_rebookButtonForReselectionSP)) {
-            base.isElementAvilable(findNewAppointment_rebookButtonForReselectionSP);
+            base.isElementAvailable(findNewAppointment_rebookButtonForReselectionSP);
             base.highlightElement(findNewAppointment_rebookButtonForReselectionSP);
             base.clickWithJsExecutor(findNewAppointment_rebookButtonForReselectionSP);
         }
@@ -455,7 +455,7 @@ public class Srv8027WhirlpoolRebookingAndReselection {
             Thread.sleep(3000);
         } else {
             base.waitToLoadElement();
-            base.isElementAvilable(findNewAppointment_confirmationAlertPopUpYes);
+            base.isElementAvailable(findNewAppointment_confirmationAlertPopUpYes);
             base.highlightElement(findNewAppointment_confirmationAlertPopUpYes);
             base.clickWithJsExecutor(findNewAppointment_confirmationAlertPopUpYes);
         }
@@ -467,7 +467,7 @@ public class Srv8027WhirlpoolRebookingAndReselection {
         boolean status = false;
         base.waitForPageToLoad();
         base.waitTillElementFound(reselect_newServiceProviderName);
-        if (base.checkIfELementIsAvailable(reselect_newServiceProviderName) && base.isElementAvilable(reselect_newServiceProviderName)) {
+        if (base.checkIfELementIsAvailable(reselect_newServiceProviderName) && base.isElementAvailable(reselect_newServiceProviderName)) {
             //newServiceProviderName = base.getElementFromXpath(oldServiceProviderNamePath).getText().toString();
             newServiceProviderName = driver.findElement(By.xpath("//span[@id='ServiceCentreAcronymSpan']")).getText().toString();
             System.out.println("New Service Provider: " + newServiceProviderName);
@@ -550,7 +550,7 @@ public class Srv8027WhirlpoolRebookingAndReselection {
 
     public void clickOnReviewClaimTab() throws InterruptedException {
         Thread.sleep(2000);
-        if (base.checkIfELementIsAvailable(reviewClaimPage_reviewClaimTab) && base.isElementAvilable(reviewClaimPage_reviewClaimTab)) {
+        if (base.checkIfELementIsAvailable(reviewClaimPage_reviewClaimTab) && base.isElementAvailable(reviewClaimPage_reviewClaimTab)) {
             base.getElementByXpathJS(reviewClaimTab).click();
             Thread.sleep(2000);
         } else {

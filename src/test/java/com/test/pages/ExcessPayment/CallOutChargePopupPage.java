@@ -18,9 +18,11 @@ public class CallOutChargePopupPage {
     private SeleniumHelper seleniumHelper;
     private CommonUtils commonUtils;
     private WaiveCalloutChargePage waiveCalloutChargePage;
+    public ExcessFeePaymentDuePage excessFeePaymentDuePage;
     public static final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
     private final String popupCalloutChargePath = "//*[@id=\"cboxLoadedContent\"]//legend[contains(.,\"Call Out Charge Payment Due\")]";
+    private final String popupExcessPaymentPath = "//*[@id=\"cboxLoadedContent\"]//legend[contains(.,\"Excess Fee Payment Due\")]";
     @FindBy(xpath = popupCalloutChargePath)
     WebElement popupCalloutChargeHeading;
 
@@ -36,12 +38,13 @@ public class CallOutChargePopupPage {
     @FindBy(xpath = "//*[@id=\"buttons\"]/button[contains(.,\"Waive Charge\")]")
     WebElement waiveChargeButton;
 
-    public CallOutChargePopupPage(BasePage base, SeleniumHelper seleniumHelper, CommonUtils commonUtils, WaiveCalloutChargePage waiveCalloutChargePage) {
+    public CallOutChargePopupPage(BasePage base, SeleniumHelper seleniumHelper, CommonUtils commonUtils, WaiveCalloutChargePage waiveCalloutChargePage, ExcessFeePaymentDuePage excessFeePaymentDuePage) {
         this.base = base;
         this.driver = base.getDriver();
         this.seleniumHelper = seleniumHelper;
         this.commonUtils = commonUtils;
         this.waiveCalloutChargePage = waiveCalloutChargePage;
+        this.excessFeePaymentDuePage = excessFeePaymentDuePage;
         PageFactory.initElements(driver, this);
     }
 
@@ -49,6 +52,8 @@ public class CallOutChargePopupPage {
         boolean status = false;
         try {
             if (base.quickWait(popupCalloutChargePath) != null) {
+                status = true;
+            } else if (base.quickWait(popupExcessPaymentPath) != null) {
                 status = true;
             }
         } catch (NoSuchElementException e) {
@@ -58,10 +63,10 @@ public class CallOutChargePopupPage {
     }
 
     public void proceedToWaiveCharge() {
-        if(isPopUpDisplayed()){
+        if (isPopUpDisplayed()) {
             base.clickElement(confirmWithCustomerCheckbox);
             base.clickWithJsExecutor(waiveChargeButton);
-            if(waiveCalloutChargePage.isPopUpDisplayed()){
+            if (waiveCalloutChargePage.isPopUpDisplayed()) {
                 waiveCalloutChargePage.waiveExcessPayment();
             }
         }
@@ -69,7 +74,7 @@ public class CallOutChargePopupPage {
     }
 
     public void proceedToExcessPay() {
-        if(isPopUpDisplayed()){
+        if (isPopUpDisplayed()) {
             base.clickElement(confirmWithCustomerCheckbox);
             base.clickWithJsExecutor(proceedButton);
 

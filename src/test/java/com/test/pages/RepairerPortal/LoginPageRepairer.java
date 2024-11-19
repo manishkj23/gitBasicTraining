@@ -11,19 +11,31 @@ import org.slf4j.LoggerFactory;
 
 public class LoginPageRepairer {
 
-    @FindBy(xpath = "//input[@id=\"name\"]")
+    //    @FindBy(xpath = "//input[@id=\"name\"]")
+    @FindBy(xpath = "//*//input[@id='username']")
     private WebElement RPUser;
 
-    @FindBy(xpath = "//input[@id=\"password\"]")
+
+    //    @FindBy(xpath = "//input[@id=\"password\"]")
+    @FindBy(xpath = "//*//input[@id='password']")
     private WebElement RPPassword;
 
     @FindBy(xpath = "//*[@id=\"displayLoginButton\"]/button")
     private WebElement LoginButton;
 
+    @FindBy(xpath = "//div[@id='loginOuter']//button[@id='signInBtn']")
+    private WebElement SignInButton;
+
+    @FindBy(xpath = "//*//input[@id='username']")
+    private WebElement SignInCCUser;
+
+    @FindBy(xpath = "//*//input[@id='password']")
+    private WebElement SignInCCPassword;
+
     private WebDriver driver;
     private BasePage base;
     private SeleniumHelper seleniumHelper;
-    private final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName() );
+    private final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
     public LoginPageRepairer(BasePage base, SeleniumHelper seleniumHelper) {
         this.base = base;
@@ -45,7 +57,7 @@ public class LoginPageRepairer {
     }
 
 
-    public void loginToRPPortal(String user, String password){
+    public void loginToRPPortal(String user, String password) {
         base.waitForElementVisible(RPUser);
         RPUser.sendKeys(user);
 
@@ -55,6 +67,27 @@ public class LoginPageRepairer {
         try {
             Thread.sleep(3000);
             LoginButton.click();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void SigninToRPPortal(String user, String password) {
+//        base.waitForElementVisible(RPUser);
+//        RPUser.sendKeys(user);
+//
+//        base.waitForElementVisible(RPPassword);
+//        RPPassword.sendKeys(password);
+
+        base.waitForElementVisible(SignInCCUser);
+        base.sendFieldInputData(SignInCCUser, user);
+
+        base.waitForElementVisible(SignInCCPassword);
+        base.sendFieldInputData(SignInCCPassword, password);
+
+        try {
+            Thread.sleep(3000);
+            base.clickElement(SignInButton);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

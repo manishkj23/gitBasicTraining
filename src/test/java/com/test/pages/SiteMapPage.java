@@ -404,13 +404,13 @@ public class SiteMapPage {
         try {
             if (value.contains("SMS")) {
                 base.sendFieldInputData(searchBox, value);
-                base.isElementAvilable(smsMessagesWizard);
+                base.isElementAvailable(smsMessagesWizard);
                 base.clickWithJsExecutor(smsMessagesWizard);
                 base.waitForPageToLoad();
 
             } else if (value.contains("EMAIL")) {
                 base.sendFieldInputData(searchBox, value);
-                base.isElementAvilable(emailMessagesWizard);
+                base.isElementAvailable(emailMessagesWizard);
                 base.clickWithJsExecutor(emailMessagesWizard);
                 base.waitForPageToLoad();
             }
@@ -426,22 +426,22 @@ public class SiteMapPage {
         try {
             if (value.contains("ASV/LSC")) {
                 base.sendFieldInputData(searchBox, value);
-                base.isElementAvilable(clickASVLSCDashboardPane);
+                base.isElementAvailable(clickASVLSCDashboardPane);
                 base.clickWithJsExecutor(clickASVLSCDashboardPane);
                 base.waitForPageToLoad();
             } else if (value.contains("D&G Custom Report")) {
                 base.sendFieldInputData(searchBox, value);
-                base.isElementAvilable(clickDAndGCustomReportDashboardPane);
+                base.isElementAvailable(clickDAndGCustomReportDashboardPane);
                 base.clickWithJsExecutor(clickDAndGCustomReportDashboardPane);
                 base.waitForPageToLoad();
             } else if (value.contains("Access")) {
                 base.sendFieldInputData(searchBox, value);
-                base.isElementAvilable(clickDAndGCustomReportDashboardPane);
+                base.isElementAvailable(clickDAndGCustomReportDashboardPane);
                 base.clickWithJsExecutor(clickDAndGCustomReportDashboardPane);
                 base.waitForPageToLoad();
             } else if (value.contains("Client Group")) {
                 base.sendFieldInputData(searchBox, value);
-                base.isElementAvilable(clickDAndGClientGroupDashboardPane);
+                base.isElementAvailable(clickDAndGClientGroupDashboardPane);
                 base.clickWithJsExecutor(clickDAndGClientGroupDashboardPane);
                 base.waitForPageToLoad();
             }
@@ -589,7 +589,7 @@ public class SiteMapPage {
     Inflight Repair Report
     SRV-11317 Inflight Repair Contact Reporting */
     public void verifyDGCustomReportForm() {
-        if (base.waitForElementVisible(dgCustomReportForm) && base.isElementAvilable(dgCustomReportForm)) {
+        if (base.waitForElementVisible(dgCustomReportForm) && base.isElementAvailable(dgCustomReportForm)) {
             base.highlightElement(dgCustomReportForm);
             System.out.println("D&G Custom Report pop up displayed successfully");
         } else {
@@ -603,7 +603,7 @@ public class SiteMapPage {
     Inflight Repair Report
     SRV-11317 Inflight Repair Contact Reporting */
     public void verifyReportTypeAndDropdownDisplayed() {
-        if (base.waitForElementVisible(dgCustomReport_ReportTypeField) && base.isElementAvilable(dgCustomReport_ReportTypeDropdown)) {
+        if (base.waitForElementVisible(dgCustomReport_ReportTypeField) && base.isElementAvailable(dgCustomReport_ReportTypeDropdown)) {
             base.highlightElement(dgCustomReport_ReportTypeField);
             base.highlightElement(dgCustomReport_ReportTypeDropdown);
             System.out.println("Report Type and Dropdown are available in D&G Custom Report");
@@ -634,13 +634,13 @@ public class SiteMapPage {
         try {
             if (value.contains("Service")) {
                 base.sendFieldInputData(searchBox, value);
-                base.isElementAvilable(dg_clickOnServiceProvidersWizard);
+                base.isElementAvailable(dg_clickOnServiceProvidersWizard);
                 base.clickWithJsExecutor(dg_clickOnServiceProvidersWizard);
                 base.waitForPageToLoad();
             } else {
                 base.waitForPageToLoad();
                 base.sendFieldInputData(searchBox, value);
-                base.isElementAvilable(dg_clickOnServiceProvidersWizard);
+                base.isElementAvailable(dg_clickOnServiceProvidersWizard);
                 base.clickWithJsExecutor(dg_clickOnServiceProvidersWizard);
                 base.waitForPageToLoad();
             }
@@ -789,13 +789,13 @@ public class SiteMapPage {
         try {
             if (base.checkIfELementIsAvailable(searchBox)) {
                 base.sendFieldInputData(searchBox, value);
-                base.isElementAvilable(dgDashboardFilterGroup_wizard);
+                base.isElementAvailable(dgDashboardFilterGroup_wizard);
                 base.clickWithJsExecutor(dgDashboardFilterGroup_wizard);
                 base.waitForPageToLoad();
             } else {
                 base.waitForPageToLoad();
                 base.sendFieldInputData(searchBox, value);
-                base.isElementAvilable(dgDashboardFilterGroup_wizard);
+                base.isElementAvailable(dgDashboardFilterGroup_wizard);
                 base.clickWithJsExecutor(dgDashboardFilterGroup_wizard);
                 base.waitForPageToLoad();
             }

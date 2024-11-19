@@ -1,19 +1,14 @@
 package com.test.steps;
 
 
+import com.test.pages.CCAgent_OLDUI.ServiceOptionsPage;
 import com.test.pages.ExcessPayment.PaymentDuePopup;
-import com.test.pages.MakeAClaimPage;
-import com.test.pages.OrbitHomePage;
 import com.test.pages.QandAProcessPage;
-import com.test.pages.ServiceOptionsPage;
 import com.test.utils.BasePage;
 import com.test.utils.SeleniumHelper;
 import cucumber.api.DataTable;
-import cucumber.api.PendingException;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;

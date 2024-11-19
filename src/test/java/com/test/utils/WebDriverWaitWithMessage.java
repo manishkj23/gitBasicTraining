@@ -4,6 +4,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.function.Function;
 
 
@@ -12,7 +13,7 @@ public class WebDriverWaitWithMessage extends WebDriverWait {
     private String message;
 
     public WebDriverWaitWithMessage(WebDriver driver, long timeOutInSeconds) {
-        super(driver, timeOutInSeconds);
+        super(driver, Duration.ofSeconds(timeOutInSeconds));
     }
 
     public WebDriverWait failWith(String message) {

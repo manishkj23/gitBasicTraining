@@ -33,12 +33,12 @@ public class CallOutChargePaymentPage {
     @FindBy(xpath = "//*[@id=\"ManualRefDiv\"]//button[contains(.,\"Waive Charge\")]")
     WebElement waiveChargeButton;
 
-    @FindBy(xpath = "//span[contains(.,\"Payment Successful\")]/../..//button[contains(.,\"Close\")]")
-    WebElement paymentSuccessfulCloseBtn;
-
     private final String paymentFramePath = "//iframe[@title=\"Payment Pages\"]";
     @FindBy(xpath = paymentFramePath)
     WebElement paymentFrame;
+
+    @FindBy(xpath = "//span[contains(.,\"Payment Successful\")]/../..//button[contains(.,\"Close\")]")
+    WebElement paymentSuccessfulCloseBtn;
 
     public CallOutChargePaymentPage(BasePage base, SeleniumHelper seleniumHelper, CommonUtils commonUtils, CardPaymentPage cardPaymentPage) {
         this.base = base;
@@ -61,8 +61,31 @@ public class CallOutChargePaymentPage {
         return status;
     }
 
+    public void proceedToExcessPayNPV() {
 
-    public void proceedToExcessPay() {
+        base.clickElement(takePaymentButton);
+//        base.waitForElementAndReturnJS(paymentFramePath);
+//        driver.switchTo().frame(paymentFrame);
+//        if (cardPaymentPage.isPopUpDisplayed()) {
+//            cardPaymentPage.processPayment();
+//            base.hardWait("5000");
+//            base.clickElement(takePaymentButton);
+        cardPaymentPage.confirmBillingAddressPage(); //New Popup Worldpay
+        base.waitForElementAndReturnJS(paymentFramePath);
+        driver.switchTo().frame(paymentFrame);
+        if (cardPaymentPage.isPopUpDisplayed()) {
+            cardPaymentPage.processPayment();
+            base.hardWait("5000");
+
+        } else {
+            LOGGER.info("Card Payment Page is not Displayed");
+        }
+        driver.switchTo().defaultContent();
+    }
+//    }
+
+    public void proceedToExcessPay()
+    {
         if (isPopUpDisplayed()) {
             base.clickElement(takePaymentButton);
             base.waitForElementAndReturnJS(paymentFramePath);
@@ -79,32 +102,21 @@ public class CallOutChargePaymentPage {
         }
     }
 
-    public void proceedToExcessPayNPV() {
-
-        base.clickElement(takePaymentButton);
-        base.waitForElementAndReturnJS(paymentFramePath);
-        driver.switchTo().frame(paymentFrame);
-        if (cardPaymentPage.isPopUpDisplayed()) {
-            cardPaymentPage.processPayment();
-            base.hardWait("5000");
-
-        } else {
-            LOGGER.info("Card Payment Page is not Displayed");
-        }
-        driver.switchTo().defaultContent();
-
-
-    }
-
     public void confirmPaymentSuccessfulPopup() {
         if (!base.checkIfELementIsAvailable(paymentSuccessfulCloseBtn)) {
-            base.waitTillElementFound(paymentSuccessfulCloseBtn);
+            LOGGER.info("Payment Successful banner displayed and no close button present on it");
         }
-        base.clickElement(paymentSuccessfulCloseBtn);
+//            base.clickElement(paymentSuccessfulCloseBtn);
+        else {
+            base.waitTillElementFound(paymentSuccessfulCloseBtn);
+//                base.clickElement(paymentSuccessfulCloseBtn);
+            base.clickWithJsExecutor(paymentSuccessfulCloseBtn);
+        }
     }
 
     public void proceedToServiceOptionPayment() {
         base.clickElement(takePaymentButton);
+        cardPaymentPage.confirmBillingAddressPage(); //new popup
         base.waitForElementAndReturnJS(paymentFramePath);
         driver.switchTo().frame(paymentFrame);
         if (cardPaymentPage.isPopUpDisplayed()) {
@@ -117,8 +129,22 @@ public class CallOutChargePaymentPage {
         driver.switchTo().defaultContent();
     }
 
+    public void proceedToServiceCostPaymentNPV() {
+
+        base.clickElement(takePaymentButton);
+        cardPaymentPage.confirmBillingAddressPage(); //New Popup Worldpay
+        base.waitForElementAndReturnJS(paymentFramePath);
+        driver.switchTo().frame(paymentFrame);
+        if (cardPaymentPage.isPopUpDisplayed()) {
+            cardPaymentPage.processPayment();
+            base.hardWait("5000");
+
+        } else {
+            LOGGER.info("Card Payment Page is not Displayed");
+        }
+        driver.switchTo().defaultContent();
 
 
-
-
+    }
+//    }
 }

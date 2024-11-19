@@ -8,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -52,7 +51,7 @@ public class RepairerJobUpdate {
     @FindBy(xpath = "//*[@id=\"ui-timepicker-div\"]//td[@class='ui-timepicker-minutes']//td[contains(.,'10')]")
     private WebElement timeArrivedMins;
 
-    @FindBy(xpath = "//div[@role='dialog']//span[contains(.,'Submit')]")
+    @FindBy(xpath = "//div[@role='dialog']//button[contains(.,'Submit')]")
     private WebElement submitButton;
 
     @FindBy(xpath = "//*[@id=\"ServiceReport\"]")
@@ -80,7 +79,8 @@ public class RepairerJobUpdate {
     @FindBy(xpath = createEstimateButtonPath)
     private WebElement createEstimateButton;
 
-    @FindBy(xpath = "//div[@role='dialog']//span[contains(.,'Proceed')]")
+    //@FindBy(xpath = "//div[@role='dialog']//button[contains(.,'Proceed')]")
+    @FindBy(xpath = "//div[@role='dialog']//div[@class='ui-dialog-buttonset']//button[contains(text(),'Proceed')]")
     private WebElement poppupToProceed;
 
     private static final String labourChargeSectionBPath = "//*[@id=\"dgFaultcodeJobHolder\"]/div[1]/select";
@@ -133,16 +133,16 @@ public class RepairerJobUpdate {
     @FindBy(xpath = "//button[contains(.,'Lock Estimate')]")
     private WebElement lockEstimateButton;
 
-    @FindBy(xpath = "//div[@role='dialog']//span[contains(.,'Continue')]")
+    @FindBy(xpath = "//div[@role='dialog']//button[contains(.,'Continue')]")
     private WebElement lockEstimateWarningContinueBtn;
 
-    @FindBy(xpath = "//div[@role='dialog']//span[contains(.,'Proceed')]")
+    @FindBy(xpath = "//div[@role='dialog']//button[contains(.,'Proceed')]")
     private WebElement estimateAcceptedProceedButton;
 
     @FindBy(xpath = "//button[contains(.,'Estimate Revision')]")
     private WebElement estimateRevisionButton;
 
-    @FindBy(xpath = "//div[@role='dialog'][//span[contains(.,\"Appliance Written Off\")]]//span[contains(.,'Proceed')]")
+    @FindBy(xpath = "//div[@role='dialog'][//span[contains(.,\"Appliance Written Off\")]]//button[contains(.,'Proceed')]")
     private WebElement applicationWrittenOffProceedButton;
 
     @FindBy(xpath = "//form[@id='raJobsForm']//span[@id=\"JobStatusText\"]")
@@ -160,7 +160,7 @@ public class RepairerJobUpdate {
     @FindBy(xpath = "//*[@id=\"jobCompleteBtn\"]/a")
     private WebElement confirmJobCompletionBtn;
 
-    @FindBy(xpath = "//div[@role='dialog']//span[contains(.,'No')]")
+    @FindBy(xpath = "//div[@role='dialog']//button[contains(.,'No')]")
     private WebElement eInvoiceRequiredNo;
 
     @FindBy(xpath = "//*[@id=\"JobStatusText\"]/b")
@@ -181,13 +181,15 @@ public class RepairerJobUpdate {
     @FindBy(xpath = "//table[@id=\"AppointmentsDT\"]/tbody/tr/td[contains(.,'No data available in table')]")
     private WebElement zeroAppointmentsExist;
 
-    @FindBy(xpath = "//*[@id=\"mainAppointmentCalendarTable\"]//tr/td[contains(@class,'dayAvailable')][1]")
+    //    @FindBy(xpath = "//*[@id=\"mainAppointmentCalendarTable\"]//tr/td[contains(@class,'dayAvailable')][1]")
+    @FindBy(xpath = "//div[@id='availabilityOuter']//div[@id='availabilityHolder']//div[@id='0_0']")
     private WebElement firstAvailableDate;
 
     @FindBy(xpath = "//*[@id=\"mainAppointmentCalendarTable\"]//tr/td[contains(@class,'dayAvailable')][2]")
     private WebElement nextAvailableDateForCC;
 
-    @FindBy(xpath = "//button[@id=\"juBookJobAppB3\"][contains(.,'Book Appointment')]")
+    //    @FindBy(xpath = "//button[@id=\"juBookJobAppB3\"][contains(.,'Book Appointment')]")
+    @FindBy(xpath = "//div[@id='daySummary']//button[@onclick=\"bookAppointment('keepSlot');\"]")
     private WebElement bookAppointmentButton;
 
     private final static String repairerJobStatusCompletedPath = "//*[@id=\"JobStatusText\"][contains(.,\"REPAIR COMPLETED\")]";
@@ -237,24 +239,30 @@ public class RepairerJobUpdate {
     @FindBy(xpath = "//*[@id=\"PaymentDue\"]/span[@class=\"fieldValue\"]")
     private WebElement serviceCostPaymentDue;
 
+    @FindBy(xpath = "//*[@id=\"dgFaultcodeJobHolder\"]//select[@name=\"JobFaultCodeLookupID\"][@fc=\"206\"]/option[@selected=\"selected\"]")
+    private WebElement labourBfaultCodeSelected;
 
+    @FindBy(xpath = "//*[@id=\"dgFaultcodeJobHolder\"]//select[@name=\"JobFaultCodeLookupID\"][@fc=\"207\"]/option[@selected=\"selected\"]")
+    private WebElement labourEfaultCodeSelected;
 
     // Customer Communication :
     @FindBy(xpath = "//table[@id=\"CustomerCommunicationTable\"]/tbody/tr[1]")
     private WebElement customerCommsExist;
 
+    private final String partETA_DatePickerXpath = "//table[@class=\"ui-datepicker-calendar\"]//a[contains(.,\"${value}\")]";
+
     //No Appointment booked pop up
-    private final String noAppointmentBookedPopUpPath="//div[@class='ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-dialog-systemMessages ui-dialog-buttons ui_Default']";
-    @FindBy(xpath=noAppointmentBookedPopUpPath)
+    private final String noAppointmentBookedPopUpPath = "//div[@class='ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-dialog-systemMessages ui-dialog-buttons ui_Default']";
+    @FindBy(xpath = noAppointmentBookedPopUpPath)
     private WebElement noAppointmentBookedPopUp;
 
-    private final String noAppointmentBookedPopUpCloseButtonPath="//div[@class='ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-dialog-systemMessages ui-dialog-buttons ui_Default']";
-    @FindBy(xpath=noAppointmentBookedPopUpCloseButtonPath)
+    private final String noAppointmentBookedPopUpCloseButtonPath = "//div[@class='ui-dialog-buttonset']//button[@type='button'][contains(text(),'Close')]";
+    @FindBy(xpath = noAppointmentBookedPopUpCloseButtonPath)
     private WebElement noAppointmentBookedPopUpCloseButton;
 
-    //div[@class='ui-dialog-buttonset']//button[@type='button'][contains(text(),'Close')]
-
-    private final String partETA_DatePickerXpath = "//table[@class=\"ui-datepicker-calendar\"]//a[contains(.,\"${value}\")]";
+    private final String netCostAmountForHotpointPlanPath = "//div[@class='edit_labour_net']//input[@id='labour_net_0']";
+    @FindBy(xpath = netCostAmountForHotpointPlanPath)
+    private WebElement netCostAmountForHotpointPlan;
 
 
     private static final String pathForTotalAppointments = "//*[@id=\"AppointmentsCount\"]/text()";
@@ -264,16 +272,33 @@ public class RepairerJobUpdate {
     private static final String visitComplete = "Callout / Visit Complete";
     private static final String partsNeeded = "Parts Needed";
 
+    private static final String serviceCategoryDropdownPath = "//input[@class='ui-state-default ui-combobox-input combodgServiceCategory-input text ui-autocomplete-input ui-widget ui-widget-content ui-corner-left']";
+    @FindBy(xpath = serviceCategoryDropdownPath)
+    private WebElement serviceCategoryDropdown;
+
+    private static final String completionStatusDropdownPath = "//input[@class='ui-state-default ui-combobox-input combodgCompletionStatus-input text ui-autocomplete-input ui-widget ui-widget-content ui-corner-left']";
+    @FindBy(xpath = completionStatusDropdownPath)
+    private WebElement completionStatusDropdownText;
+
+    @FindBy(xpath = "//div[@id=\"AttachmentsTable_wrapper\"]//span[contains(.,\"Insert\")]")
+    private WebElement attachmentInsertBtn;
+
+    @FindBy(xpath = "//table[@id=\"AttachmentsTable\"]//tbody[1][contains(.,\"SERVICE CERTIFICATE\")]")
+    private WebElement uploadedAttachmentType;
+
     private WebDriver driver;
     private BasePage base;
     private SeleniumHelper seleniumHelper;
     private final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
+    private AddAttachment addAttachment;
 
-    public RepairerJobUpdate(BasePage base, SeleniumHelper seleniumHelper) {
+
+    public RepairerJobUpdate(BasePage base, SeleniumHelper seleniumHelper, AddAttachment addAttachment) {
         this.base = base;
         this.seleniumHelper = seleniumHelper;
         this.driver = base.getDriver();
         PageFactory.initElements(driver, this);
+        this.addAttachment = addAttachment;
     }
 
     //    public boolean isStatusChangesLoggedInRPportal(){
@@ -369,7 +394,9 @@ public class RepairerJobUpdate {
             case "Out Card Left - Customer not available":
             case "Parts Needed":
             case "TBC Completed":
-            case "Callout / Visit Complete": {
+            case "Callout / Visit Complete":
+            {
+                base.waitForElementVisible(diaryAppointmentCompleteButtom);
                 base.clickWithJsExecutor(diaryAppointmentCompleteButtom);
                 base.selectTextByVisibleText(selectOutcomeOfAppointment, status);
                 enterArrivalTime.click();
@@ -378,13 +405,30 @@ public class RepairerJobUpdate {
                 base.clickWithJsExecutor(submitButton);
                 break;
             }
+            case "Remediation Work Required":
+            {
+                try {
+                    setAddAttachment();
+                    base.waitForElementVisible(diaryAppointmentCompleteButtom);
+                    base.clickWithJsExecutor(diaryAppointmentCompleteButtom);
+                    base.selectTextByVisibleText(selectOutcomeOfAppointment, status);
+                    enterArrivalTime.click();
+                    getElement(xPathForTimeHours, hours).click();
+                    getElement(xPathForTimeMins, setEngineerArrivalMinutes()).click();
+                    base.clickWithJsExecutor(submitButton);
+                    break;
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     private String setEngineerArrivalMinutes() {
         String retTime = "55";
-        for(WebElement arrTime:engineerArrivalTimeMinutesArray){
-            if(Integer.valueOf(seleniumHelper.getCurrentTime("mm")) <= Integer.valueOf(arrTime.getText())) {
+        for (WebElement arrTime : engineerArrivalTimeMinutesArray) {
+            if (Integer.valueOf(seleniumHelper.getCurrentTime("mm")) <= Integer.valueOf(arrTime.getText())) {
                 retTime = arrTime.getText();
                 break;
             }
@@ -394,11 +438,11 @@ public class RepairerJobUpdate {
 
     public boolean isAppointmentStatusUpdatedSuccessfully(String outCome) {
         boolean status = false;
-        try{
-            if(base.checkIfELementIsAvailable(currentAppointmentStatus) && currentAppointmentStatus.getText().equals(outCome)){
+        try {
+            if (base.checkIfELementIsAvailable(currentAppointmentStatus) && currentAppointmentStatus.getText().equals(outCome)) {
                 status = true;
-            } else  {
-                for(int i=0;i<=2;i++) {
+            } else {
+                for (int i = 0; i <= 2; i++) {
                     if (base.checkIfELementIsAvailable(currentAppointmentStatus) && currentAppointmentStatus.getText().equals(outCome)) {
                         status = true;
                         break;
@@ -408,13 +452,14 @@ public class RepairerJobUpdate {
 
             }
 
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             e.printStackTrace();
         } catch (InterruptedException el) {
             el.printStackTrace();
         }
         return status;
     }
+
     public boolean isRepairerJobStatusIsCompleted() {
         boolean status = false;
         WebElement jobCompleted = null;
@@ -442,7 +487,7 @@ public class RepairerJobUpdate {
             String path = "//*[@id=\"AppointmentsDT\"]//tr[idx]/td[7][string-length(text()) = 0]";
             path = path.replace("idx", Integer.toString(index));
             WebElement appointment = base.getElementFromXpath(path);
-            if (appointment.isDisplayed()) {
+            if (appointment != null) {
                 base.scrollToElement(appointment);
                 status = true;
             }
@@ -454,15 +499,25 @@ public class RepairerJobUpdate {
 
     public boolean checkIfAppointmentIsOpen() {
         boolean status = false;
+        WebElement appointment = null;
         try {
             String path = "//*[@id=\"AppointmentsDT\"]//tr/td[7][string-length(text()) = 0]";
 //            path = path.replace("idx", Integer.toString(index));
-            WebElement appointment = base.getElementFromXpath(path);
-            if (appointment.isDisplayed()) {
+            appointment = base.getElementFromXpath(path);
+            if (appointment != null) {
                 base.scrollToElement(appointment);
                 base.highlightElement(appointment);
                 status = true;
+            } else if (appointment == null) {
+                base.hardWait("3000");
+                appointment = base.getElementFromXpath(path);
+                if (appointment != null) {
+                    base.scrollToElement(appointment);
+                    base.highlightElement(appointment);
+                    status = true;
+                }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -475,7 +530,7 @@ public class RepairerJobUpdate {
             String path = "//*[@id=\"AppointmentsDT\"]//tr/td[7][string-length(text()) = 0]";
 //            path = path.replace("idx", Integer.toString(index));
             WebElement appointment = base.getElementFromXpath(path);
-            if (appointment.isDisplayed()) {
+            if (appointment != null) {
                 base.scrollToElement(appointment);
                 base.clickWithJsExecutor(appointment);
                 status = true;
@@ -486,19 +541,18 @@ public class RepairerJobUpdate {
         return status;
     }
 
-    public String getCurrentAppointmentStatus(){
+    public String getCurrentAppointmentStatus() {
 
         String status = null;
         try {
             base.refreshPage();
             base.waitForPageToLoad();
-
-            String path = "//*[@id=\"AppointmentsDT\"]/tbody//following-sibling::tr[last()]/td[7] | //*[@id=\"AppointmentsDT\"]/tbody//td[7]";
-            if(base.getElementByXpathJS(path)==null){
+            String path = "//*[@id=\"AppointmentsDT\"]/tbody//tr[last()]/td[7]";
+            if (base.getElementByXpathJS(path) == null) {
                 base.hardWait("5000");
             }
             WebElement appointment = base.quickWait(path);
-
+            base.hardWait("5000");
             if (appointment.isDisplayed()) {
                 base.scrollToElement(appointment);
                 status = appointment.getText();
@@ -643,6 +697,37 @@ public class RepairerJobUpdate {
         completeJobProcess();
         base.hardWait("3000");
     }
+
+    public void performRepairCompleteWithoutSerialNo(String completeStatus) throws InterruptedException {
+        completeServiceReport();
+        base.hardWait("2000");
+        completeLabourAndPartsForRepairComplete();
+        base.hardWait("3000");
+        if(!completeStatus.equals("Remediation Work Required")) {
+            completeJobProcess(completeStatus);}
+        base.hardWait("3000");
+    }
+
+    public void performRepairCompleteWithSerialNo() throws InterruptedException {
+        completeServiceReport();
+        base.hardWait("2000");
+        updateSerialNo();
+        completeLabourAndPartsForRepairComplete();
+        base.hardWait("3000");
+        completeJobProcess();
+        base.hardWait("3000");
+    }
+
+    public void updateSerialNo() {
+        serialNumberChange.click();
+        base.sendFieldInputData(serialNumber, "AKNRV");
+        base.sendFieldInputData(serialUpdateReason, "Testdatasetup");
+        base.hardWait("2000");
+        base.isClickable(serialUpdateFinishBtn);
+        base.clickElement(serialUpdateFinishBtn);
+        base.hardWait("2000");
+    }
+
     public void performRepairComplete() throws InterruptedException {
         completeServiceReport();
         base.hardWait("2000");
@@ -696,11 +781,16 @@ public class RepairerJobUpdate {
 //        base.waitForElementVisible(labourChargeSectionB);
         if (base.quickWait(labourChargeSectionBPath).isDisplayed()) {
             base.selectTextByVisibleText(labourChargeSectionB, "103 - No heating");
-            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+            base.hardWait("2000");
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+            base.selectTextByIndex(labourChanrgeFaultCode, 1);
         } else {
             base.waitToLoadElement();
+//            base.selectTextByVisibleText(labourChargeSectionB, "X11 - At door");
             base.selectTextByVisibleText(labourChargeSectionB, "103 - No heating");
-            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+            base.hardWait("2000");
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+            base.selectTextByIndex(labourChanrgeFaultCode, 1);
         }
 
         if (base.waitForElementVisible(addAdjustmentButton)) {
@@ -717,22 +807,49 @@ public class RepairerJobUpdate {
 
     public void completeJobProcess() throws InterruptedException {
         base.refreshPage();
-        if(!base.isClickable(completeJobButton)) {
+        if (!base.isClickable(completeJobButton)) {
             base.refreshPage();
             base.hardWait("3000");
         }
-        completeJobButton.click();
+//        completeJobButton.click();
+        base.clickWithJsExecutor(completeJobButton);
         base.waitForElementVisible(serviceCategoryStatusDropdown);
+        Thread.sleep(3000);
         selectCombibox(serviceCategoryStatusDropdown, "Physical");
         base.hardWait("3000");
         selectCombibox(completionStatusDropdown, "Technical Fix");
         base.hardWait("3000");
-        if(!base.isClickable(confirmJobCompletionBtn)) {
+        if (!base.isClickable(confirmJobCompletionBtn)) {
             base.waitTillElementFound(confirmJobCompletionBtn);
         }
         confirmJobCompletionBtn.click();
 
-        if(!base.isClickable(eInvoiceRequiredNo)) {
+        if (!base.isClickable(eInvoiceRequiredNo)) {
+            base.hardWait("5000");
+        }
+        eInvoiceRequiredNo.click();
+    }
+
+
+    public void completeJobProcess(String completeStatus) throws InterruptedException {
+        base.refreshPage();
+        if (!base.isClickable(completeJobButton)) {
+            base.refreshPage();
+            base.hardWait("3000");
+        }
+//        completeJobButton.click();
+        base.clickWithJsExecutor(completeJobButton);
+        base.waitForElementVisible(serviceCategoryStatusDropdown);
+        selectCombibox(serviceCategoryStatusDropdown, "Physical");
+        base.hardWait("3000");
+        selectCombibox(completionStatusDropdown, completeStatus);
+        base.hardWait("3000");
+        if (!base.isClickable(confirmJobCompletionBtn)) {
+            base.waitTillElementFound(confirmJobCompletionBtn);
+        }
+        confirmJobCompletionBtn.click();
+
+        if (!base.isClickable(eInvoiceRequiredNo)) {
             base.hardWait("5000");
         }
         eInvoiceRequiredNo.click();
@@ -767,14 +884,22 @@ public class RepairerJobUpdate {
             base.waitForPageToLoad();
             base.hardWait("2000");
             base.checkIfELementIsAvailable(labourChanrgeFaultCode);
-            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+            base.selectTextByIndex(labourChanrgeFaultCode, 1);
         } else {
             base.waitToLoadElement();
             base.selectTextByVisibleText(labourChargeSectionB, "X11 - At door");
             base.waitForPageToLoad();
             base.hardWait("2000");
             base.checkIfELementIsAvailable(labourChanrgeFaultCode);
-            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+            base.selectTextByIndex(labourChanrgeFaultCode, 1);
+            if (labourChanrgeFaultCode.getAttribute("value") == null) {
+                base.hardWait("1000");
+                base.selectTextByIndex(labourChanrgeFaultCode, 1);
+            }
         }
 
         // Add Part
@@ -782,21 +907,21 @@ public class RepairerJobUpdate {
             base.clickWithJsExecutor(addPartButton);
         }
         base.waitForElementVisible(addPart_Description);
-        base.sendFieldInputData(addPart_Description,"Test1");
+        base.sendFieldInputData(addPart_Description, "Test1");
         base.waitForElementVisible(addPart_PartNo);
-        base.sendFieldInputData(addPart_PartNo,"Test1");
+        base.sendFieldInputData(addPart_PartNo, "Test1");
         base.waitForElementVisible(addPart_PartStatus);
         base.selectTextByVisibleText(addPart_PartStatus, "Part No Longer Available");
         base.waitForPageToLoad();
         base.waitForElementVisible(addPart_FaultCode);
         base.hardWait("2000");
         base.isClickable(addPart_FaultCode);
-        base.selectTextByIndex(addPart_FaultCode,1);
+        base.selectTextByIndex(addPart_FaultCode, 1);
         base.waitForPageToLoad();
         base.waitForElementVisible(addPart_PNLAPartDescription);
         base.hardWait("2000");
         base.isClickable(addPart_PNLAPartDescription);
-        base.selectTextByIndex(addPart_PNLAPartDescription,1);
+        base.selectTextByIndex(addPart_PNLAPartDescription, 1);
 
         // Click Button - Lock Estimate
         base.waitForElementVisible(lockEstimateButton);
@@ -838,15 +963,19 @@ public class RepairerJobUpdate {
             base.selectTextByVisibleText(labourChargeSectionB, "X11 - At door");
             base.waitForPageToLoad();
             base.hardWait("2000");
-            base.checkIfELementIsAvailable(labourChanrgeFaultCode);
-            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.checkIfELementIsAvailable(labourChanrgeFaultCode);
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+            base.selectTextByIndex(labourChanrgeFaultCode, 1);
         } else {
             base.waitToLoadElement();
             base.selectTextByVisibleText(labourChargeSectionB, "X11 - At door");
             base.waitForPageToLoad();
             base.hardWait("2000");
-            base.checkIfELementIsAvailable(labourChanrgeFaultCode);
-            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.checkIfELementIsAvailable(labourChanrgeFaultCode);
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+            base.selectTextByIndex(labourChanrgeFaultCode, 1);
         }
 
         // Add Part
@@ -854,21 +983,31 @@ public class RepairerJobUpdate {
             base.clickWithJsExecutor(addPartButton);
         }
         base.waitForElementVisible(addPart_Description);
-        base.sendFieldInputData(addPart_Description,"Test1");
+        base.sendFieldInputData(addPart_Description, "Test1");
         base.waitForElementVisible(addPart_PartNo);
-        base.sendFieldInputData(addPart_PartNo,"Test1");
+        base.sendFieldInputData(addPart_PartNo, "Test1");
         base.waitForElementVisible(addPart_PartStatus);
         base.selectTextByVisibleText(addPart_PartStatus, "Part No Longer Available");
         base.waitForPageToLoad();
         base.waitForElementVisible(addPart_FaultCode);
         base.hardWait("2000");
-        base.isClickable(addPart_FaultCode);
-        base.selectTextByIndex(addPart_FaultCode,1);
-        base.waitForPageToLoad();
-        base.waitForElementVisible(addPart_PNLAPartDescription);
+        if (!base.isClickable(addPart_FaultCode)) {
+            base.hardWait("2000");
+            if (!base.isClickable(addPart_FaultCode)) {
+                LOGGER.info("Labour and Parts -> Fault Code section is not clickable at the moment");
+            } else {
+                base.selectTextByIndex(addPart_FaultCode, 1);
+                base.waitForPageToLoad();
+                base.waitForElementVisible(addPart_PNLAPartDescription);
+                base.hardWait("2000");
+            }
+        }
+//        if (!base.isClickable(addPart_PNLAPartDescription)) {
         base.hardWait("2000");
-        base.isClickable(addPart_PNLAPartDescription);
-        base.selectTextByIndex(addPart_PNLAPartDescription,1);
+//            if (!base.isClickable(addPart_PNLAPartDescription)) {
+//                LOGGER.info("Labour and Parts -> PNLA Part Description section is not clickable at the moment");
+//            } else {
+        base.selectTextByIndex(addPart_PNLAPartDescription, 1);
 
         // Click Button Unrepairable
         base.waitForElementVisible(buttonUnrepairable);
@@ -879,9 +1018,12 @@ public class RepairerJobUpdate {
         base.waitForPageToLoad();
         base.waitFor();
         base.hardWait("3000");
+//            }
+//        }
     }
 
-    public boolean isRAJobStatusisSetToWrittenOff(String writtenOffStatus){
+
+    public boolean isRAJobStatusisSetToWrittenOff(String writtenOffStatus) {
 
         boolean status = false;
         try {
@@ -895,7 +1037,7 @@ public class RepairerJobUpdate {
 
     }
 
-    public boolean isCurrentJobStatusisSet(String currStatus){
+    public boolean isCurrentJobStatusisSet(String currStatus) {
         int nextRun = 0;
         boolean status = false;
         try {
@@ -918,7 +1060,8 @@ public class RepairerJobUpdate {
         return status;
 
     }
-    public boolean isRAJobStatusisSetToWrittenOffUnRepairable(){
+
+    public boolean isRAJobStatusisSetToWrittenOffUnRepairable() {
 
         boolean status = false;
         try {
@@ -931,6 +1074,7 @@ public class RepairerJobUpdate {
         return status;
 
     }
+
     public boolean isJobCompleted() {
 
         boolean status = false;
@@ -996,6 +1140,7 @@ public class RepairerJobUpdate {
         try {
             if (base.checkIfELementIsAvailable(insertButton)) {
                 base.clickWithJsExecutor(insertButton);
+                base.waitToLoadElement();
                 base.checkIfELementIsAvailable(firstAvailableDate);
                 base.clickWithJsExecutor(firstAvailableDate);
                 base.waitToLoadElement();
@@ -1008,7 +1153,7 @@ public class RepairerJobUpdate {
 
     }
 
-    public void setPartETAAvailableDate(){
+    public void setPartETAAvailableDate() {
         WebElement dateToPick = null;
         try {
             dateToPick = seleniumHelper.getCustomElementByXpath(partETA_DatePickerXpath, seleniumHelper.getCurrentDate().substring(0, 2));
@@ -1048,15 +1193,19 @@ public class RepairerJobUpdate {
             base.selectTextByVisibleText(labourChargeSectionB, "X11 - At door");
             base.waitForPageToLoad();
             base.hardWait("2000");
-            base.checkIfELementIsAvailable(labourChanrgeFaultCode);
-            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.checkIfELementIsAvailable(labourChanrgeFaultCode);
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+            base.selectTextByIndex(labourChanrgeFaultCode, 1);
         } else {
             base.waitToLoadElement();
             base.selectTextByVisibleText(labourChargeSectionB, "X11 - At door");
             base.waitForPageToLoad();
             base.hardWait("2000");
-            base.checkIfELementIsAvailable(labourChanrgeFaultCode);
-            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.checkIfELementIsAvailable(labourChanrgeFaultCode);
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+            base.selectTextByIndex(labourChanrgeFaultCode, 1);
         }
 
         // Add Part
@@ -1064,9 +1213,9 @@ public class RepairerJobUpdate {
             base.clickWithJsExecutor(addPartButton);
         }
         base.waitForElementVisible(addPart_Description);
-        base.sendFieldInputData(addPart_Description,"Test1");
+        base.sendFieldInputData(addPart_Description, "Test1");
         base.waitForElementVisible(addPart_PartNo);
-        base.sendFieldInputData(addPart_PartNo,"Test1");
+        base.sendFieldInputData(addPart_PartNo, "Test1");
         base.waitForElementVisible(addPart_PartStatus);
         base.selectTextByVisibleText(addPart_PartStatus, "Part Order Required");
         base.waitForPageToLoad();
@@ -1079,7 +1228,7 @@ public class RepairerJobUpdate {
         base.waitForElementVisible(addPart_FaultCode);
         base.hardWait("2000");
         base.isClickable(addPart_FaultCode);
-        base.selectTextByIndex(addPart_FaultCode,1);
+        base.selectTextByIndex(addPart_FaultCode, 1);
         base.waitForPageToLoad();
         base.hardWait("1000");
 
@@ -1093,7 +1242,7 @@ public class RepairerJobUpdate {
         if (base.checkIfELementIsAvailable(selectPartsForPartETA_Popup_Checkbox)) {
             base.clickWithJsExecutor(selectPartsForPartETA_Popup_Checkbox);
             base.clickWithJsExecutor(partsETA_patsSelection_SubmitButton);
-        }  else {
+        } else {
             base.waitForPageToLoad();
             base.clickWithJsExecutor(selectPartsForPartETA_Popup_Checkbox);
             base.clickWithJsExecutor(partsETA_patsSelection_SubmitButton);
@@ -1127,20 +1276,32 @@ public class RepairerJobUpdate {
 
         if (base.quickWait(labourChargeSectionBPath).isDisplayed()) {
 
-            base.selectTextByVisibleText(labourChargeSectionB, "X11 - At door");
+//            base.selectTextByVisibleText(labourChargeSectionB, "X11 - At door");
+            base.selectTextByIndex(labourChargeSectionB, 1);
             base.waitForPageToLoad();
             base.hardWait("2000");
-            base.checkIfELementIsAvailable(labourChanrgeFaultCode);
-            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.checkIfELementIsAvailable(labourChanrgeFaultCode);
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+            base.selectTextByIndex(labourChanrgeFaultCode, 1);
+            if (labourChanrgeFaultCode.getAttribute("value") == null) {
+                base.hardWait("2000");
+                base.selectTextByIndex(labourChanrgeFaultCode, 1);
+            }
         } else {
             base.waitToLoadElement();
             base.selectTextByVisibleText(labourChargeSectionB, "X11 - At door");
             base.waitForPageToLoad();
             base.hardWait("2000");
             base.checkIfELementIsAvailable(labourChanrgeFaultCode);
-            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+//            base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
+            base.selectTextByIndex(labourChanrgeFaultCode, 1);
+            if (labourChanrgeFaultCode.getAttribute("value") == null) {
+                base.hardWait("2000");
+                base.selectTextByIndex(labourChanrgeFaultCode, 1);
+            }
         }
 
+        base.hardWait("3000");
 
         if (base.waitForElementVisible(addAdjustmentButton)) {
             base.clickWithJsExecutor(addAdjustmentButton);
@@ -1151,6 +1312,53 @@ public class RepairerJobUpdate {
         base.waitForElementVisible(lockEstimateWarningContinueBtn);
         base.clickWithJsExecutor(lockEstimateWarningContinueBtn);
         base.clickWithJsExecutor(estimateAcceptedProceedButton);
+//
+//        // Add Part
+//        if (base.waitForElementVisible(addPartButton)) {
+//            base.clickWithJsExecutor(addPartButton);
+//        }
+//        base.waitForElementVisible(addPart_Description);
+//        base.sendFieldInputData(addPart_Description,"Test1");
+//        base.waitForElementVisible(addPart_PartNo);
+//        base.sendFieldInputData(addPart_PartNo,"Test1");
+//        base.waitForElementVisible(addPart_PartStatus);
+//        base.selectTextByVisibleText(addPart_PartStatus, "Part Order Required");
+//        base.waitForPageToLoad();
+//        // Date Picker
+//        base.isClickable(partETA_dateIcon);
+//        base.clickWithJsExecutor(partETA_dateIcon);
+//        setPartETAAvailableDate();
+//        base.waitToLoadElement();
+//        base.hardWait("2000");
+//        base.waitForElementVisible(addPart_FaultCode);
+//        base.hardWait("2000");
+//        base.isClickable(addPart_FaultCode);
+//        base.selectTextByIndex(addPart_FaultCode,1);
+//        base.waitForPageToLoad();
+//        base.hardWait("1000");
+//
+//
+//        // Click Button - Non Viable repair - Parts ETA
+//        base.waitForElementVisible(buttonPartsETAWrittenOff);
+//        base.clickWithJsExecutor(buttonPartsETAWrittenOff);
+//        base.checkIfELementIsAvailable(partsETAConfirmationPopup_Yes_Button);
+//        base.clickWithJsExecutor(partsETAConfirmationPopup_Yes_Button);
+//
+//        if (base.checkIfELementIsAvailable(selectPartsForPartETA_Popup_Checkbox)) {
+//            base.clickWithJsExecutor(selectPartsForPartETA_Popup_Checkbox);
+//            base.clickWithJsExecutor(partsETA_patsSelection_SubmitButton);
+//        }  else {
+//            base.waitForPageToLoad();
+//            base.clickWithJsExecutor(selectPartsForPartETA_Popup_Checkbox);
+//            base.clickWithJsExecutor(partsETA_patsSelection_SubmitButton);
+//        }
+//
+//        base.checkIfELementIsAvailable(applicationWrittenOffProceedButton);
+//        base.clickWithJsExecutor(applicationWrittenOffProceedButton);
+//        base.waitForPageToLoad();
+//        base.waitFor();
+//        base.refreshPage();
+//        base.hardWait("3000");
     }
 
     /*
@@ -1159,14 +1367,10 @@ public class RepairerJobUpdate {
     Scenario: Close appointment pop up for the plan which do not have appointment booked.
      */
 
-    public void closeAppointmentPopUp()
-    {
-        if(base.checkIfELementIsAvailable(noAppointmentBookedPopUp) &&  base.waitForElementVisible(noAppointmentBookedPopUp))
-        {
+    public void closeAppointmentPopUp() {
+        if (base.checkIfELementIsAvailable(noAppointmentBookedPopUp) && base.waitForElementVisible(noAppointmentBookedPopUp)) {
             base.clickWithJsExecutor(noAppointmentBookedPopUpCloseButton);
-        }
-        else
-        {
+        } else {
             base.waitToLoadElement();
             base.clickWithJsExecutor(noAppointmentBookedPopUpCloseButton);
         }
@@ -1177,19 +1381,17 @@ public class RepairerJobUpdate {
     Date: 11th Nov
     Scenario: Click on Close button in No Appointment booked pop up and update Labour & Charge section in Repairer Portal
      */
-    public void performRepairCompleteWithoutSerialNoHotpoint(String completeStatus) throws InterruptedException {
-        base.refreshPage();
-        Thread.sleep(3000);
+    public void performRepairCompleteWithoutSerialNoHotpoint() throws InterruptedException {
         closeAppointmentPopUp();
-        Thread.sleep(3000);
-//        completeServiceReport();
-//        base.hardWait("2000");
-//        completeLabourAndPartsForRepairCompleteHotpoint();
-//        base.hardWait("3000");
-//        closeAppointmentPopUp();
-//        base.hardWait("3000");
+        base.hardWait("2000");
+        completeServiceReport();
+        base.hardWait("2000");
+        completeLabourAndPartsForRepairCompleteHotpoint();
+        base.hardWait("3000");
+        closeAppointmentPopUp();
+        base.hardWait("3000");
         completeJobProcessHotpoint();
-        Thread.sleep(3000);
+        base.hardWait("3000");
     }
 
     /*
@@ -1207,10 +1409,10 @@ public class RepairerJobUpdate {
             base.selectTextByVisibleText(labourChargeSectionB, "X11 - At door");
             base.waitForPageToLoad();
             base.hardWait("2000");
-            base.selectTextByIndex(labourChanrgeFaultCode,1);
-            if(labourChanrgeFaultCode.getAttribute("value") == null ) {
+            base.selectTextByIndex(labourChanrgeFaultCode, 1);
+            if (labourChanrgeFaultCode.getAttribute("value") == null) {
                 base.hardWait("2000");
-                base.selectTextByIndex(labourChanrgeFaultCode,1);
+                base.selectTextByIndex(labourChanrgeFaultCode, 1);
             }
         } else {
             base.waitToLoadElement();
@@ -1218,10 +1420,10 @@ public class RepairerJobUpdate {
             base.waitForPageToLoad();
             base.hardWait("2000");
             base.checkIfELementIsAvailable(labourChanrgeFaultCode);
-            base.selectTextByIndex(labourChanrgeFaultCode,1);
-            if(labourChanrgeFaultCode.getAttribute("value") == null ) {
+            base.selectTextByIndex(labourChanrgeFaultCode, 1);
+            if (labourChanrgeFaultCode.getAttribute("value") == null) {
                 base.hardWait("2000");
-                base.selectTextByIndex(labourChanrgeFaultCode,1);
+                base.selectTextByIndex(labourChanrgeFaultCode, 1);
             }
         }
         Thread.sleep(5000);
@@ -1278,24 +1480,16 @@ public class RepairerJobUpdate {
         }
         base.clickWithJsExecutor(completeJobButton);
         base.waitForElementVisible(serviceCategoryStatusDropdown);
+        serviceCategoryDropdown.clear();
+        Thread.sleep(2000);
+        serviceCategoryDropdown.sendKeys("Physical");
 
-        List<WebElement> options = driver.findElements(By.xpath("//*[@id=\"completionForm\"]/div/div[1]/div[1]/span[2]/a/span[1]"));
-        for (WebElement option : options) {
-            if (option.getText().contains("Physical")) {
-                option.click();
-            }
-            break;
-        }
-        Thread.sleep(3000);
+        completionStatusDropdownText.clear();
+        Thread.sleep(2000);
+        completionStatusDropdownText.sendKeys("Technical Fix");
 
-        List<WebElement> options2 = driver.findElements(By.xpath("//*[@id=\"completionForm\"]/div/div[1]/div[2]/span[2]/a/span[1]"));
-        for (WebElement option2 : options) {
-            if (option2.getText().contains("Technical Fix")) {
-                option2.click();
-            }
-            break;
-        }
-        Thread.sleep(3000);
+        driver.findElement(By.xpath("//span[@id='jbCompletionDate']")).click();
+        Thread.sleep(2000);
 
         if (!base.isClickable(confirmJobCompletionBtn)) {
             base.waitTillElementFound(confirmJobCompletionBtn);
@@ -1308,28 +1502,49 @@ public class RepairerJobUpdate {
         eInvoiceRequiredNo.click();
     }
 
-    public void completeJobProcessHotpointPlans() {
-        base.refreshPage();
-        if (!base.isClickable(completeJobButton)) {
-            base.refreshPage();
-            base.hardWait("3000");
-        }
-        base.clickWithJsExecutor(completeJobButton);
-        base.waitForElementVisible(serviceCategoryStatusDropdown);
-        selectCombibox(serviceCategoryStatusDropdown, "Physical");
-        base.hardWait("3000");
-        selectCombibox(completionStatusDropdown, "Technical Fix");
-        base.hardWait("3000");
-        if (!base.isClickable(confirmJobCompletionBtn)) {
-            base.waitTillElementFound(confirmJobCompletionBtn);
-        }
-        confirmJobCompletionBtn.click();
+    public void updateRepairFaultCodeAndProblemCode() {
+        base.quickWait(labourChargeSectionBPath).isDisplayed();
+        base.selectTextByIndex(labourChargeSectionB, 1);
+        base.hardWait("2000");
+        base.selectTextByIndex(labourChanrgeFaultCode, 1);
 
-        if (!base.isClickable(eInvoiceRequiredNo)) {
-            base.hardWait("5000");
-        }
-        eInvoiceRequiredNo.click();
     }
 
+    public void addAttachment() {
+        if (!base.isClickable(attachmentInsertBtn)) {
+            base.waitToLoadElement();
+        }
+        base.clickElement(attachmentInsertBtn);
+        addAttachment.uploadAttachment();
+    }
+
+    public boolean isAttachmentUploaded() {
+        return base.checkIfELementIsAvailable(uploadedAttachmentType);
+    }
+
+    public void completeLabourAndPartsWithSerialNo() throws InterruptedException {
+        completeServiceReport();
+        base.hardWait("2000");
+        updateSerialNo();
+        completeLabourAndPartsForRepairComplete();
+        base.hardWait("3000");
+    }
+
+    public void setAddAttachment() throws InterruptedException {
+        addAttachment();
+        base.hardWait("3000");
+    }
+
+    public void completeJobWithSerialNo() throws InterruptedException {
+        completeJobProcess();
+        base.hardWait("3000");
+    }
+
+    public void completeLabourAndPartsWithoutSerialNo() throws InterruptedException {
+        completeServiceReport();
+        base.hardWait("2000");
+        completeLabourAndPartsForRepairComplete();
+        base.hardWait("3000");
+    }
 
 }

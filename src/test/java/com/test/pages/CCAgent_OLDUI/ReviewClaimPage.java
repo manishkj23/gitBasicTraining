@@ -24,11 +24,27 @@ public class ReviewClaimPage {
     private CommonUtils commonUtils;
     private DialogPoppupPage popupWindow;
 
+    private static final String REPAIR_PAUSED_POPUP = "Repair Paused - TestWaivePayment";
+
+    private static final String CLICK_HERE = "Click here";
+
+    private static final String CLOSE = "Close";
+
+    private static final String REPAIR_PAUSED_TOASTER_MESSAGE = "Repair Paused";
+
+//    private static final String GO_TO_PREVIOUS_PLAN_BUTTON = "Go to previous plan";
+
+//    private static final String GO_TO_New_PLAN_BUTTON = "Go to new plan";
+
+    private static final String PLAN_SKIPPED_TO_TEXT = "Information - Plan Skipped to";
+
+    private static final String PLAN_SKIPPED_FROM_TEXT = "Information - Plan Skipped from";
+
     public static final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
     ////*[@id=\"section_64_c\"]//div/div/div[contains(.,\"Booking Summary\")]
 //    @FindBy(xpath = "//*[@id=\"JuBarStatusName\"][contains(.,\"FIELD CALL\")]")
-    @FindBy(xpath = "//*[@id=\"JuBarStatusName\"]")
+    @FindBy(xpath = "//*[@id=\"JobStatusName\"]")
     private WebElement jobStatus;
 
     @FindBy(xpath = "//*[@id=\"JuBarStatusName\"]")
@@ -284,7 +300,7 @@ public class ReviewClaimPage {
     @FindBy(xpath = "//div[@style='float:left; margin-bottom: 10px; width: 100%;']//img[@onclick='goToSearchJob();']")
     private WebElement claimNumberSearchButton;
 
-    @FindBy(xpath = "//a[@id='ToolTables_AppointmentsDT_2'][@class='DTTT_button btnStandardInsert findnewDGAppointmnent']")
+    @FindBy(xpath = "//a[contains(@id,'ToolTables_AppointmentsDT')][@class='DTTT_button btnStandardInsert findnewDGAppointmnent']")
     private WebElement findNewAppointmentButton;
 
     @FindBy(xpath = "//legend[contains(text(),'Find New Appointment')]")
@@ -293,9 +309,9 @@ public class ReviewClaimPage {
     @FindBy(xpath = "//input[@id='StartAppointmnetSearch' and @name='StartAppointmnetSearch']")
     private WebElement findNewAppointment_StartAppointmentSearchButton;
 
-    private final String NinethAvailableDateXpath = "//*[@id=\"MainICCollectionCalendar\"]//tr/td[contains(@class,\"dayAvailable\")][9]";
-    @FindBy(xpath = NinethAvailableDateXpath)
-    private WebElement findNewAppointment_NinethAvailableDate;
+    private final String FifthAvailableDateXpath = "//*[@id=\"MainICCollectionCalendar\"]//tr/td[contains(@class,\"dayAvailable\")][5]";
+    @FindBy(xpath = FifthAvailableDateXpath)
+    private WebElement findNewAppointment_FifthAvailableDate;
 
     private final String preferredDateForSpecificSlot = "//span[@id='prefferedDelDate']";
     @FindBy(xpath = preferredDateForSpecificSlot)
@@ -308,7 +324,7 @@ public class ReviewClaimPage {
     @FindBy(xpath = RebookPopup)
     private WebElement findNewAppointment_confirmRebookingPopupTitle;
 
-    private final String confirmRebookingAppointmentButton = "//button[contains(text(),'Confirm')]";
+    private final String confirmRebookingAppointmentButton = "//button[text()='Confirm']";
     @FindBy(xpath = confirmRebookingAppointmentButton)
     private WebElement findNewAppointment_RebookAnAppointmentConfirmButton;
 
@@ -376,6 +392,98 @@ public class ReviewClaimPage {
 
     @FindBy(xpath = "//div[@id=\"JobStatusText\"]")
     private WebElement raCurrentStatus;
+
+    private final String apptReselectErrorPopupPath = "//div[@id='modP']";
+    @FindBy(xpath = apptReselectErrorPopupPath)
+    private WebElement apptReselectErrorPopup;
+
+    private final String continueButtonPath = "//div[@id='modP']//following::div//button";
+    @FindBy(xpath = continueButtonPath)
+    private WebElement continueButton;
+
+
+    @FindBy(xpath = "//div[@id='reasonTitle']")
+    private WebElement repairPausedPopUp;
+
+    @FindBy(xpath = "//div[@class='toast-title']")
+    private WebElement repairPausedToasterMessage;
+
+    @FindBy(xpath = "//div/button[contains(text(),'Close')]")
+    private static WebElement closeButton;
+
+    @FindBy(xpath = "//div/a[@id='toastanchor']")
+    private WebElement clickhereLink;
+
+    @FindBy(xpath = "//div[contains(text(),'Go to previous plan')]")
+    private WebElement goToPreviousPlanButton;
+
+    @FindBy(xpath = "//div[@class='btn btn-sm btn-primary']")
+    private WebElement goToNewPlanButton;
+
+    @FindBy(xpath = "//div/b")
+    private WebElement planSkippedTo_Text;
+
+    @FindBy(xpath = "//div/b")
+    private WebElement planSkippedFrom_Text;
+    @FindBy(xpath = "//*[@id=\"makemodel\"]")
+    private WebElement modelNumberInReviewClaimPage;
+
+    @FindBy(xpath = "//div[@id='ui2_right_content']//tbody//tr//td//b[contains(text(),'Customer HTW:')]")
+    private WebElement customerHappyToWaitField;
+
+    @FindBy(xpath = "//div[@id='ui2_right_content']//tbody//tr//td//button[@class='btnStandardInsert'][contains(text(),'Edit')]")
+    private WebElement customerHappyToWaitEditButton;
+
+    @FindBy(xpath = "//div[@id='cboxLoadedContent']//form//h2[contains(.,\"Customer Happy To Wait\")]")
+    private WebElement customerHappyToWaitPopUp;
+
+    @FindBy(xpath = "//div[@id='cboxContent']/div[@id='cboxLoadedContent']/form/p//input[@value=\"Yes\"]")
+    private WebElement customerHappyToWaitYesRadioButton;
+
+    @FindBy(xpath = "//div[@id='cboxLoadedContent']//form//a[@class='btnStandard'][contains(text(),'Save')]")
+    private WebElement customerHappyToWaitSaveButton;
+
+    @FindBy(xpath = "//form//div[@id='HTWEndDateDiv']//p[@id='HTWEndDateP']//input[@id='HTWEndDate']")
+    private WebElement customerHappyToWaitDateInputField;
+
+    @FindBy(xpath = "//div[@id='ui-datepicker-div']//span[contains(@class,'ui-icon ui-icon-circle-triangle-e')]")
+    private WebElement customerHappyToWaitCalendarNextMonthButton;
+
+    @FindBy(xpath = "//div[@id='ui-datepicker-div']/table[@class='ui-datepicker-calendar']/tbody/tr[2]/td[2]/a")
+    private WebElement customerHappyToWaitCalendarNextMonthDateSelection;
+
+    @FindBy(xpath = "//div[@id='ui2_right_content']//tbody//tr//td[contains(text(),'Yes')]")
+    private WebElement customerHappyToWaitFlagInReviewClaimPage;
+
+    @FindBy(xpath = "//div[@id='ui2_top_summary']//span[@id='ClaimTypenameid']")
+    private WebElement claimTypeNameIdInReviewClaimPage;
+
+    @FindBy(xpath = "//b[text()='Plan Number:']//following::a")
+    private WebElement  planNoLink;
+
+    @FindBy(xpath ="//div[@id='nav_BookingOverview']")
+    private WebElement  bookingOverviewTab;
+
+    @FindBy(xpath ="//b[text()='Repairer Reference:']//following::td")
+    private WebElement repairerReferenceNo;
+
+    @FindBy(xpath = "//div[@id='modP']")
+    private WebElement alertPopup;
+
+    @FindBy(xpath = "//div[@id='modP']//following-sibling::div//button[text()='OK']")
+    private WebElement closeAlertPopup;
+
+    @FindBy(xpath = "//button[contains(.,'Continue')]")
+    private WebElement clickContinue;
+
+    @FindBy(xpath = "//table[@id=\"ContactHistory\"]//td[text()='${value}']//following-sibling::td")
+    private WebElement systemNote;
+
+    private final String systemNoteDynamicXpath = "//table[@id='ContactHistory']//td[text()='${value}']//following-sibling::td";
+
+    @FindBy(xpath = "//table[@id=\"ContactHistory\"]//td[text()='Import Repair Status']//following-sibling::td")
+    private WebElement estimateNotes;
+
 
     public ReviewClaimPage(BasePage base, SeleniumHelper seleniumHelper, CommonUtils commonUtils, DialogPoppupPage popupPage) {
         this.base = base;
@@ -637,9 +745,14 @@ public class ReviewClaimPage {
         try {
             if (base.checkIfELementIsAvailable(smsCommsRadiobutton)) {
                 base.clickWithJsExecutor(smsCommsRadiobutton);
-                if (base.checkIfELementIsAvailable(customerCommsEmailAndSms) && customerCommsEmailAndSms.isDisplayed()) {
-                    base.highlightElement(customerCommsEmailAndSms);
-                    status = true;
+                for (int i = 0; i <= 3; i++) {
+                    if (base.checkIfELementIsAvailable(customerCommsEmailAndSms) && customerCommsEmailAndSms.isDisplayed()) {
+                        base.highlightElement(customerCommsEmailAndSms);
+                        status = true;
+                        break;
+                    } else {
+                        base.hardWait("10000");
+                    }
                 }
             }
 
@@ -798,7 +911,7 @@ public class ReviewClaimPage {
     public void processWrittenOff(String writtenOffStatus) {
         base.hardWait("1000");
         base.clickElement(RAStatusOverrideCheckbox);
-        base.hardWait("1000");
+        base.hardWait("2000");
         base.waitForElementVisible(newRAStatusDropdownList);
         base.isClickable(newRAStatusDropdownList);
         base.sendFieldInputData(newRAStatusDropdownList, writtenOffStatus);
@@ -817,6 +930,9 @@ public class ReviewClaimPage {
         base.isClickable(applyNewRAStatusConfirmation_ContinueButton);
         base.clickWithJsExecutor(applyNewRAStatusConfirmation_ContinueButton);
         seleniumHelper.captureScreeshot();
+
+        if (base.checkIfELementIsAvailable(alertPopup) && base.waitForElementVisible(alertPopup))
+            base.clickWithJsExecutor(closeAlertPopup);
 
         if (base.checkIfELementIsAvailable(writtenOffSuccessPopup)) {
             Assert.assertTrue("Unable to verify WrittenOff Successfull", base.checkIfELementIsAvailable(writtenOffSuccessPopup));
@@ -988,17 +1104,17 @@ public class ReviewClaimPage {
                     Thread.sleep(2000);
                     if (base.waitForElementVisible(findNewAppointment_rebookCalendarAvailability) && base.checkIfELementIsAvailable(findNewAppointment_rebookCalendarAvailability)) {
                         base.highlightElementWithScreenshot(findNewAppointment_rebookCalendarAvailability, "Whirlpool Calendar For Rebooking");
-                        base.waitTillElementFound(findNewAppointment_NinethAvailableDate);
+                        base.waitTillElementFound(findNewAppointment_FifthAvailableDate);
                         Thread.sleep(3000);
                     } else {
                         base.waitForElementAndReturnJS(rebookCalendarAvailability);
-                        base.waitTillElementFound(findNewAppointment_NinethAvailableDate);
+                        base.waitTillElementFound(findNewAppointment_FifthAvailableDate);
                         Thread.sleep(3000);
                     }
                 } else {
                     if (base.waitForElementVisible(findNewAppointment_rebookCalendarAvailability) && base.checkIfELementIsAvailable(findNewAppointment_rebookCalendarAvailability)) {
                         base.highlightElementWithScreenshot(findNewAppointment_rebookCalendarAvailability, "Whirlpool Calendar For Rebooking");
-                        base.waitTillElementFound(findNewAppointment_NinethAvailableDate);
+                        base.waitTillElementFound(findNewAppointment_FifthAvailableDate);
                         Thread.sleep(3000);
                     }
                 }
@@ -1042,9 +1158,9 @@ public class ReviewClaimPage {
     }
 
 
-    public void selectNinethAvailableAppointmentDateAndConfirmRebookButton() throws InterruptedException {
-        base.waitTillElementFound(findNewAppointment_NinethAvailableDate);
-        base.clickWithJsExecutor(findNewAppointment_NinethAvailableDate);
+    public void selectFifthAvailableAppointmentDateAndConfirmRebookButton() throws InterruptedException {
+        base.waitTillElementFound(findNewAppointment_FifthAvailableDate);
+        base.clickWithJsExecutor(findNewAppointment_FifthAvailableDate);
         Thread.sleep(3000);
         base.checkIfELementIsAvailable(findNewAppointment_confirmRebookingButton);
         base.highlightElement(findNewAppointment_confirmRebookingButton);
@@ -1118,19 +1234,22 @@ public class ReviewClaimPage {
 
     public void clickOnSearchOtherServiceProviderButtonAndSelectAvailableDate() throws InterruptedException {
         if (base.waitForElementVisible(findNewAppointment_searchOtherServicepPoviderButton) & findNewAppointment_searchOtherServicepPoviderButton.isEnabled()) {
-            base.isElementAvilable(findNewAppointment_searchOtherServicepPoviderButton);
+            base.isElementAvailable(findNewAppointment_searchOtherServicepPoviderButton);
             base.highlightElement(findNewAppointment_searchOtherServicepPoviderButton);
             base.clickWithJsExecutor(findNewAppointment_searchOtherServicepPoviderButton);
-            Thread.sleep(3000);
+            Thread.sleep(2000);
+            if(base.checkIfELementIsAvailable(apptReselectErrorPopup))
+                base.clickElement(continueButton);
+            Thread.sleep(2000);
             if (base.waitForElementVisible(findNewAppointment_fieldCallCalendarNinthDayAvailability) & base.checkIfELementIsAvailable(findNewAppointment_fieldCallCalendarNinthDayAvailability)) {
-                base.isElementAvilable(findNewAppointment_fieldCallCalendarNinthDayAvailability);
+                base.isElementAvailable(findNewAppointment_fieldCallCalendarNinthDayAvailability);
                 base.highlightElement(findNewAppointment_fieldCallCalendarNinthDayAvailability);
                 base.clickWithJsExecutor(findNewAppointment_fieldCallCalendarNinthDayAvailability);
             }
         } else {
             System.out.println("Search other Service provider button is disabled");
             if (base.waitForElementVisible(findNewAppointment_fieldCallCalendarNinthDayAvailability) & base.checkIfELementIsAvailable(findNewAppointment_fieldCallCalendarNinthDayAvailability)) {
-                base.isElementAvilable(findNewAppointment_fieldCallCalendarNinthDayAvailability);
+                base.isElementAvailable(findNewAppointment_fieldCallCalendarNinthDayAvailability);
                 base.highlightElement(findNewAppointment_fieldCallCalendarNinthDayAvailability);
                 base.clickWithJsExecutor(findNewAppointment_fieldCallCalendarNinthDayAvailability);
             }
@@ -1140,12 +1259,12 @@ public class ReviewClaimPage {
 
     public void selectAvailableServiceProviderRadioButtonAndClickOnRebookButton() throws InterruptedException {
         if (base.waitForElementVisible(findNewAppointment_availableServiceProviderRadioButton) && base.checkIfELementIsAvailable(findNewAppointment_availableServiceProviderRadioButton)) {
-            base.isElementAvilable(findNewAppointment_availableServiceProviderRadioButton);
+            base.isElementAvailable(findNewAppointment_availableServiceProviderRadioButton);
             base.highlightElement(findNewAppointment_availableServiceProviderRadioButton);
             base.clickWithJsExecutor(findNewAppointment_availableServiceProviderRadioButton);
         }
         if (base.waitForElementVisible(findNewAppointment_rebookButtonForReselectionSP) && base.checkIfELementIsAvailable(findNewAppointment_rebookButtonForReselectionSP)) {
-            base.isElementAvilable(findNewAppointment_rebookButtonForReselectionSP);
+            base.isElementAvailable(findNewAppointment_rebookButtonForReselectionSP);
             base.highlightElement(findNewAppointment_rebookButtonForReselectionSP);
             base.clickWithJsExecutor(findNewAppointment_rebookButtonForReselectionSP);
         }
@@ -1159,19 +1278,19 @@ public class ReviewClaimPage {
             Thread.sleep(3000);
         } else {
             base.waitToLoadElement();
-            base.isElementAvilable(findNewAppointment_confirmationAlertPopUpYes);
+            base.isElementAvailable(findNewAppointment_confirmationAlertPopUpYes);
             base.highlightElement(findNewAppointment_confirmationAlertPopUpYes);
             base.clickWithJsExecutor(findNewAppointment_confirmationAlertPopUpYes);
         }
     }
 
-    public boolean verifyNewServiceProviderNameInReviewClaimAfterReselect() {
+    public boolean verifyNewServiceProviderNameInReviewClaimAfterReselect () {
         String oldServiceProvider = "WHIRLPOOL UK APPLIANCE LTD";
         String newServiceProviderName;
         boolean status = false;
         base.waitForPageToLoad();
         base.waitTillElementFound(reselect_newServiceProviderName);
-        if (base.checkIfELementIsAvailable(reselect_newServiceProviderName) && base.isElementAvilable(reselect_newServiceProviderName)) {
+        if (base.checkIfELementIsAvailable(reselect_newServiceProviderName) && base.isElementAvailable(reselect_newServiceProviderName)) {
             //newServiceProviderName = base.getElementFromXpath(oldServiceProviderNamePath).getText().toString();
             newServiceProviderName = driver.findElement(By.xpath("//span[@id='ServiceCentreAcronymSpan']")).getText().toString();
             System.out.println("New Service Provider: " + newServiceProviderName);
@@ -1188,7 +1307,7 @@ public class ReviewClaimPage {
         return status;
     }
 
-    public boolean claimJobStatusDisplayedAfterReselectServiceProvider(String reselectjobstatus) {
+    public boolean claimJobStatusDisplayedAfterReselectServiceProvider (String reselectjobstatus){
         boolean status = false;
         base.waitForPageToLoad();
         base.waitTillElementFound(jobStatus);
@@ -1209,7 +1328,7 @@ public class ReviewClaimPage {
     /*Name: Manish Kumar Jain
     Scenario Name: Verify that the new claim ID created and compared with the old ClaimID "<ClaimNo>"
      */
-    public void oldClaimIdComparedWithNewClaimId(String claimNo) {
+    public void oldClaimIdComparedWithNewClaimId (String claimNo){
         if (base.waitForElementVisible(reviewClaimPage_claimSection) && base.checkIfELementIsAvailable(reviewClaimPage_claimNo)) {
             String claimNewNo = base.getElementFromXpath(claimNumberPath).getText();
             System.out.println("New Claim ID is " + claimNewNo);
@@ -1229,7 +1348,7 @@ public class ReviewClaimPage {
 
     }
 
-    public boolean oldClaimJobReassignedStatus(String reviewClaimStatus) {
+    public boolean oldClaimJobReassignedStatus (String reviewClaimStatus){
         boolean status = false;
         base.waitForPageToLoad();
         base.waitTillElementFound(jobStatus);
@@ -1252,9 +1371,9 @@ public class ReviewClaimPage {
         return status;
     }
 
-    public void clickOnReviewClaimTab() throws InterruptedException {
+    public void clickOnReviewClaimTab () throws InterruptedException {
         Thread.sleep(2000);
-        if (base.checkIfELementIsAvailable(reviewClaimPage_reviewClaimTab) && base.isElementAvilable(reviewClaimPage_reviewClaimTab)) {
+        if (base.checkIfELementIsAvailable(reviewClaimPage_reviewClaimTab) && base.isElementAvailable(reviewClaimPage_reviewClaimTab)) {
             base.getElementByXpathJS(reviewClaimTab).click();
             Thread.sleep(2000);
         } else {
@@ -1262,7 +1381,7 @@ public class ReviewClaimPage {
         }
     }
 
-    public boolean validateDiaryAppointmentJobReassignedStatus(String appointmentJobStatus) {
+    public boolean validateDiaryAppointmentJobReassignedStatus (String appointmentJobStatus){
         boolean status = false;
         try {
             if (base.checkIfELementIsAvailable(enableDiaryAppointmentSection)) {
@@ -1288,7 +1407,7 @@ public class ReviewClaimPage {
 
 
     //If we select radio button for specific appointment then below code need to use
-    public void specificSlotSelection() {
+    public void specificSlotSelection () {
         base.waitForElementVisible(findNewAppointment_preferredDateDisplay);
         base.checkIfELementIsAvailable(findNewAppointment_preferredDateDisplay);
         String preDate = base.getElementFromXpath(preferredDateForSpecificSlot).getText().toString();
@@ -1300,7 +1419,7 @@ public class ReviewClaimPage {
 
     }
 
-    public boolean isRACurrentJobStatusDisplayed(String jobStatus) {
+    public boolean isRACurrentJobStatusDisplayed (String jobStatus){
         boolean status = false;
         base.waitForPageToLoad();
         base.waitTillElementFound(raCurrentStatus);
@@ -1320,4 +1439,304 @@ public class ReviewClaimPage {
         }
         return status;
     }
+
+    public boolean repairPausedPopUpBeingDisplayed () {
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(repairPausedPopUp) && repairPausedPopUp.getText().equalsIgnoreCase(REPAIR_PAUSED_POPUP)) {
+                Thread.sleep(5000);
+                base.highlightElement(repairPausedPopUp);
+                status = true;
+            } else {
+                LOGGER.error("Unable to Verify Repair Paused pop-up being displayed");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+
+    public boolean clickOnTheCloseButton () {
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(closeButton) && closeButton.getText().equalsIgnoreCase(CLOSE)) {
+                Thread.sleep(3000);
+                base.highlightElement(closeButton);
+                closeButton.click();
+                status = true;
+            } else {
+                LOGGER.error("Unable to Click on the Close button");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+
+    public boolean clickOnTheClickhereLink() {
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(clickhereLink) && clickhereLink.getText().equalsIgnoreCase(CLICK_HERE)) {
+                Thread.sleep(3000);
+                base.highlightElement(clickhereLink);
+                clickhereLink.click();
+                status = true;
+            } else {
+                LOGGER.error("Unable to Click on the clickhere link");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+
+    public boolean repairPausedToasterMessageBeingDisplayed () {
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(repairPausedToasterMessage) && repairPausedToasterMessage.getText().equalsIgnoreCase(REPAIR_PAUSED_TOASTER_MESSAGE)) {
+                base.waitForElementVisible(repairPausedToasterMessage);
+                Thread.sleep(3000);
+                base.highlightElement(repairPausedToasterMessage);
+                status = true;
+
+            } else {
+                LOGGER.error("Unable to Verify Repair Paused Toaster Message being displayed");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public boolean modelNumberMatchedInReviewClaimPage (String modelNum){
+        boolean status = false;
+        String modelNumber = modelNumberInReviewClaimPage.getText();
+        try {
+            if (modelNumber.contains(modelNum)) {
+                base.highlightElement(modelNumberInReviewClaimPage);
+                LOGGER.info(("WHPL MB model number displayed correctly in Claim review page : " + modelNumber));
+                status = true;
+            } else {
+                base.waitForElementVisible(modelNumberInReviewClaimPage);
+                base.highlightElement(modelNumberInReviewClaimPage);
+                LOGGER.info(("\"WHPL MB model number displayed correctly in Claim review page :" + modelNumber));
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    /*
+    Manish Kumar Jain
+    Scenario: Happy to Wait change part of R53
+    Steps: HTW field is present in Booking overview
+     */
+    public boolean verifyHappyToWaitFieldInBookingOverviewDisplayed () {
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(customerHappyToWaitField)) {
+                base.highlightElement(customerHappyToWaitField);
+                LOGGER.info("Customer Happy to Wait field is present in Booking Overview");
+                status = true;
+            } else {
+                base.waitForElementVisible(customerHappyToWaitField);
+                base.highlightElement(customerHappyToWaitField);
+                LOGGER.info("Customer Happy to Wait field is present in Booking Overview");
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    /*
+    Manish Kumar Jain
+    Scenario: Happy to Wait change part of R53
+    Steps: HTW button is present in Booking overview and clickable
+     */
+    public boolean verifyHappyToWaitButtonInBookingOverviewAndClickable () {
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(customerHappyToWaitEditButton) && customerHappyToWaitEditButton.isEnabled()) {
+                base.highlightElement(customerHappyToWaitEditButton);
+                LOGGER.info("Customer Happy to Wait button is present in Booking Overview");
+                base.clickWithJsExecutor(customerHappyToWaitEditButton);
+                status = true;
+            } else {
+                base.waitForElementVisible(customerHappyToWaitEditButton);
+                base.highlightElement(customerHappyToWaitEditButton);
+                LOGGER.info("Customer Happy to Wait button is present in Booking Overview");
+                base.clickWithJsExecutor(customerHappyToWaitEditButton);
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    /*
+    Manish Kumar Jain
+    Scenario: Happy to Wait change part of R53
+    Steps: Customer HTW pop up launched
+     */
+    public boolean verifyCustomerHappyToWaitPopUpDisplayed () {
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(customerHappyToWaitPopUp) && customerHappyToWaitPopUp.isDisplayed()) {
+                LOGGER.info("Customer Happy To Wait Pop Up Launched successfully");
+                status = true;
+            } else {
+                base.waitForElementVisible(customerHappyToWaitPopUp);
+                LOGGER.info("Customer Happy To Wait Pop Up Launched successfully");
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    /*
+    Manish Kumar Jain
+    Scenario: Happy to Wait change part of R53
+    Steps: click on Yes button and select Customer HTW date from date picker
+     */
+    public void clickOnYesButtonAndSelectDateAndSave () throws InterruptedException {
+        if(base.checkIfELementIsAvailable(customerHappyToWaitPopUp) && customerHappyToWaitYesRadioButton.isEnabled()) {
+            LOGGER.info("Customer HTW Pop up displayed and radio button is clickable");
+            base.clickWithJsExecutor(customerHappyToWaitYesRadioButton);
+            Thread.sleep(2000);
+            customerHappyToWaitDateInputField.click();
+            base.clickWithJsExecutor(customerHappyToWaitCalendarNextMonthButton);
+            Thread.sleep(2000);
+            base.clickWithJsExecutor(customerHappyToWaitCalendarNextMonthDateSelection);
+            Thread.sleep(3000);
+            base.clickWithJsExecutor(customerHappyToWaitSaveButton);
+        }
+
+    }
+
+    /*
+    Manish Kumar Jain
+    Scenario: Happy to Wait change part of R53
+    Steps: Verify Customer HTW updated with Yes flag in Review Claim page
+     */
+    public boolean verifyHtwFlagUpdatedInReviewClaimPage ()
+    {
+        String HTWFlag;
+        boolean status = false;
+        if (base.checkIfELementIsAvailable(customerHappyToWaitField)) {
+            base.highlightElement(customerHappyToWaitField);
+            base.highlightElement(customerHappyToWaitFlagInReviewClaimPage);
+            String HTWFlagIndicator = customerHappyToWaitFlagInReviewClaimPage.getText();
+            HTWFlag = HTWFlagIndicator.substring(0, HTWFlagIndicator.length() - 31);
+            LOGGER.info("Customer HTW Flag updated with : " + HTWFlag);
+            if (HTWFlag.equalsIgnoreCase("YES")) {
+                LOGGER.info("CCA successfully updated the HTW flag for the Customer to: " + HTWFlag);
+                status = true;
+            }
+        }
+        return status;
+    }
+
+    public boolean verifyClaimTypeNameIdInReviewClaimPage (String claimType){
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(claimTypeNameIdInReviewClaimPage)) {
+                base.highlightElement(claimTypeNameIdInReviewClaimPage);
+                String claimTypeName = claimTypeNameIdInReviewClaimPage.getText();
+                if (claimTypeName.equalsIgnoreCase(claimType)) {
+                    LOGGER.info(("claim created successfully with new claim type: " + claimTypeName));
+                    status = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public void clickOnPlanNoLink() {
+        try {
+            if (base.checkIfELementIsAvailable(planNoLink)) {
+                base.highlightElement(planNoLink);
+                base.clickElement(planNoLink);
+                base.waitForPageToLoad();
+                base.switchToNextTab();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void compareOldClaimIdWithNewClaimId (String claimNo){
+        if (base.waitForElementVisible(bookingOverviewTab)) {
+            String claimNewNo = repairerReferenceNo.getText();
+            System.out.println("New Claim ID is " + claimNewNo);
+            if (claimNewNo != claimNo)
+                System.out.println("New Claim ID created with new service provider after reselection done successfully " + claimNewNo);
+        }
+    }
+
+    public void clickOnStartAppointmentSearchFindNewAppointmentPopUpAndVerifyCalendarToRebookForBeko() {
+        try {
+            base.clickElement(clickContinue);
+            if (base.checkIfELementIsAvailable(FindNewAppointmentPopUpDisplay) && FindNewAppointmentPopUpDisplay.isDisplayed()) {
+                if (base.checkIfELementIsAvailable(findNewAppointment_StartAppointmentSearchButton) && findNewAppointment_StartAppointmentSearchButton.isEnabled()) {
+                    base.clickWithJsExecutor(findNewAppointment_StartAppointmentSearchButton);
+                    Thread.sleep(2000);
+                    if (base.waitForElementVisible(findNewAppointment_rebookCalendarAvailability) && base.checkIfELementIsAvailable(findNewAppointment_rebookCalendarAvailability)) {
+                        base.highlightElementWithScreenshot(findNewAppointment_rebookCalendarAvailability, "Whirlpool Calendar For Rebooking");
+                        base.waitTillElementFound(findNewAppointment_FifthAvailableDate);
+                        Thread.sleep(3000);
+                    } else {
+                        base.waitForElementAndReturnJS(rebookCalendarAvailability);
+                        base.waitTillElementFound(findNewAppointment_FifthAvailableDate);
+                        Thread.sleep(3000);
+                    }
+                } else {
+                    if (base.waitForElementVisible(findNewAppointment_rebookCalendarAvailability) && base.checkIfELementIsAvailable(findNewAppointment_rebookCalendarAvailability)) {
+                        base.highlightElementWithScreenshot(findNewAppointment_rebookCalendarAvailability, "Whirlpool Calendar For Rebooking");
+                        base.waitTillElementFound(findNewAppointment_FifthAvailableDate);
+                        Thread.sleep(3000);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("======>>>>> Unable to click on Start Appointment Search button and not able to select date from calendar");
+        }
+    }
+
+
+    public boolean verifySystemNoteWithTypeAs(String noteType, String note) {
+        boolean status = false;
+        WebElement systemNoteDynamic= seleniumHelper.getCustomElementByXpath(systemNoteDynamicXpath, noteType);
+        try {
+            if (base.checkIfELementIsAvailable(systemNoteDynamic)) {
+                base.highlightElement(systemNoteDynamic);
+                System.out.println("note:"+systemNoteDynamic.getText());
+                if (systemNoteDynamic.getText().contains(note)) {
+                    status = true;
+                }
+            } else {
+                LOGGER.info("System note is not updated as" +note);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
 }

@@ -1,12 +1,11 @@
 package com.test.steps;
 
-import com.test.pages.OrbitHomePage;
-import com.test.pages.ReviewClaimPage;
+import com.test.pages.CCAgent_OLDUI.OrbitHomePage;
 import com.test.pages.SiteMapPage;
 import com.test.utils.BasePage;
 import com.test.utils.SeleniumHelper;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;

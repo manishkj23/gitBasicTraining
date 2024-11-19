@@ -170,7 +170,7 @@ public class Srv9487BekoFaultCode {
     {
         try {
             if
-            (base.checkIfELementIsAvailable(createClaimRequestButton) & base.isElementAvilable(createClaimRequestButton))
+            (base.checkIfELementIsAvailable(createClaimRequestButton) & base.isElementAvailable(createClaimRequestButton))
             {
                 base.waitForElementVisible(createClaimRequestButton);
                 base.clickWithJsExecutor(createClaimRequestButton);

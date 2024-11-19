@@ -140,5 +140,14 @@ public class PaymentDuePopup {
 
     }
 
+    public void takeServiceCostPayment() {
+        if (isPaymentDuePageLoaded()) {
+            callOutChargePaymentPage.proceedToServiceCostPaymentNPV();
+        } else {
+            LOGGER.info("Unable to process the payment");
+        }
+
+    }
+
 
 }

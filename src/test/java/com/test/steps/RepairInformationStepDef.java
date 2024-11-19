@@ -1,14 +1,19 @@
 package com.test.steps;
 
 import com.test.pages.*;
-import com.test.pages.CCAgentUI_CCV.RepairInformationPage;
+import com.test.pages.CCAgentUI_NPV.CCAgentUI_CCV.RepairInformationPage;
+import com.test.pages.CCAgent_OLDUI.OrbitHomePage;
+import com.test.pages.CCAgent_OLDUI.ReviewClaimPage;
+import com.test.pages.CCAgent_OLDUI.ServiceOptionsPage;
 import com.test.pages.ExcessPayment.CallOutChargePopupPage;
 import com.test.utils.BasePage;
 import com.test.utils.OrbitUtils.PlanDetails;
 import com.test.utils.OrbitUtils.QuestionDatabase;
 import com.test.utils.SeleniumHelper;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Then;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -210,33 +215,33 @@ public class RepairInformationStepDef {
 
 // ==========================9th Scenario - Appointment Card Button ====================================
 
-    @And("^I verify Appointment Card button is present when appointment date is for current date$")
-    public void i_verify_appointment_card_button_is_present_when_appointment_date_is_for_current_date() throws InterruptedException {
-        repairInformation.verifyAppointmentCardButton();
-        Thread.sleep(3000);
-    }
-
-    @Then("^I click on Appointment Card button and verify Appointment Card pop up$")
-    public void i_click_on_appointment_card_button_and_verify_appointment_card_pop_up() throws InterruptedException {
-
-    }
-
-    @Then("^I click on Appointment Card button in Diary Appointment section$")
-    public void i_click_on_appointment_card_button_in_diary_appointment_section() throws Throwable {
-        repairInformation.clickOnAppointmentCardButton();
-    }
-
-    @And("^I verify Appointment Information Unavailable pop up display$")
-    public void i_verify_appointment_information_unavailable_pop_up_display() throws Throwable {
-        repairInformation.verifyAppointmentUnavailablePopUpText();
-        Thread.sleep(3000);
-
-    }
-
-    @And("^I verify Engineer Tracking information displayed in Appointment Card pop up$")
-    public void i_verify_engineer_tracking_display_in_appointment_card_pop_up() throws Throwable {
-        repairInformation.verifyEngineerTrackingPopUp();
-    }
+//    @And("^I verify Appointment Card button is present when appointment date is for current date$")
+//    public void i_verify_appointment_card_button_is_present_when_appointment_date_is_for_current_date() throws InterruptedException {
+//        repairInformation.verifyAppointmentCardButton();
+//        Thread.sleep(3000);
+//    }
+//
+//    @Then("^I click on Appointment Card button and verify Appointment Card pop up$")
+//    public void i_click_on_appointment_card_button_and_verify_appointment_card_pop_up() throws InterruptedException {
+//
+//    }
+//
+//    @Then("^I click on Appointment Card button in Diary Appointment section$")
+//    public void i_click_on_appointment_card_button_in_diary_appointment_section() throws Throwable {
+//        repairInformation.clickOnAppointmentCardButton();
+//    }
+//
+//    @And("^I verify Appointment Information Unavailable pop up display$")
+//    public void i_verify_appointment_information_unavailable_pop_up_display() throws Throwable {
+//        repairInformation.verifyAppointmentUnavailablePopUpText();
+//        Thread.sleep(3000);
+//
+//    }
+//
+//    @And("^I verify Engineer Tracking information displayed in Appointment Card pop up$")
+//    public void i_verify_engineer_tracking_display_in_appointment_card_pop_up() throws Throwable {
+//        repairInformation.verifyEngineerTrackingPopUp();
+//    }
 
 
 

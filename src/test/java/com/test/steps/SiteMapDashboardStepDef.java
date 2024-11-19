@@ -1,12 +1,12 @@
 package com.test.steps;
 
-import com.test.pages.OrbitHomePage;
+import com.test.pages.CCAgent_OLDUI.OrbitHomePage;
 import com.test.pages.SiteMapPage;
 import com.test.utils.BasePage;
 import com.test.utils.SeleniumHelper;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -251,6 +251,7 @@ public class SiteMapDashboardStepDef {
 
     @Then("^I verify Export and Insert buttons are enabled in Generic Appliance Data Wizard$")
     public void i_verify_export_and_insert_buttons_are_enabled_in_generic_appliance_data_wizard(){
+        System.out.println("Merging concept in GIT");
 
     }
 
@@ -263,13 +264,5 @@ public class SiteMapDashboardStepDef {
     public void i_verify_export_and_insert_buttons_are_present_in_generic_appliance_data_wizard() {
 
     }
-
-
-
-
-
-
-
-
 
 }
