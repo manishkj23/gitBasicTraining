@@ -175,11 +175,7 @@ public class SiteMapDashboardStepDef {
         siteMap.verifyErrorMessageDisappearInDashboardsDropdown();
     }
 
-    @And("^I verify Access Level Manager board loaded successfully$")
-    public void iVerifyAccessLevelManagerBoardLoadedSuccessfully() throws InterruptedException {
-        Assert.assertTrue("Access Level Manager Page not Loaded successfully",siteMap.isAccessLevelManagerBoardLoaded());
-        Thread.sleep(5000);
-    }
+
 
     @Then("^I click on Access Level Manager Insert button$")
     public void i_click_on_insert_button_and_verify_insert_dg_access_level_pop_up() throws InterruptedException {
