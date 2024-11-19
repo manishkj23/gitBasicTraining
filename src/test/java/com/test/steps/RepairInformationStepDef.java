@@ -9,6 +9,8 @@ import com.test.utils.OrbitUtils.QuestionDatabase;
 import com.test.utils.SeleniumHelper;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
