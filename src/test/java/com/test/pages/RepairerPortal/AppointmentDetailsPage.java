@@ -28,7 +28,7 @@ public class AppointmentDetailsPage {
     private WebDriver driver;
     private BasePage base;
     private SeleniumHelper seleniumHelper;
-    private final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName() );
+    private final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
     public AppointmentDetailsPage(BasePage base, SeleniumHelper seleniumHelper) {
         this.base = base;
@@ -37,13 +37,13 @@ public class AppointmentDetailsPage {
         PageFactory.initElements(driver, this);
     }
 
-    public boolean isAppointmentDetailsPageLoaded(){
+    public boolean isAppointmentDetailsPageLoaded() {
         boolean status = false;
         try {
             if (pageHeading.getText() == pgMainHeading) {
                 status = true;
             }
-        } catch ( Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Unable to load the Appointment Details Page");
         }
         return status;
@@ -52,7 +52,8 @@ public class AppointmentDetailsPage {
     public void bookFirstAvailableAppointment() throws InterruptedException {
         base.checkIfELementIsAvailable(firstAvailableAppointment);
         Thread.sleep(5000);
-        firstAvailableAppointment.click();
+        base.clickElement(firstAvailableAppointment);
+//        firstAvailableAppointment.click();
         Thread.sleep(2000);
         base.checkIfELementIsAvailable(bookAppointmentButton);
         bookAppointmentButton.click();
@@ -62,16 +63,17 @@ public class AppointmentDetailsPage {
 
     public void bookAppoimentForCC(String days) {
 
-        try{
-            WebElement nextAvailableAppointment = driver.findElement(By.xpath(pathForAvailableDatePath.replace("${input}",days)));
-            if(nextAvailableAppointment.isDisplayed()) {
+        try {
+            WebElement nextAvailableAppointment = driver.findElement(By.xpath(pathForAvailableDatePath.replace("${input}", days)));
+            if (nextAvailableAppointment.isDisplayed()) {
                 base.waitForElementVisible(nextAvailableAppointment);
                 nextAvailableAppointment.click();
                 Thread.sleep(3000);
                 base.checkIfELementIsAvailable(bookAppointmentButton);
                 bookAppointmentButton.click();
             } else {
-                LOGGER.error("Unable to Load Next Available Appointment");            }
+                LOGGER.error("Unable to Load Next Available Appointment");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

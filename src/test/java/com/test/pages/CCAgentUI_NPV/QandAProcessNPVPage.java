@@ -24,6 +24,9 @@ public class QandAProcessNPVPage {
     // Local Constants for Page validations
     private static final String CLAIM_NO_HEADING = "Claim No";
 
+    @FindBy(xpath = "//div[@id=\"icqTabs\"]")
+    private WebElement qaSection;
+
     @FindBy(xpath = "//*[@id=\"jbTpDet\"]//span[contains(.,\"Claim No\")]")
     private WebElement claimNoHeading;
 
@@ -93,6 +96,15 @@ public class QandAProcessNPVPage {
     @FindBy(xpath = qa_SubQa_DeclarationXpath)
     private WebElement qa_SubQa_DeclarationQuestion;
 
+    @FindBy(xpath = "//div[@id=\"queryResolvedWrapper\"]//b[contains(.,\"Query Resolved\")]")
+    private WebElement queryResolvedBtn;
+
+    @FindBy(xpath = "//div[@id=\"queryResolvedWrapper\"]//b[contains(.,\"Undo Answer\")]")
+    private WebElement undoAnswerBtn;
+
+    @FindBy(xpath = "//div[@id=\"queryResolvedWrapper\"]//b[contains(.,\"Reset Answers\")]")
+    private WebElement resetAnswersBtn;
+
     // Commented : @Veera : the Xpath has been now changed on the DOM : SRV-10616
 //    private static String questionPath = "//*[@id=\"icqQuestion\"][contains(.,\"${value}\")]";
     private static String questionPath = "//form[@id=\"IcqMainForm\"]//div/div[@id=\"icqQuestion\"][contains(.,\"${value}\")]";
@@ -112,6 +124,11 @@ public class QandAProcessNPVPage {
         this.commonUtils = commonUtils;
         PageFactory.initElements(driver, this);
         this.planDetails = planDetails;
+    }
+
+    public boolean isQASectionPageDisplayed() {
+        base.waitTillElementFound(qaSection);
+        return (qaSection.isDisplayed()) ? true : false;
     }
 
     public boolean isClaimNoDisplayed() {
@@ -140,8 +157,8 @@ public class QandAProcessNPVPage {
         if (question == null) {
             if (questionSection.getText().contains(qa) | !questionSection.getText().isEmpty()) {
                 status = true;
-            } else if(seleniumHelper.getCustomElementByXpath(questionPathSub, qa) != null &&
-                    seleniumHelper.getCustomElementByXpath(questionPathSub, qa).getText().contains(qa)){
+            } else if (seleniumHelper.getCustomElementByXpath(questionPathSub, qa) != null &&
+                    seleniumHelper.getCustomElementByXpath(questionPathSub, qa).getText().contains(qa)) {
                 status = true;
             }
         } else {
@@ -225,15 +242,15 @@ public class QandAProcessNPVPage {
             case "RECIPERO":
             case "MOBILE":
             case "STOLEN":
-            case "MOCK":{
-                switch (ans.toUpperCase()){
+            case "MOCK": {
+                switch (ans.toUpperCase()) {
                     case "THEFTREFNO":
-                    case "THEFT":{
+                    case "THEFT": {
                         base.checkIfELementIsAvailable(answerUserCrimeRefField);
-                        base.sendFieldInputData(answerUserCrimeRefField,planDetails.getCurrentClaimNumber());
+                        base.sendFieldInputData(answerUserCrimeRefField, planDetails.getCurrentClaimNumber());
                         break;
                     }
-                    default :{
+                    default: {
                         base.checkIfELementIsAvailable(answerResponseField);
                         base.sendFieldInputData(answerResponseField, ans);
                         break;
@@ -290,5 +307,16 @@ public class QandAProcessNPVPage {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void clickQueryResolvedButton(){
+        base.clickWithJsExecutor(queryResolvedBtn);
+    }
+
+    public void clickUndoAnswerButton(){
+        base.clickWithJsExecutor(undoAnswerBtn);
+    }
+    public void clickResetAnswersButton(){
+        base.clickWithJsExecutor(resetAnswersBtn);
     }
 }

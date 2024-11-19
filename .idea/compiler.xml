@@ -11,5 +11,9 @@
         <module name="OrbitRegression" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="17" />
+  </component>
+  <component name="JavacSettings">
+    <option name="PREFER_TARGET_JDK_COMPILER" value="false" />
   </component>
 </project>

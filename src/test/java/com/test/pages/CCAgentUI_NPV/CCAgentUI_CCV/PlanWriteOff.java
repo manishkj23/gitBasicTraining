@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class PlanWriteOff {
 
-    private BasePage base;
+    private static BasePage base;
     private WebDriver driver;
     private SeleniumHelper seleniumHelper;
     private CommonUtils commonUtils;
@@ -28,6 +28,8 @@ public class PlanWriteOff {
         this.seleniumHelper = seleniumHelper;
         this.commonUtils = commonUtils;
         this.planDetails = planDetails;
+
+
         PageFactory.initElements(driver, this);
     }
 
@@ -43,8 +45,7 @@ public class PlanWriteOff {
 
     @FindBy(id = "pwoPostcode")
     private WebElement postCode;
-
-    @FindBy(id = "pwoSearch")
+    @FindBy(xpath = "//div/button[@id='pwoSearch']")
     private WebElement searchButton;
 
     @FindBy(xpath = "//table[@id=\"pwoPolicyProductsTable\"]/tbody/tr[1]/td[7]")
@@ -94,6 +95,17 @@ public class PlanWriteOff {
     @FindBy(xpath = "//div[@role=\"dialog\"]//div[contains(.,\"This plan has been successfully written off\")]")
     private WebElement planWriteOffSuccessfullPopup;
 
+    @FindBy(xpath = "//div/input[@id='pwoPlanNo']")
+    private static WebElement enterPlanNumber;
+
+    @FindBy(xpath = "//div/input[@id='pwoCustomer']")
+    private static WebElement customer_surname;
+
+    @FindBy(xpath = "//div/input[@id=\"pwoPostcode\"]")
+    private static WebElement customerPostcode;
+
+    @FindBy(xpath = "//*[@id=\"apl0\"]/td[1]")
+    private static WebElement newPlanNumber;
 
     public boolean isPlanWriteOffPageDisplayed() {
         boolean status = false;
@@ -111,7 +123,8 @@ public class PlanWriteOff {
 
     public void writeOffPlan(String planNumber, String writeOffStatus, String oEM) {
 
-        base.sendFieldInputData(planNumberToWriteOff, planDetails.getPlanNumber(oEM));
+        //base.sendFieldInputData(planNumberToWriteOff, planDetails.getPlanNumber(oEM));
+        base.sendFieldInputData(planNumberToWriteOff, planNumber);
         base.sendFieldInputData(customerSurname, planDetails.getCustomerSurnameOnTheAPIRequest(oEM));
         base.sendFieldInputData(postCode, planDetails.getCustomerPostcodeOnTheAPIRequest(oEM));
         base.clickElement(searchButton);
@@ -148,5 +161,84 @@ public class PlanWriteOff {
         }
         return status;
     }
+
+    public boolean enterPlanWriteOffDetails(String skippedPlan, String custSurname, String custPostcode) {
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(enterPlanNumber)) {
+                Thread.sleep(3000);
+                base.highlightElement(enterPlanNumber);
+                base.sendFieldInputData(enterPlanNumber, skippedPlan);
+            } else {
+                LOGGER.info("The Skipped Plan Number is not being passed on the Plan Write Off page");
+            }
+            if (base.checkIfELementIsAvailable(customer_surname)) {
+                Thread.sleep(3000);
+                base.highlightElement(customer_surname);
+                base.sendFieldInputData(customer_surname, custSurname);
+            } else {
+                LOGGER.info("The Customer Surname is not being passed on the Plan Write Off page");
+            }
+            if (base.checkIfELementIsAvailable(customerPostcode)) {
+                Thread.sleep(3000);
+                base.highlightElement(customerPostcode);
+                base.sendFieldInputData(customerPostcode, custPostcode);
+            } else {
+                LOGGER.info("The Customer Postcode is not being passed on the Plan Write Off page");
+            }
+            status = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public void clickOnSearchButton() {
+        try {
+            if (base.checkIfELementIsAvailable(searchButton) && base.waitForElementVisible(searchButton)) {
+                Thread.sleep(3000);
+                base.highlightElement(searchButton);
+                base.clickElement(searchButton);
+            } else {
+                LOGGER.error("Unable to click on Search button");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean planNumberCheck() {
+        boolean status = false;
+        try {
+            if ((base.checkIfELementIsAvailable(newPlanNumber) && base.waitForElementVisible(newPlanNumber))) {
+                String updatedPlanNumber = newPlanNumber.getText();
+                LOGGER.info("New plan number not matching with updated plan number: " + updatedPlanNumber);
+                Thread.sleep(3000);
+                base.highlightElement(newPlanNumber);
+                status = true;
+            } else {
+                LOGGER.error("Skipped plan number matching with updated plan number");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public boolean newPlanNumberCheck(String newPlan) {
+        boolean updatedPlanNum = false;
+        try {
+            if (base.checkIfELementIsAvailable(newPlanNumber) && newPlanNumber.getText().equalsIgnoreCase(newPlan)) {
+                updatedPlanNum = true;
+            } else {
+                LOGGER.info("New plan number is not present in the plan details section");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return updatedPlanNum;
+    }
+
 
 }

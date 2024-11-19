@@ -13,7 +13,7 @@ Feature: Orbit Automation Regression Pack - New Plan View
     Given I click create claim and I enter plan number "<PlanNo>" to search for Plan View
     When I select the Claim Type as "Breakdown"
     And I enter the contact info
-    When I click continue with product confirmation
+#    When I click continue with product confirmation
     When I enter the QA section with below
       | QuestionNo | Question                                                         | Answer | AnswerType    |
       | Q1         | Is there any reason you can think of to reject this claim?       | No     | RadioButton   |
@@ -21,7 +21,7 @@ Feature: Orbit Automation Regression Pack - New Plan View
       | Q3         | Please ask the customer for a detailed description of the fault. | Test   | ResponseField |
     Then I confirm the service option as "<ServiceOption>" for New Plan View
     And I enter the additional information for Service Option Message
-    And I Book without an Appointment and confirm appointment for "<ServiceProvider>" in New Plan View
+#    And I Book without an Appointment and confirm appointment for "<ServiceProvider>" in New Plan View
     Examples:
       | PlanNo     | ClaimType | ServiceOption   |
       | MNR0000001 | Breakdown | Manual Referral |

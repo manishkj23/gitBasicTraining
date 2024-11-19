@@ -98,11 +98,11 @@ public class APIIntegrator {
             base.waitForElementVisible(reciperoSearchHook);
             base.clickElement(reciperoSearchHook);
             base.clickElement(editButton);
-            if (isUpdateApiConsumerPageLoaded()) {
-                base.sendFieldInputData(endPointUrl, url);
+            if(isUpdateApiConsumerPageLoaded()){
+                base.sendFieldInputData(endPointUrl,url);
                 base.waitForElementVisible(saveButton);
                 base.clickElement(saveButton);
-            } else {
+            }else {
                 LOGGER.info("==============>>>>>> API Integrator Page not loaded");
             }
         } else {
@@ -112,11 +112,11 @@ public class APIIntegrator {
                 base.waitForElementVisible(reciperoSearchHook);
                 base.clickElement(reciperoSearchHook);
                 base.clickElement(editButton);
-                if (isUpdateApiConsumerPageLoaded()) {
-                    base.sendFieldInputData(endPointUrl, url);
+                if(isUpdateApiConsumerPageLoaded()){
+                    base.sendFieldInputData(endPointUrl,url);
                     base.waitForElementVisible(saveButton);
                     base.clickElement(saveButton);
-                } else {
+                }else {
                     LOGGER.info("==============>>>>>> API Integrator Page not loaded");
                 }
             } else {
@@ -125,39 +125,42 @@ public class APIIntegrator {
         }
     }
 
-    public String getReciperoURL(String claimType) {
+    public String getReciperoURL(String claimType){
         String url;
         switch (claimType.toUpperCase()) {
             case "STOLEN":
-            case "THEFT": {
+            case "THEFT":{
                 url = ProjectDefaults.RECIPEROMOCK_STOLEN;
                 break;
             }
-            case "LOSS": {
+            case "LOSS":{
                 url = ProjectDefaults.RECIPEROMOCK_LOSS;
                 break;
             }
-            default: {
+            case "REPAIR":{
+                url = ProjectDefaults.RECIPEROMOCK_REPAIR;
+                break;
+            }
+            default:{
                 url = ProjectDefaults.RECIPERO_LIVE;
                 break;
             }
         }
         return url;
     }
-
-    public void setNewApiHookForReciperoSearchInANewChromeTab(String claimType, String make, String model) {
+    public void setNewApiHookForReciperoSearchInANewChromeTab(String claimType,String make, String model) {
         navigateToApiIntegratorPageInNewTab();
 
         if (isApiIntegratorPageLoaded()) {
             base.waitForElementVisible(reciperoSearchHook);
             base.clickElement(reciperoSearchHook);
             base.clickElement(editButton);
-            if (isUpdateApiConsumerPageLoaded()) {
+            if(isUpdateApiConsumerPageLoaded()){
 
-                base.sendFieldInputData(endPointUrl, getReciperoURL(claimType) + "?make=" + make + "&model=" + model.replace(" ", "+"));
+                base.sendFieldInputData(endPointUrl,getReciperoURL(claimType)+"?make="+make+"&model="+model.replace(" ","+"));
                 base.waitForElementVisible(saveButton);
                 base.clickElement(saveButton);
-            } else {
+            }else {
                 LOGGER.info("==============>>>>>> API Integrator Page not loaded");
             }
         } else {
@@ -167,11 +170,46 @@ public class APIIntegrator {
                 base.waitForElementVisible(reciperoSearchHook);
                 base.clickElement(reciperoSearchHook);
                 base.clickElement(editButton);
-                if (isUpdateApiConsumerPageLoaded()) {
-                    base.sendFieldInputData(endPointUrl, getReciperoURL(claimType) + "?make=" + make + "&model=" + model.replace(" ", "+"));
+                if(isUpdateApiConsumerPageLoaded()){
+                    base.sendFieldInputData(endPointUrl,getReciperoURL(claimType)+"?make="+make+"&model="+model.replace(" ","+"));
                     base.waitForElementVisible(saveButton);
                     base.clickElement(saveButton);
-                } else {
+                }else {
+                    LOGGER.info("==============>>>>>> API Integrator Page not loaded");
+                }
+            } else {
+                LOGGER.info("==============>>>>>> API Integrator Page not loaded");
+            }
+        }
+    }
+
+    public void setNewApiHookForReciperoSearchInANewChromeTab(String claimType,String make, String model,String fmiStatus) {
+        navigateToApiIntegratorPageInNewTab();
+
+        if (isApiIntegratorPageLoaded()) {
+            base.waitForElementVisible(reciperoSearchHook);
+            base.clickElement(reciperoSearchHook);
+            base.clickElement(editButton);
+            if(isUpdateApiConsumerPageLoaded()){
+
+                base.sendFieldInputData(endPointUrl,getReciperoURL(claimType)+"?make="+make+"&model="+model.replace(" ","+")+"&fmipstatus="+fmiStatus);
+                base.waitForElementVisible(saveButton);
+                base.clickElement(saveButton);
+            }else {
+                LOGGER.info("==============>>>>>> API Integrator Page not loaded");
+            }
+        } else {
+            base.hardWait("3000");
+            navigateToApiIntegratorPage();
+            if (isApiIntegratorPageLoaded()) {
+                base.waitForElementVisible(reciperoSearchHook);
+                base.clickElement(reciperoSearchHook);
+                base.clickElement(editButton);
+                if(isUpdateApiConsumerPageLoaded()){
+                    base.sendFieldInputData(endPointUrl,getReciperoURL(claimType)+"?make="+make+"&model="+model.replace(" ","+")+"&fmipstatus="+fmiStatus);
+                    base.waitForElementVisible(saveButton);
+                    base.clickElement(saveButton);
+                }else {
                     LOGGER.info("==============>>>>>> API Integrator Page not loaded");
                 }
             } else {
@@ -187,11 +225,11 @@ public class APIIntegrator {
             base.waitForElementVisible(reciperoSearchHook);
             base.clickElement(reciperoSearchHook);
             base.clickElement(editButton);
-            if (isUpdateApiConsumerPageLoaded()) {
-                base.sendFieldInputData(endPointUrl, url);
+            if(isUpdateApiConsumerPageLoaded()){
+                base.sendFieldInputData(endPointUrl,url);
                 base.waitForElementVisible(saveButton);
                 base.clickElement(saveButton);
-            } else {
+            }else {
                 LOGGER.info("==============>>>>>> API Integrator Page not loaded");
             }
         } else {
@@ -201,11 +239,11 @@ public class APIIntegrator {
                 base.waitForElementVisible(reciperoSearchHook);
                 base.clickElement(reciperoSearchHook);
                 base.clickElement(editButton);
-                if (isUpdateApiConsumerPageLoaded()) {
-                    base.sendFieldInputData(endPointUrl, url);
+                if(isUpdateApiConsumerPageLoaded()){
+                    base.sendFieldInputData(endPointUrl,url);
                     base.waitForElementVisible(saveButton);
                     base.clickElement(saveButton);
-                } else {
+                }else {
                     LOGGER.info("==============>>>>>> API Integrator Page not loaded");
                 }
             } else {

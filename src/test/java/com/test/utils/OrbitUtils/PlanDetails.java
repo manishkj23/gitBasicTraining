@@ -1,15 +1,15 @@
 package com.test.utils.OrbitUtils;
 
-import com.gargoylesoftware.htmlunit.WebConsole;
 import com.test.utils.BasePage;
-import com.test.utils.SeleniumHelper;
 import com.test.utils.CommonUtils;
+import com.test.utils.SeleniumHelper;
 import org.apache.commons.io.IOUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.slf4j.LoggerFactory;
+//import org.yecht.Data;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,6 +22,9 @@ public class PlanDetails {
     private CommonUtils commonUtils;
     private String planNumber;
     private String claimNo;
+    private String companyCode;
+    private String schemeCode;
+    private String referenceNo;
     public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
     @FindBy(xpath = "//div[@id=\"jbTpDet\"]//div[span[contains(.,\"Claim No\")]]/span[2]")
@@ -40,10 +43,15 @@ public class PlanDetails {
         this.planNumber = planNo;
     }
 
-    public String getPlanNumber(){
+    public void setClaimNumber(String claimNo) {
+        this.claimNo = claimNo;
+    }
+
+    public String getPlanNumber() {
         if (this.planNumber == null) {
             try {
                 setPlanNumber(commonUtils.createContractApiCallForElux());
+                LOGGER.info("==============>>>>>> PlanNo Created : " + this.planNumber);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -54,7 +62,91 @@ public class PlanDetails {
 
     }
 
-    public String getNewPlanNumber(){
+    public String getPlanNumber(String oem) {
+        if (this.planNumber == null) {
+
+            try {
+                switch (oem.toUpperCase()) {
+                    case "WHIRLPOOL":
+                        setPlanNumber(commonUtils.createContractApiCallForWhirlpool());
+                        break;
+                    case "HEATING":
+                        setPlanNumber(commonUtils.createContractApiCallForASV());
+                        break;
+                    case "HOOVER":
+                        setPlanNumber(commonUtils.createContractApiCallForHoover());
+                        break;
+                    default:
+                        setPlanNumber(commonUtils.createContractApiCallForElux());
+                }
+                LOGGER.info("==============>>>>>> PlanNo Created : " + this.planNumber);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return this.planNumber;
+        } else {
+            return this.planNumber;
+        }
+
+    }
+
+    public String getPlanNumber(String oem, String schemeCode) {
+        if (this.planNumber == null) {
+            try {
+
+                if (oem.equalsIgnoreCase("whirlpool")) {
+                    setPlanNumber(commonUtils.createContractFromSchemeCode(schemeCode));
+                } else {
+                    setPlanNumber(commonUtils.createContractApiCallForElux());
+                }
+                LOGGER.info("==============>>>>>> PlanNo Created : " + this.planNumber);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return this.planNumber;
+        } else {
+            return this.planNumber;
+        }
+
+    }
+    public String getPlanNumber(String oem, String schemeCode, String itemCode, String makerCode) {
+        if (this.planNumber == null) {
+            try {
+                if (oem.equalsIgnoreCase("whirlpool")){
+                    if(schemeCode.contains("ALG")){
+                        setPlanNumber(commonUtils.createContractForALGWithCustomDetails(itemCode,makerCode));
+                    } else {
+                        setPlanNumber(commonUtils.createContractFromSchemeCode(schemeCode));
+                    }
+                } else {
+                    setPlanNumber(commonUtils.createContractApiCallForElux());
+                }
+                LOGGER.info("==============>>>>>> PlanNo Created : " + this.planNumber);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return this.planNumber;
+        } else {
+            return this.planNumber;
+        }
+
+    }
+    public String getEluxPlanNumberWithPNC() {
+        if (this.planNumber == null) {
+            try {
+                setPlanNumber(commonUtils.createContractApiCallForEluxWithPNC());
+                LOGGER.info("==============>>>>>> PlanNo Created with PNC Number: " + this.planNumber);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return this.planNumber;
+        } else {
+            return this.planNumber;
+        }
+
+    }
+
+    public String getNewPlanNumber() {
         removePlanNumber();
         if (this.planNumber != null) {
             removePlanNumber();
@@ -74,17 +166,15 @@ public class PlanDetails {
         }
 
     }
-    public void removePlanNumber(){
+
+    public void removePlanNumber() {
         this.planNumber = null;
     }
 
-    public String getCurrentClaimNumber() {
+    public String getCurrentClaimNumber(String planNumber) {
         String claimNo = null;
         try {
-//            claimNo = commonUtils.getOpenClaimNo(planNumber);
-            if(currentClaimNo != null && currentClaimNo.isDisplayed()){
-                claimNo = currentClaimNo.getText();
-            }
+            claimNo = commonUtils.getOpenClaimNo(planNumber);
             LOGGER.info(" ==============>>>>>> Current Claim Number :" + claimNo);
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,22 +183,18 @@ public class PlanDetails {
 
     }
 
-    public void setClaimNumber(String claimNo) {
-        this.claimNo = claimNo;
-    }
-
-    public String getClaimNumber() {
-        if (this.claimNo == null) {
-            try {
-                setClaimNumber(commonUtils.getOpenClaimNo(this.planNumber));
-                LOGGER.info("==============>>>>>> Claim No Created : " + this.claimNo);
-            } catch (Exception e) {
-                e.printStackTrace();
+    public String getCurrentClaimNumber() {
+        String claimNo = null;
+        try {
+//            claimNo = commonUtils.getOpenClaimNo(planNumber);
+            if (currentClaimNo != null && currentClaimNo.isDisplayed()) {
+                claimNo = currentClaimNo.getText();
             }
-            return this.claimNo;
-        } else {
-            return this.claimNo;
+            LOGGER.info(" ==============>>>>>> Current Claim Number :" + claimNo);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return claimNo;
 
     }
 
@@ -152,35 +238,38 @@ public class PlanDetails {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return data;
+
+
     }
 
-    public String getPlanNumber(String oem) {
-        if (this.planNumber == null) {
-
+    public String getClaimNumber() {
+        if (this.claimNo == null) {
             try {
-                switch (oem.toUpperCase()) {
-                    case "WHIRLPOOL":
-                        setPlanNumber(commonUtils.createContractApiCallForWhirlpool());
-                        break;
-                    case "HEATING":
-                        setPlanNumber(commonUtils.createContractApiCallForASV());
-                        break;
-                    case "HOOVER":
-                        setPlanNumber(commonUtils.createContractApiCallForHoover());
-                        break;
-                    default:
-                        setPlanNumber(commonUtils.createContractApiCallForElux());
-                }
-                LOGGER.info("==============>>>>>> PlanNo Created : " + this.planNumber);
+                setClaimNumber(commonUtils.getOpenClaimNo(this.planNumber));
+                LOGGER.info("==============>>>>>> Claim No Created : " + this.claimNo);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return this.planNumber;
+            return this.claimNo;
         } else {
-            return this.planNumber;
+            return this.claimNo;
         }
 
     }
+    public String getClaimNumber(String planNumber) {
+        if (this.claimNo == null) {
+            try {
+                setClaimNumber(commonUtils.getOpenClaimNo(planNumber));
+                LOGGER.info("==============>>>>>> Claim No Created : " + this.claimNo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return this.claimNo;
+        } else {
+            return this.claimNo;
+        }
 
+    }
 }

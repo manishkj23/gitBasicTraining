@@ -36,10 +36,10 @@ public class WaiveCallOutChargePaymentNPV {
     @FindBy(xpath = "//div[@class=\"modal-dialog modal-lg\"]//button[contains(.,\"Continue\")]")
     private WebElement continueButton;
 
-    @FindBy(xpath="//div[@id=\"waiveExcess\"]//label[contains(.,\"Current Charge\")]/../input")
+    @FindBy(xpath = "//div[@id=\"waiveExcess\"]//label[contains(.,\"Current Charge\")]/../input")
     private WebElement currentChargeValue; // Value already exist on the element -> getProperty -> value in the code
 
-    @FindBy(xpath="//div[@id=\"waiveExcess\"]//label[contains(.,\"New Charge\")]/../input")
+    @FindBy(xpath = "//div[@id=\"waiveExcess\"]//label[contains(.,\"New Charge\")]/../input")
     private WebElement newChargeValue;
 
     @FindBy(id = "WaiveReason")
@@ -74,10 +74,10 @@ public class WaiveCallOutChargePaymentNPV {
     }
 
     public void proceedToWaiveCharge() {
-        if(isPopUpDisplayed() && base.checkIfELementIsAvailable(waiveOffReason)){
-            base.sendFieldInputData(newChargeValue,"0");
-            base.selectTextByIndex(waiveOffReason,0);
-            if(base.isClickable(proccedButton)){
+        if (isPopUpDisplayed() && base.checkIfELementIsAvailable(waiveOffReason)) {
+            base.sendFieldInputData(newChargeValue, "0");
+            base.selectTextByIndex(waiveOffReason, 0);
+            if (base.isClickable(proccedButton)) {
                 base.clickElement(proccedButton);
             } else {
                 base.hardWait("1000");

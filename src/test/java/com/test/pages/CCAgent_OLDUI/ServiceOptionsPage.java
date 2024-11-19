@@ -13,12 +13,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
 public class ServiceOptionsPage {
+
 
     private BasePage base;
     private WebDriver driver;
@@ -87,6 +89,9 @@ public class ServiceOptionsPage {
     private final String fieldIsBlankDialogBoxPath = "//div[@role=\"dialog\"]//span[contains(.,\"Field is Blank\")]";
     @FindBy(xpath = fieldIsBlankDialogBoxPath)
     private WebElement fieldIsBlankDialogBox;
+
+    @FindBy(xpath = "//*[@id=\"MainICCollectionCalendar\"]")
+    private WebElement calendarNotDisplayed;
 
     private final String firstAvailableDateXpath = "//*[@id=\"MainICCollectionCalendar\"]//tr/td[contains(@class,\"dayAvailable\")][1]";
     @FindBy(xpath = firstAvailableDateXpath)
@@ -190,6 +195,7 @@ public class ServiceOptionsPage {
     public int serviceOptionCost = 0;
 
 
+
     @FindBy(xpath = "//*[@id=\"section_66_c\"]/div/div[6]/button[3]")
     private WebElement findAllServiceProvidersButton;
 
@@ -203,6 +209,15 @@ public class ServiceOptionsPage {
     @FindBy(xpath = "//*[@id=\"viewAllSPs\"]")
     private WebElement viewAllSpsCheckbox;
 
+    private final String secondAvailableDateXpath = "//*[@id=\"MainICCollectionCalendar\"]//tr/td[contains(@class,\"dayAvailable\")][2]";
+    @FindBy(xpath = secondAvailableDateXpath)
+    private WebElement secondAvailableDate;
+
+    private final String selectedAppointmentTimeslotXpath = "//input[@name='AppointmentStartEndTime' and @checked='checked']";
+    @FindBy(xpath = selectedAppointmentTimeslotXpath)
+    private WebElement selectedAppointmentTimeslot;
+
+    public static String appointmentTimeslot;
 
     public ServiceOptionsPage(BasePage base, SeleniumHelper seleniumHelper, CommonUtils commonUtils, ServiceProviderAvailabilityPopup availabilityPopup) {
         this.base = base;
@@ -228,7 +243,7 @@ public class ServiceOptionsPage {
     public boolean isAvaiabilityPopupStillDisplaying() {
         boolean status = false;
         WebElement popup = null;
-        WebDriverWait wait = new WebDriverWait(driver, 30000);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30000));
         try {
             popup = base.getElementFromXpath(availabilityPopupXpath);
             if (popup != null && wait.until(ExpectedConditions.invisibilityOf(popup))) {
@@ -676,6 +691,20 @@ public class ServiceOptionsPage {
         return status;
     }
 
+    //Method : Verify if Calender is not displayed
+
+    public boolean isCalendarnotDisplayed() {
+        boolean status = false;
+        try {
+            if (!base.checkIfELementIsAvailable(calendarNotDisplayed)) {
+                status = true;
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
     //Method : Select First available date on the calendar
     public void selectFirstAvailableAppointmentDate() {
         base.waitTillElementFound(firstAvailableDate);
@@ -725,7 +754,7 @@ public class ServiceOptionsPage {
 
     public boolean isConfirmOptionDetailsButtonDisplayed() {
         base.highlightElementWithScreenshot(confirmOptionDetailsButton, "ConfirmOptionDetails");
-        return (base.isElementAvilable(confirmOptionDetailsButton)) ? true : false;
+        return (base.isElementAvailable(confirmOptionDetailsButton)) ? true : false;
     }
 
     public boolean isCheckOutProcessPageLoaded() {
@@ -971,7 +1000,23 @@ public class ServiceOptionsPage {
 //        return status;
     }
 
+    //Method : Select Second available date on the calendar
+    public void selectSecondAvailableAppointmentDate() {
+        base.waitTillElementFound(secondAvailableDate);
+        base.clickWithJsExecutor(secondAvailableDate);
+    }
+
+    //Method : Get Selected Appointment Timeslot
+    public void getSelectedAppointmentTimeslot() {
+        try {
+            if (base.checkIfELementIsAvailable(selectedAppointmentTimeslot)) {
+                base.highlightElement(selectedAppointmentTimeslot);
+                appointmentTimeslot= selectedAppointmentTimeslot.getAttribute("value");
+                // System.out.println(appointmentTimeslot);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
-
-
