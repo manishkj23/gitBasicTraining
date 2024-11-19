@@ -28,11 +28,12 @@ public class TestDataGenerate extends BasePage {
         BasePage base = new BasePage();
         SeleniumHelper seleniumHelper = new SeleniumHelper(base);
         CommonUtils cm = new CommonUtils(base, seleniumHelper);
-        String PlanNo = cm.createContractApiCall();
+        String PlanNo = cm.createContractApiCallForElux();
         System.out.println(PlanNo);
     }
-    @Test
-    public void generateBDDReport(){
+
+
+    public void generateBDDReport() {
         File reportOutputDirectory = new File("target/cucumber-reports");
         List<String> jsonFiles = new ArrayList<>();
         jsonFiles.add("target/cucumber.json");
@@ -40,6 +41,9 @@ public class TestDataGenerate extends BasePage {
         Configuration configuration = new Configuration(reportOutputDirectory, "ORBIT UI Automation Pack");
         configuration.setBuildNumber(buildNo);
         ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);
+//        Reportable result = reportBuilder.generateReports();
         Reportable result = reportBuilder.generateReports();
+
     }
+
 }

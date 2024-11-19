@@ -17,24 +17,37 @@ import java.util.List;
 
 public class RepairInformationPage {
 
+
     private BasePage base;
     private WebDriver driver;
     private SeleniumHelper seleniumHelper;
     private CommonUtils commonUtils;
     // private DialogPoppupPage popupWindow;
+    public static String purchaseDate;
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
+    private static final String APPOINTMENT_STATUS_1="Customer Request";
+    private static final String APPOINTMENT_STATUS_2="Claim Canceled - Repair no longer required";
+
 
     @FindBy(xpath = "//*[@id=\"JobStatusName\"]")
     private WebElement jobStatusHeader;
 
-    private final String repairInformationTabPath = "//div[@id='ui2_left_nav']//div[@id='nav_RepairInformation']";
+    private final String repairInformationTabPath = "//div[@id='nav_RepairInformation']//i";
     @FindBy(xpath = repairInformationTabPath)
     private WebElement repairInformationTab;
 
-    private final String repairInformationHeaderPath = "//div[@id='ui2_right']//div[@id='ui2_right_header' and @class='ui2_header_bar']";
+    private final String serviceOptionTabPath = "//div[@id='ui2_left_nav']//div[@id='nav_ServiceOption']";
+    @FindBy(xpath = serviceOptionTabPath)
+    private WebElement serviceOptionTab;
+
+    private final String repairInformationHeaderPath = "//div[contains(@id,'right_header') and contains(text(),'Repair Information')]";
     @FindBy(xpath = repairInformationHeaderPath)
     private WebElement repairInformationHeader;
+
+    private final String serviceOptionHeaderPath = "//div[@id='ui2_right']//div[@id='ui2_right_header' and @class='ui2_header_bar']";
+    @FindBy(xpath = serviceOptionHeaderPath)
+    private WebElement serviceOptionHeader;
 
     @FindBy(xpath = "//div[@id='AppointmentsDT_wrapper']//table[@id='AppointmentsDT']")
     private WebElement appointmentTableExistPath;
@@ -240,7 +253,105 @@ public class RepairInformationPage {
     private final String viewJobDetailsButtonPath = "//div[@class='DTTT_container']//a[@id='ToolTables_matches_table_0']//span[contains(text(),'View Job Details')]";
     @FindBy(xpath = viewJobDetailsButtonPath)
     private WebElement viewJobDetailsButton;
+    @FindBy(xpath = "//*[@id=\"pp_ModelNumber\"]")
+    private WebElement modelNumberInRepairInformation;
 
+    private final String goToBreakdownCliamButtonPath = "//button[@class=\"btn btn-primary\"]";
+    @FindBy(xpath = goToBreakdownCliamButtonPath)
+    private WebElement goToBreakdownCliamButton;
+
+    @FindBy(xpath = "//div[@class='ui2_left_nav_item'][contains(text(),'Cancel Claim')]")
+    private WebElement cancelClaimButton;
+
+    private final String cancelJobPopUpPath = "//legend[contains(text(),'Cancel Job')]";
+    @FindBy(xpath = cancelJobPopUpPath)
+    private WebElement cancelJobPopUp;
+
+    private final String cancelJob_completionStatusDropDownSelectPath = "//span[@class='ui-button-icon ui-icon ui-icon-triangle-1-s']";
+    @FindBy(xpath = cancelJob_completionStatusDropDownSelectPath)
+    private WebElement cancelJob_completionStatusDropDownSelect;
+
+    private final String cancelJob_completionStatusSearchBoxPath = "//span[@class='ui-combobox']//input[@class='ui-state-default ui-combobox-input comboCompletionStatus-input ui-autocomplete-input ui-widget ui-widget-content ui-corner-left']";
+    @FindBy(xpath = cancelJob_completionStatusSearchBoxPath)
+    private WebElement cancelJob_completionStatusSearchBox;
+
+    private final String cancelJob_completionStatusDropDownOptionPath = "/html[1]/body[1]/ul[1]/li[1]/div[1]";
+    @FindBy(xpath = cancelJob_completionStatusDropDownOptionPath)
+    private WebElement cancelJob_completionStatusDropDownOption;
+
+    private final String cancelJob_NotesPath = "//p[@class='bottomPart']//textarea[@id='CancelReason']";
+    @FindBy(xpath = cancelJob_NotesPath)
+    private WebElement cancelJob_Notes;
+
+    private final String cancelJobButtonPath = "//p[@class=\"bottomPart\"]//input[@id='update_save_btn']";
+    @FindBy(xpath = cancelJobButtonPath)
+    private WebElement cancelJobButton;
+
+    private final String appointmentStatus1Path = "//table[@id='AppointmentsDT']//tbody[contains(@role,'alert')]//tr[contains(@class,'odd')]//td[contains(text(),'Customer Request')]";
+    @FindBy(xpath = appointmentStatus1Path)
+    private WebElement appointmentStatus1;
+
+
+    private final String appointmentStatus2Path = "//table[@id='AppointmentsDT']//tbody[contains(@role,'alert')]//tr[contains(@class,'even')]//td[contains(text(),'Claim Cancelled - Repair no longer required')]";
+    @FindBy(xpath = appointmentStatus2Path)
+    private WebElement appointmentStatus2;
+
+    @FindBy(xpath = "//div[@id=\"ui2_right_content\"]//table//tr/td[contains(.,'Customers Appliance Usable:')]")
+    private WebElement CXApplianceUsableField;
+
+    @FindBy(xpath = "//div[@id=\"ui2_right_content\"]//table//tr/td/span[contains(.,'Yes')]")
+    private WebElement CXUsableYes;
+
+    @FindBy(xpath = "//div[@id=\"pp_SerialNo\"]")
+    private WebElement snOnRepairerInformation;
+
+    @FindBy(xpath = "//*[@id=\"ServiceOptionsTable\"]/thead/tr/th[contains(text(),'Rule')]")
+    private WebElement ruleColumn;
+
+    @FindBy(xpath = "//*[@id=\"ServiceOptionsTable\"]/tbody/tr/td[4]/span[contains(text(),'View Rules')]")
+    private WebElement viewRuleHyperlink;
+
+    @FindBy(xpath = "//div[@class='ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-dialog-systemMessages ui-dialog-buttons ui_Default']")
+    private WebElement viewRulePopup;
+
+    @FindBy(xpath = "//div[@class='ui-dialog-buttonpane ui-widget-content ui-helper-clearfix']/div/button[contains(text(),'Close')]")
+    private WebElement closeButton;
+
+    @FindBy(xpath = "//*[@id=\"ServiceOptionsMainDiv\"]/div[5]/button[contains(text(),'Reselect Service Option')]")
+    private WebElement reselectServiceOption;
+
+    @FindBy(xpath = "//div[@class=\"ui-dialog-buttonset\"]/button[contains(text(),'Yes')]")
+    private WebElement clickOnYesInReselectServiceOptionPopup;
+
+    @FindBy(xpath = "//*[@id=\"ServiceOptionsMainDiv\"]/div//button[@onclick=\"viewRules();\"]")
+    private WebElement viewRuleButton;
+
+    @FindBy(xpath = "//*[@id='cboxLoadedContent']//table[@id='Allocations']")
+    private WebElement allocationRuleTable;
+
+    @FindBy(xpath = "//*[@id=\"ServiceOptionsMainDiv\"]/div//button[@onclick=\"confirmJobServiceOption();\"]")
+    private WebElement confirmServiceOptionButton;
+
+    @FindBy(xpath = "//button[@id='icPaymentConfirmButV1s']")
+    private WebElement continueCheckoutProcess;
+
+    @FindBy(xpath = "//p[@id=\"Repairer\"]")
+    private WebElement repairer;
+
+    @FindBy(xpath = "//table[@id='AppointmentsDT']//th[text()='Appointment Completion Status']//following::td[7]")
+    private WebElement appointmentCompletionStatus;
+
+    @FindBy(xpath = "//input[@id='PurchaseDate']")
+    private WebElement productPurchaseDate;
+
+    private final String continueButtonPath = "//div[@class=\"ui-dialog-buttonset\"]/button[contains(.,\"Continue\")]";
+    @FindBy(xpath = continueButtonPath)
+    private WebElement continueButton;
+
+    private static final String CLOSE = "Close";
+    private static final  String viewAllocationRuleOnPopup = "//div[@id=\"modP\"][contains(.,\"${value}\")]";
+    private static final  String allocationSP = "//*[@id='Allocations']/tbody/tr[contains(.,\"${value}\")]";
+    private static final   String serviceProvider = "PC CONTROL SYSTEMS LTD";
 
     public RepairInformationPage(BasePage base, SeleniumHelper seleniumHelper, CommonUtils commonUtils) {
         this.base = base;
@@ -571,7 +682,7 @@ public class RepairInformationPage {
             base.clickWithJsExecutor(serviceProvidersAppointment_availableServiceProviderRadioButton);
         }
         if (base.waitForElementVisible(serviceProvidersAppointment_rebookButtonForReselectionSP)) {
-            base.isElementAvilable(serviceProvidersAppointment_rebookButtonForReselectionSP);
+            base.isElementAvailable(serviceProvidersAppointment_rebookButtonForReselectionSP);
             base.highlightElement(serviceProvidersAppointment_rebookButtonForReselectionSP);
             base.clickWithJsExecutor(serviceProvidersAppointment_rebookButtonForReselectionSP);
         }
@@ -591,7 +702,7 @@ public class RepairInformationPage {
             Thread.sleep(3000);
         } else {
             base.waitToLoadElement();
-            base.isElementAvilable(serviceProvidersAppointment_confirmationAlertPopUpYes);
+            base.isElementAvailable(serviceProvidersAppointment_confirmationAlertPopUpYes);
             base.highlightElement(serviceProvidersAppointment_confirmationAlertPopUpYes);
             base.clickWithJsExecutor(serviceProvidersAppointment_confirmationAlertPopUpYes);
         }
@@ -822,6 +933,309 @@ public class RepairInformationPage {
         base.highlightElement(viewJobDetailsButton);
         base.clickWithJsExecutor(viewJobDetailsButton);
         Thread.sleep(2000);
+    }
+
+    public boolean modelNumberMatchedInRepairInformation(String modelNum) {
+        boolean status = false;
+        String modelNumber = modelNumberInRepairInformation.getText();
+        try {
+            if (modelNumber.equalsIgnoreCase(modelNum)) {
+                base.highlightElement(modelNumberInRepairInformation);
+                LOGGER.info(("WHPL MB model number passed successfully to WHPL: " + modelNumber));
+                status = true;
+            }
+            else
+            {
+                base.waitForElementVisible(modelNumberInRepairInformation);
+                base.highlightElement(modelNumberInRepairInformation);
+                LOGGER.info(("WHPL MB model number passed successfully to WHPL: " + modelNumber));
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+    public void cliclOnGoToBreakdownCliamButton() throws InterruptedException {
+        if (base.checkIfELementIsAvailable(goToBreakdownCliamButton)) {
+            base.clickWithJsExecutor(goToBreakdownCliamButton);
+            Thread.sleep(3000);
+        }
+        Assert.assertTrue("New CC Agent Portal Not Loaded", jobStatusHeader.isDisplayed());
+        Thread.sleep(6000);
+    }
+
+    public void clickOnCancelClaim() throws InterruptedException {
+        if (base.checkIfELementIsAvailable(cancelClaimButton) & base.checkIfELementIsAvailable(cancelClaimButton)) {
+            base.clickWithJsExecutor(cancelClaimButton);
+            Thread.sleep(3000);
+        } else {
+            base.waitToLoadElement();
+            base.clickWithJsExecutor(cancelClaimButton);
+            Thread.sleep(3000);
+        }
+    }
+
+    public void verifyCancelJobPopUpBoxLoaded() {
+        Assert.assertTrue("Cancel Appointment pop up box not loaded", cancelJobPopUp.isDisplayed());
+        String cancelAppointment = driver.findElement(By.xpath(cancelJobPopUpPath)).getText();
+        System.out.println(cancelAppointment);
+    }
+
+    public void selectCancellationReasonValueAndNotes() throws InterruptedException {
+        if (base.checkIfELementIsAvailable(cancelJob_completionStatusDropDownSelect)) {
+            base.clickWithJsExecutor(cancelJob_completionStatusDropDownSelect);
+        }
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(cancelJob_completionStatusSearchBoxPath)).sendKeys("Test");
+        Thread.sleep(3000);
+        List<WebElement> appointmentStatus = driver.findElements(By.xpath(cancelJob_completionStatusDropDownOptionPath));
+        for (WebElement elements : appointmentStatus) {
+            if (elements.getText().equals("TEST CLAIM")) {
+                elements.click();
+                break;
+            }
+        }
+        Thread.sleep(4000);
+        base.sendFieldInputData(cancelJob_Notes, "testing");
+        Thread.sleep(2000);
+    }
+
+    public void clickOnCancelJobButton() throws InterruptedException {
+        if (base.checkIfELementIsAvailable(cancelJobButton)) {
+            base.clickWithJsExecutor(cancelJobButton);
+        }
+        Thread.sleep(15000);
+    }
+
+    public boolean verifyAppointmentCompleteionStatus() {
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(appointmentStatus1)) {
+                base.highlightElement(appointmentStatus1);
+                base.highlightElement(appointmentStatus2);
+
+                if (appointmentStatus1.getText().equalsIgnoreCase(APPOINTMENT_STATUS_1)&&
+                        appointmentStatus2.getText().equalsIgnoreCase(APPOINTMENT_STATUS_2)) {
+                    status = true;
+                }
+            } else {
+                LOGGER.info("Appointment status not updated");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+
+    public void selectCancellationReasonValuefromdropdownAndNotes() throws InterruptedException {
+        if (base.checkIfELementIsAvailable(cancelJob_completionStatusDropDownSelect)) {
+            base.clickWithJsExecutor(cancelJob_completionStatusDropDownSelect);
+        }
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(cancelJob_completionStatusSearchBoxPath)).sendKeys("Incorrect");
+        Thread.sleep(3000);
+        List<WebElement> appointmentStatus = driver.findElements(By.xpath(cancelJob_completionStatusDropDownOptionPath));
+        for (WebElement elements : appointmentStatus) {
+            if (elements.getText().equals("Incorrect Details")) {
+                elements.click();
+                break;
+            }
+        }
+        Thread.sleep(4000);
+        base.sendFieldInputData(cancelJob_Notes, "testing");
+        Thread.sleep(2000);
+    }
+
+    public boolean isCXApplianceUsableFieldDisplayed() {
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(CXApplianceUsableField)) {
+                base.highlightElement(CXApplianceUsableField);
+                status = true;
+            } else {
+                LOGGER.error("Unable to verify the CX Appliance Usable Field");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public boolean ifCXApplianceUsableIsYes() {
+        boolean status = false;
+        try {
+            if (base.isElementAvailable(CXUsableYes)){
+                base.highlightElement(CXUsableYes);
+            } else {
+                LOGGER.info("CX Appliance usable field is not displayed yes");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+    public boolean ifSNisDisplayed(){
+        boolean status = false;
+        base.checkIfELementIsAvailable(snOnRepairerInformation);
+        String snOnBookingPage = snOnRepairerInformation.getText();
+        try {
+            if (base.checkIfELementIsAvailable(snOnRepairerInformation)){
+                base.highlightElement(snOnRepairerInformation);
+                LOGGER.info("SN value on Booking page"+snOnBookingPage);
+            } else {
+                LOGGER.info("SN value not updated");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public void clickOnServiceOptionTab()throws InterruptedException {
+        if (base.checkIfELementIsAvailable(serviceOptionTab)) {
+            base.clickWithJsExecutor(serviceOptionTab);
+            Thread.sleep(3000);
+        }
+        Assert.assertTrue("Service Option Page not loaded", serviceOptionHeader.isDisplayed());
+        Thread.sleep(2000);
+    }
+
+    public void verifyRuleandViewRuleHyperLink(){
+        base.waitTillElementFound(ruleColumn);
+        base.waitTillElementFound(viewRuleHyperlink);
+        if (base.checkIfELementIsAvailable(ruleColumn) && base.checkIfELementIsAvailable(viewRuleHyperlink)) {
+            base.highlightElement(ruleColumn);
+            base.highlightElement(viewRuleHyperlink);
+        }else{
+            LOGGER.error("Rule column or View Rule hyperlink not displayed");
+        }
+    }
+
+    public void verifyAllocationandOverFlowRuleID(String allocationruleID) {
+        if (base.isElementAvailable(viewRuleHyperlink)) {
+            base.clickWithJsExecutor(viewRuleHyperlink);
+            Assert.assertTrue("View Rules Popup not displayed", viewRulePopup.isDisplayed());
+            WebElement allocate = seleniumHelper.getCustomElementByXpath(viewAllocationRuleOnPopup, allocationruleID);
+            String allocationRule = allocate.getText();
+            allocationRule.equalsIgnoreCase(allocationruleID);
+            LOGGER.info("Allocation Rule ID displayed on Review claim page is matched with: " +allocationruleID);
+
+        }else{
+            LOGGER.info("Allocation Rule ID not matched");
+        }
+    }
+
+    public boolean clickOnTheCloseButton() {
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(closeButton) && closeButton.getText().equalsIgnoreCase(CLOSE)) {
+                Thread.sleep(3000);
+                base.highlightElement(closeButton);
+                closeButton.click();
+                status = true;
+            } else {
+                LOGGER.error("Unable to Click on the Close button");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public void clickAndConfirmReselectServiceOption()throws InterruptedException {
+        if (base.checkIfELementIsAvailable(reselectServiceOption)) {
+            base.clickWithJsExecutor(reselectServiceOption);
+            if (base.checkIfELementIsAvailable(clickOnYesInReselectServiceOptionPopup)){
+                base.clickWithJsExecutor(clickOnYesInReselectServiceOptionPopup);
+            }
+            Thread.sleep(2000);
+        }
+
+
+    }
+
+    public boolean isViewRuleButtonDisplayed() {
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(viewRuleButton)) {
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public void clickOnViewRule() {
+        base.clickWithJsExecutor(viewRuleButton);
+    }
+
+    public void verifyRuleTableIsDisplayedBeforeSelectingAServiceOption() {
+        base.waitForElementVisible(allocationRuleTable);
+
+        if (base.isElementAvailable(allocationRuleTable)) {
+            base.highlightElement(allocationRuleTable);
+        } else {
+
+            LOGGER.info("Allocation rule table is not available.");
+        }
+    }
+
+    public void verifyallocationRuleIDandServiceOption(String ruleID) {
+        base.waitForElementVisible(allocationRuleTable);
+        if (base.isElementAvailable(allocationRuleTable)) {
+            WebElement allocate = seleniumHelper.getCustomElementByXpath(allocationSP, ruleID);
+            String allocationRule = allocate.getText();
+            allocationRule.contains(ruleID);
+            allocationRule.contains(serviceProvider);
+        } else {
+            LOGGER.info("Allocation Rule ID and Servcie provider dosen't present.");
+        }
+    }
+
+    public void clickOnConfirmForCheckoutProcess() {
+        base.clickWithJsExecutor(continueCheckoutProcess);
+    }
+
+    public boolean verifyAppointmentCompleteionStatusAs(String apptCompStatus) {
+        boolean status = false;
+        try {
+            if (base.checkIfELementIsAvailable(appointmentCompletionStatus)) {
+                base.highlightElement(appointmentCompletionStatus);
+                if (appointmentCompletionStatus.getText().equalsIgnoreCase(apptCompStatus)) {
+                    status = true;
+                }
+            } else {
+                LOGGER.info("Appointment Completion status is not updated as" +apptCompStatus);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+
+    public void clickOnContinueTOCancelClaimForVokera() throws InterruptedException {
+        if (base.checkIfELementIsAvailable(continueButton)) {
+            base.clickWithJsExecutor(continueButton);
+        }
+        Thread.sleep(15000);
+    }
+    public void getProductPurchaseDate() {
+        try {
+            if (base.checkIfELementIsAvailable(productPurchaseDate)) {
+                base.highlightElement(productPurchaseDate);
+                purchaseDate= productPurchaseDate.getAttribute("value");
+            }
+            else{
+                LOGGER.error("Unable to locate Product Purchase Date");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
