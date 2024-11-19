@@ -1044,4 +1044,16 @@ public class BasePage {
         return randomNumber;
     }
 
+    public void navigateToTOTPTokenGeneratorPage() {
+        try {
+            driver.get(prop.getProperty("totpurl"));
+            driver.get(prop.getProperty("totpurl"));
+            waitForPageToLoad();
+            LOGGER.info("==============>>>>>>TOTP Page Loaded : " + prop.getProperty("totpurl"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("Unable to Navigate to TOTP Page : " + prop.getProperty("totpurl"));
+        }
+    }
+
 }
