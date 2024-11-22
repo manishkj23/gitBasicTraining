@@ -15,7 +15,7 @@ public class WriteOffAuthorizationPage {
     WebDriver driver;
     SeleniumHelper seleniumHelper;
     CommonUtils commonUtils;
-    private com.test.pages.CCAgentUI_NPV.BookingOverview.WriteOffAutorizationPage.UpdateColor updateColorPage;
+    private UpdateColor updateColorPage;
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
@@ -75,6 +75,19 @@ public class WriteOffAuthorizationPage {
     @FindBy(xpath = "//div[@role=\"dialog\"]/div[@id=\"modP\"]/..//button[contains(.,\"OK\")]")
     private WebElement planWOSuccessOkBtn;
 
+    @FindBy(xpath = "//div[@title='Essential/ Non Essential']")
+    private WebElement essNonEssQnA;
+
+    @FindBy(xpath = "//a[contains(@onclick,'EssentialNonEss')]")
+    private WebElement essNonEssLink;
+
+    @FindBy(xpath = "//select[@id='EssentialNonEss']")
+    private WebElement essNonEssDD;
+
+    @FindBy(xpath = "//button[text()='Save']")
+    private WebElement essNonEssSaveBtn;
+
+
     public boolean isWriteOffAuthorizationPanelDisplayed() {
         boolean status = false;
         try {
@@ -94,6 +107,13 @@ public class WriteOffAuthorizationPage {
         base.clickElement(customerCausedRadioBtn);
         base.clickElement(isModelInGenioRadioBtn);
         base.sendFieldInputData(constructionInput, construction);
+        if(essNonEssQnA.getAttribute("class").equals("PspRedCircle"))
+        {
+            base.clickElement(essNonEssLink);
+            base.selectTextByVisibleText(essNonEssDD, "Essential");
+            base.clickWithJsExecutor(essNonEssSaveBtn);
+        }
+        base.hardWait("3000");
         base.sendFieldInputData(writeOffStatus, raStatus);
         base.sendFieldInputData(raNotes, raStatus);
         base.isClickable(updateColor);

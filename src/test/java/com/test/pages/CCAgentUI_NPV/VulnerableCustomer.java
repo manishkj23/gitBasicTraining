@@ -34,6 +34,7 @@ public class VulnerableCustomer {
     private WebElement buttonToSelectCategory;
 
     private static final String xpathToCaptureCategory = "//ul//span[contains(.,\"$(value)\")]/../input";
+    private static final String xpathToCaptureAllCategories = "//ul//span[contains(.,\"\")]/../input";
 //    @FindBy(xpath = xpathToCaptureCategory)
 
     @FindBy(xpath = "//a[contains(.,\"Save\")]")
@@ -42,8 +43,38 @@ public class VulnerableCustomer {
     @FindBy(id = "Distressed")
     private WebElement distressedOption;
 
-    @FindBy(id="save_btn3")
+    @FindBy(id = "save_btn3")
     private WebElement saveButtonMain;
+
+    public boolean isVulneribilityPopupPageDisplayed(){
+        boolean status = false;
+        try{
+            if(base.checkIfELementIsAvailable(pageHeading)){
+                status = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public void setVulnerability(String value){
+        base.clickWithJsExecutor(buttonToSelectCategory);
+        base.clickWithJsExecutor(seleniumHelper.getCustomElementByXpath(xpathToCaptureCategory,value));
+        base.clickWithJsExecutor(saveButtonCategory);
+        base.clickWithJsExecutor(distressedOption);
+        base.clickWithJsExecutor(saveButtonMain);
+
+    }
+
+    public void setAllVulnerabilities(){
+//        List
+//        base.clickWithJsExecutor(buttonToSelectCategory);
+//        seleniumHelper.getCustomListOfElementsByXpath(xpathToCaptureCategory,"");
+//        base.clickWithJsExecutor(saveButtonCategory);
+//        base.clickWithJsExecutor(distressedOption);
+//        base.clickWithJsExecutor(saveButtonMain);
+    }
 
 
 }

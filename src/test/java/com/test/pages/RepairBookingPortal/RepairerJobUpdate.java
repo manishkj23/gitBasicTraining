@@ -26,7 +26,7 @@ public class RepairerJobUpdate {
     private WebDriver driver;
     private SeleniumHelper seleniumHelper;
     private CommonUtils commonUtils;
-    public static final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName() );
+    public static final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
     @FindBy(xpath = "//*[@id=\"AppointmentsDT\"]//tr/td[7][string-length(text()) = 0]")
     WebElement diaryAppointment;
@@ -149,24 +149,25 @@ public class RepairerJobUpdate {
         PageFactory.initElements(driver, this);
     }
 
-    public boolean isJobUpdatePageLanded(){
+    public boolean isJobUpdatePageLanded() {
         boolean status = false;
         try {
             if (jobUpdatePageTitle.getText().contains("Job Update")) {
                 status = true;
             }
-        } catch ( Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Unable to Open the Job Update Page");
         }
         return status;
     }
-    public boolean checkIfZeroAppointmentsExists(){
+
+    public boolean checkIfZeroAppointmentsExists() {
         boolean status = false;
         try {
             if (base.checkIfELementIsAvailable(zeroAppointmentsExist)) {
                 status = true;
             }
-        } catch ( Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
 
         }
@@ -180,61 +181,64 @@ public class RepairerJobUpdate {
         Thread.sleep(3000);
         diaryAppointmentCompleteButtom.click();
         Thread.sleep(5000);
-        base.selectTextByVisibleText(selectOutcomeOfAppointment,visitComplete);
+        base.selectTextByVisibleText(selectOutcomeOfAppointment, visitComplete);
         Thread.sleep(2000);
         enterArrivalTime.click();
-        getElement(xPathForTimeHours,hours).click();
+        getElement(xPathForTimeHours, hours).click();
         Thread.sleep(2000);
-        getElement(xPathForTimeMins,mins).click();
+        getElement(xPathForTimeMins, mins).click();
         Thread.sleep(2000);
         submitButton.click();
         Thread.sleep(2000);
 //        serialUpdateFinishBtn.click();
     }
+
     public void completeAppointmentIfAppointmentSelected(String hours, String mins) throws InterruptedException {
         diaryAppointmentCompleteButtom.click();
         Thread.sleep(5000);
-        base.selectTextByVisibleText(selectOutcomeOfAppointment,visitComplete);
+        base.selectTextByVisibleText(selectOutcomeOfAppointment, visitComplete);
         Thread.sleep(2000);
         enterArrivalTime.click();
-        getElement(xPathForTimeHours,hours).click();
+        getElement(xPathForTimeHours, hours).click();
         Thread.sleep(2000);
-        getElement(xPathForTimeMins,mins).click();
+        getElement(xPathForTimeMins, mins).click();
         Thread.sleep(2000);
         submitButton.click();
         Thread.sleep(2000);
 //        serialUpdateFinishBtn.click();
     }
-    public void clickOpenDiaryAppointment(){
+
+    public void clickOpenDiaryAppointment() {
         base.waitTillElementFound(diaryAppointment);
         diaryAppointment.click();
     }
 
-    public boolean checkIfAppointmentIsOpen(int index){
+    public boolean checkIfAppointmentIsOpen(int index) {
         boolean status = false;
-        try{
+        try {
             String path = "//*[@id=\"AppointmentsDT\"]//tr[idx]/td[7][string-length(text()) = 0]";
-            path = path.replace("idx",Integer.toString(index));
+            path = path.replace("idx", Integer.toString(index));
             WebElement appointment = driver.findElement(By.xpath(path));
-            if(appointment.isDisplayed()){
+            if (appointment.isDisplayed()) {
                 status = true;
             }
-        } catch ( Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return status;
     }
-    public String getAppointmentDate(int index){
+
+    public String getAppointmentDate(int index) {
         String result = "";
         try {
             String path = "//*[@id=\"AppointmentsDT\"]//tr[idx]/td[7][string-length(text()) = 0]";
-            path = path.replace("idx",Integer.toString(index));
+            path = path.replace("idx", Integer.toString(index));
             WebElement appointment = driver.findElement(By.xpath(path));
-            if(appointment.isDisplayed()){
+            if (appointment.isDisplayed()) {
                 String pathToDate = "//*[@id=\"AppointmentsDT\"]//tr[idx]/td[3]";
-                pathToDate = pathToDate.replace("idx",Integer.toString(index));
+                pathToDate = pathToDate.replace("idx", Integer.toString(index));
                 WebElement appointmentDate = driver.findElement(By.xpath(pathToDate));
-                if(appointmentDate.isDisplayed()) {
+                if (appointmentDate.isDisplayed()) {
                     result = appointmentDate.getText();
                 }
             }
@@ -246,7 +250,7 @@ public class RepairerJobUpdate {
         return result;
     }
 
-    public void clickFirstAppointment(){
+    public void clickFirstAppointment() {
         try {
             WebElement appointment = driver.findElement(By.xpath("//*[@id=\"AppointmentsDT\"]//tr[1]/td[7][string-length(text()) = 0]"));
             base.waitFor();
@@ -257,7 +261,7 @@ public class RepairerJobUpdate {
         }
     }
 
-    public void clickSecondAppointment(){
+    public void clickSecondAppointment() {
         try {
             WebElement appointment = driver.findElement(By.xpath("//*[@id=\"AppointmentsDT\"]//tr[2]/td[7][string-length(text()) = 0]"));
             base.waitFor();
@@ -267,7 +271,7 @@ public class RepairerJobUpdate {
         }
     }
 
-    public void clickThirdAppointment(){
+    public void clickThirdAppointment() {
         try {
             WebElement appointment = driver.findElement(By.xpath("//*[@id=\"AppointmentsDT\"]//tr[3]/td[7][string-length(text()) = 0]"));
             Thread.sleep(2000);
@@ -277,23 +281,23 @@ public class RepairerJobUpdate {
         }
     }
 
-    public void clickCompleteAppointment(String status,String hours, String mins) throws InterruptedException{
+    public void clickCompleteAppointment(String status, String hours, String mins) throws InterruptedException {
 //        waitForElementVisible(diaryAppointment);
 //        waitForPageToLoad();
 //        diaryAppointment.click();
 //        Thread.sleep(3000);
         diaryAppointmentCompleteButtom.click();
         Thread.sleep(5000);
-        if(status == partsNeeded) {
+        if (status == partsNeeded) {
             base.selectTextByVisibleText(selectOutcomeOfAppointment, partsNeeded);
         } else {
             base.selectTextByVisibleText(selectOutcomeOfAppointment, status);
         }
         Thread.sleep(2000);
         enterArrivalTime.click();
-        getElement(xPathForTimeHours,hours).click();
+        getElement(xPathForTimeHours, hours).click();
         Thread.sleep(2000);
-        getElement(xPathForTimeMins,mins).click();
+        getElement(xPathForTimeMins, mins).click();
         Thread.sleep(2000);
         submitButton.click();
         Thread.sleep(2000);
@@ -310,11 +314,11 @@ public class RepairerJobUpdate {
 
     }
 
-    public void completeServiceReport(){
+    public void completeServiceReport() {
         serviceReportText.sendKeys("Test");
     }
 
-    public int getTotalAppointmentsInTheList(){
+    public int getTotalAppointmentsInTheList() {
 
         int total = 0;
         try {
@@ -327,14 +331,14 @@ public class RepairerJobUpdate {
         return total;
     }
 
-    public boolean checkIfTheVisitCompleted(String record,String outcome){
+    public boolean checkIfTheVisitCompleted(String record, String outcome) {
         boolean status = false;
         String path = "//*[@id=\"AppointmentsDT\"]//tr[${input}]/td[7]";
-        path = path.replace("${input}",record);
-        try{
+        path = path.replace("${input}", record);
+        try {
             WebElement appointmentStat = driver.findElement(By.xpath(path));
             base.checkIfELementIsAvailable(appointmentStat);
-            if(appointmentStat.getText() == outcome) {
+            if (appointmentStat.getText() == outcome) {
                 status = true;
             }
         } catch (Exception e) {
@@ -343,10 +347,11 @@ public class RepairerJobUpdate {
         // check the first appointment status using outcome
         return status;
     }
-    public void completePartialVisit(String outcome,String hours, String mins ) throws InterruptedException {
+
+    public void completePartialVisit(String outcome, String hours, String mins) throws InterruptedException {
 //        clickOpenDiaryAppointment();
         Thread.sleep(3000);
-        clickCompleteAppointment(outcome,hours,mins);
+        clickCompleteAppointment(outcome, hours, mins);
     }
 
     public void performRepairComplete() throws InterruptedException {
@@ -357,6 +362,7 @@ public class RepairerJobUpdate {
         completeJobProcess();
         Thread.sleep(3000);
     }
+
     public void completeLabourAndParts() throws InterruptedException {
         engineerName.sendKeys("TestEngineer");
         Thread.sleep(2000);
@@ -377,14 +383,14 @@ public class RepairerJobUpdate {
         poppupToProceed.click();
         Thread.sleep(15000);
         base.waitForElementVisible(labourChargeSectionB);
-        base.selectTextByVisibleText(labourChargeSectionB,"103 - No heating");
+        base.selectTextByVisibleText(labourChargeSectionB, "103 - No heating");
         Thread.sleep(5000);
-        base.selectTextByVisibleText(labourChanrgeFaultCode,"BREAKDOWN - ");
+        base.selectTextByVisibleText(labourChanrgeFaultCode, "BREAKDOWN - ");
         Thread.sleep(5000);
         base.waitForElementVisible(addAdjustmentButton);
         addAdjustmentButton.click();
         base.waitForElementVisible(addAdjustmentFaultCode);
-        base.selectTextByVisibleText(addAdjustmentFaultCode,"A01 - Adjustment - Electrical");
+        base.selectTextByVisibleText(addAdjustmentFaultCode, "A01 - Adjustment - Electrical");
         Thread.sleep(5000);
         lockEstimateButton.click();
         Thread.sleep(5000);
@@ -398,37 +404,38 @@ public class RepairerJobUpdate {
     public void completeJobProcess() throws InterruptedException {
         completeJobButton.click();
         base.waitForElementVisible(serviceCategoryStatusDropdown);
-        selectCombibox(serviceCategoryStatusDropdown,"Physical");
+        selectCombibox(serviceCategoryStatusDropdown, "Physical");
         Thread.sleep(3000);
-        selectCombibox(completionStatusDropdown,"Technical Fix");
+        selectCombibox(completionStatusDropdown, "Technical Fix");
         Thread.sleep(3000);
         confirmJobCompletionBtn.click();
         Thread.sleep(5000);
         eInvoiceRequiredNo.click();
     }
 
-    public boolean isJobCompleted(){
+    public boolean isJobCompleted() {
 
         boolean status = false;
         try {
             if (jobCompletedStatusText.getText().contains("REPAIR COMPLETED")) {
                 status = true;
             }
-        } catch ( Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Unable to complete the Repair");
         }
         return status;
     }
 
-    private void selectCombibox(WebElement element,String value){
+    private void selectCombibox(WebElement element, String value) {
         Actions action = new Actions(driver);
         action.moveToElement(element).click().build().perform();
         action.sendKeys(Keys.ARROW_RIGHT).sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ENTER).release().build().perform();
         action.sendKeys(Keys.TAB).build().perform();
     }
+
     private WebElement getElement(String path, String value) {
 
-        String xPath = path.replace("$(input)",value);
+        String xPath = path.replace("$(input)", value);
         WebElement element = null;
         try {
             element = driver.findElement(By.xpath(xPath));
@@ -440,19 +447,19 @@ public class RepairerJobUpdate {
 
     }
 
-    public String getClaimBookedTime(){
+    public String getClaimBookedTime() {
         String bookedTime = firstAppointmentBookedTime.getText();
-        bookedTime = bookedTime.replace("(","");
-        bookedTime = bookedTime.replace(")","").trim();
+        bookedTime = bookedTime.replace("(", "");
+        bookedTime = bookedTime.replace(")", "").trim();
         return bookedTime;
     }
 
-    public String getClaimFirstAppointmentDate(){
+    public String getClaimFirstAppointmentDate() {
         return firstAppointmentDate.getText();
     }
 
 
-    public String getNextAvailableDate(String curDate,int days) {
+    public String getNextAvailableDate(String curDate, int days) {
         String nextDate = "";
         try {
             Calendar today = Calendar.getInstance();
@@ -467,7 +474,7 @@ public class RepairerJobUpdate {
         return nextDate;
     }
 
-    public void insertNewAppointment(){
+    public void insertNewAppointment() {
         try {
             if (base.checkIfELementIsAvailable(insertButton)) {
                 insertButton.click();
@@ -477,7 +484,7 @@ public class RepairerJobUpdate {
                 base.checkIfELementIsAvailable(bookAppointmentButton);
                 bookAppointmentButton.click();
             }
-        } catch (Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

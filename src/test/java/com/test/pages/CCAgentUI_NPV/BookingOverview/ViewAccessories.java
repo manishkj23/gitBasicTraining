@@ -30,7 +30,7 @@ public class ViewAccessories {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//b[contains(.,\"Accessories\")]")
+    @FindBy(xpath = "//div[@id=\"cboxLoadedContent\"]/div[contains(.,\"Accessory Only Exchange\")]")
     private WebElement accessoryHeaderTitle;
 
     private final String accessoryListXpath = "//b[contains(.,\"Accessories\")]/../ul/li[contains(.,\"${value}\")]";
@@ -39,6 +39,9 @@ public class ViewAccessories {
 
     @FindBy(xpath = "//b[contains(.,\"Accessories\")]/../button[contains(.,\"Ok\")]")
     private WebElement okBtn;
+
+    @FindBy(xpath = "//b[contains(.,\"Accessories\")]/../button[contains(.,\"Ok\")]")
+    private WebElement referralNumber;
 
 
     public boolean isAccessoriesPageDisplayed() {
@@ -72,5 +75,12 @@ public class ViewAccessories {
         }
         return status;
     }
+
+    public boolean isReferalNumberDisplayed() {
+        base.highlightElement(referralNumber);
+        return (referralNumber.isDisplayed()) ? true : false;
+    }
+
+
 
 }

@@ -20,12 +20,18 @@ public class RADataPage {
     public static final Logger LOGGER = LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
 
-    private static String planDropDownXpath = "//*[@id=\"raData\"]//span[text(.,\"${value}\")]";
+    //    private static String planDropDownXpath = "//*[@id=\"raData\"]//span/b[text(.,\"${value}\")]";
+    private static String planDropDownXpath = "//*[@id='raData']//span/b[text()='${value}']";
     private static String planExpiryDateXpath = "//span[text()=\"${value}\"]";
 
     @FindBy(id = "PolicyExpiryDate")
     private WebElement policyExpiryDateValue;
 
+    @FindBy(id = "Radatapanel5")
+    private WebElement planOption;
+
+    @FindBy(id = "PolicyExpiryDate")
+    private WebElement expiryDate;
 
     @FindBy(id = "OpenClaimBtn")
     private WebElement openClaimBtn;
@@ -54,14 +60,15 @@ public class RADataPage {
     }
 
     public boolean VerifyExpiryDate(String planDropDownValue,String planExpiryDate) throws InterruptedException {
-
+        boolean status = false;
         WebElement planDropDown =  seleniumHelper.getCustomElementByXpath(planDropDownXpath,planDropDownValue);
         WebElement expiryDate =  seleniumHelper.getCustomElementByXpath(planExpiryDateXpath,planExpiryDate);
-        boolean status = false;
         try{
             if(base.checkIfELementIsAvailable(planDropDown) && base.isClickable(planDropDown)){
+
                 base.highlightElement(planDropDown);
                 base.clickElement(planDropDown);
+                Thread.sleep(3000);
                 if(expiryDate.isDisplayed()){
                     status = true;
                 }
@@ -75,9 +82,9 @@ public class RADataPage {
 
     }
 
-    public boolean isPlanDateValueDisplayed(String spName){
+    public boolean isPlanDateValueDisplayed(String date){
         base.highlightElement(policyExpiryDateValue);
-        return (policyExpiryDateValue.getText().equalsIgnoreCase(spName))?true:false;
+        return (policyExpiryDateValue.getText().equalsIgnoreCase(date))?true:false;
     }
 
 
@@ -121,12 +128,14 @@ public class RADataPage {
 
     }
 
-    public boolean clickSchemeAndVerifyRenewalDate(String spName){
+    public boolean clickSchemeAndVerifyRenewalDate(String date) throws InterruptedException {
         base.highlightElement(scheme);
         base.clickElement(scheme);
+        Thread.sleep(3000);
 
-        return (renewalDate.getText().equalsIgnoreCase(spName))?true:false;
+        return (renewalDate.getText().equalsIgnoreCase(date))?true:false;
     }
 
 
 }
+

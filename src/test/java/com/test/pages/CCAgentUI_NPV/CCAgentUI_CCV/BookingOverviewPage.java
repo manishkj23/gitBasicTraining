@@ -12,6 +12,7 @@ import com.test.pages.CCAgent_OLDUI.ReviewClaimPage;
 import com.test.utils.BasePage;
 import com.test.utils.CommonUtils;
 import com.test.utils.SeleniumHelper;
+import org.apache.poi.ss.formula.functions.Today;
 import org.junit.Assert;
 import org.junit.Before;
 import org.openqa.selenium.By;
@@ -22,6 +23,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -172,6 +176,20 @@ public class BookingOverviewPage {
 
     @FindBy(xpath="//button[text()='Submit']")
     private WebElement submitButton;
+
+    @FindBy(xpath="//*[@onClick=\"openStatusHistory();\"]//div[@class=\"input\"][1]")
+    private WebElement claimTimeLine;
+
+    @FindBy(xpath="//*[@id=\"cboxLoadedContent\"]")
+    private WebElement claimTimeLimeTable;
+
+    @FindBy(xpath="//*[@id=\"StatusChanges\"]/tbody/tr[4]/td[4]")
+    private WebElement claimTimeLimeStatus;
+
+    @FindBy(xpath="//*[@id=\"StatusChanges\"]/tbody/tr[4]/td[1]")
+    private WebElement importTime;
+
+    private static final String importTimeStamp = "23:59:59";
 
     public BookingOverviewPage(BasePage base, SeleniumHelper seleniumHelper, CommonUtils commonUtils, DialogPoppupPage popupPage,
                                CancelClaimPage cancelClaimPage, ChangeClaimTypePopup changeClaimTypePopup, ViewAccessories viewAccessoriesPage,
@@ -507,6 +525,56 @@ public class BookingOverviewPage {
             e.printStackTrace();
         }
         return status;
+    }
+
+    public void clickClaimTimeline() {
+        try {
+            if (base.checkIfELementIsAvailable(claimTimeLine) && base.isClickable(claimTimeLine)) {
+                base.clickElement(claimTimeLine);
+            } else {
+                LOGGER.info("Unable to load Claim Timeline");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean verifyImportDateAndTime(String claimStatus) {
+        boolean status = false;
+        try {
+            Thread.sleep(3000);
+            base.waitTillElementFound(claimTimeLimeTable);
+            if (claimTimeLimeTable.isDisplayed()) {
+                base.highlightElement(claimTimeLimeTable);
+                Thread.sleep(3000);
+                claimTimeLimeStatus.getText().equalsIgnoreCase(claimStatus);
+                LOGGER.info("Claim status in timeline " + claimTimeLimeStatus.getText().equalsIgnoreCase(claimStatus));
+                Thread.sleep(3000);
+
+                String importDate = dateOfImport("dd/MM/yyyy");
+                importTime.getText().substring(0,10).equals(importDate);
+                LOGGER.info("Date minus one day: " +  importTime.getText().substring(0,10));
+
+                importTime.getText().substring(12,20).equals(importTimeStamp);
+                LOGGER.info("Time of importing a file: " +  importTime.getText().substring(12,20));
+                status = true;
+            }
+            else{
+                LOGGER.info("Unable to verify Import Date & Time ");
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    private String dateOfImport(String format) {
+        SimpleDateFormat importDate = new SimpleDateFormat(format);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        Date dateOfImport = calendar.getTime();
+        return importDate.format(dateOfImport);
     }
 
 }

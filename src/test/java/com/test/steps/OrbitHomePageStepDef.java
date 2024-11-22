@@ -12,7 +12,6 @@ import com.test.pages.CCAgent_OLDUI.DialogPopups.RepeatRepairNotice;
 import com.test.pages.CCAgent_OLDUI.ProductConfirmationSections.ProductConfirmationMobile;
 import com.test.pages.DataTools.SessionCachePage;
 import com.test.pages.ExcessPayment.CallOutChargePopupPage;
-import com.test.pages.SiteMap.Whirlpoolimport.ImportJobWhirlpool;
 import com.test.utils.BasePage;
 import com.test.utils.CommonUtils;
 import com.test.utils.OrbitJobImports.Whirlpool.JobImportUtilityWhirlpool;
@@ -1362,5 +1361,10 @@ public class OrbitHomePageStepDef {
     @And("I verify referred claim is updated in the grid")
     public void iVerifyReferredClaimIsUpdatedInTheGrid() {
         Assert.assertTrue(" Referred claim is not displayed in Flagged Risk Claims Hotspot Grid",homePage.isReferredClaimDisplayed());
+    }
+
+    @Then("I click on Repair Authority tab and verify page loaded successfully")
+    public void iClickOnRepairAuthorityTabAndVerifyPageLoadedSuccessfully() throws InterruptedException {
+        reviewClaimPage.clickRepairAuthority();
     }
 }

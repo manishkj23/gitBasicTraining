@@ -11,6 +11,7 @@ import com.test.pages.RepairerPortal.RepairerJobUpdate;
 import com.test.utils.BasePage;
 import com.test.utils.SeleniumHelper;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
@@ -206,5 +207,26 @@ public class LoginStepDef {
         Thread.sleep(10000);
         seleniumHelper.waitForPageLoaded();
 
+    }
+
+    @Then("I navigate to TOTP Generator page and enter secret Key")
+    public void iNavigateToTOTPGeneratorPageAndEnterSecretKey() throws InterruptedException {
+        base.clearCookies();
+        base.navigateToTOTPTokenGeneratorPage();
+        base.waitForPageToLoad();
+        base.waitToLoadElement();
+        Assert.assertTrue("Login Not Successful", loginPage.isTOTPPageDisplayed());
+        Thread.sleep(10000);
+//        loginPage.signInToCCAgent(base.prop.getProperty("CC_UserNPV"), base.prop.getProperty("CC_PasswordNPV"));
+        loginPage.enterSecretKey(base.prop.getProperty("TOTPSecretKey"));
+        Thread.sleep(3000);
+        seleniumHelper.waitForPageLoaded();
+    }
+
+
+    @Then("I fetch the TOTP and enter token on NPV authentication page and click verify")
+    public void iFetchTheTOTPAndEnterTokenOnNPVAuthenticationPageAndClickVerify() {
+        loginPage.adjustTheTokenPeriods();
+        Assert.assertTrue("Unable to enter the TOTP", loginPage.fetchAndEnterTOTP());
     }
 }
