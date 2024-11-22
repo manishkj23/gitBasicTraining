@@ -177,6 +177,15 @@ public class QandAProcessPage {
     @FindBy(xpath = worldpay_billingDetailsConfirmButtonPath)
     WebElement worldpay_billingDetailsConfirmButton;
 
+    @FindBy(xpath = "//*[@id='IcqScriptHolder'][contains(text(),'Please capture all accessories')]")
+    private WebElement accessoryCaption;
+
+    @FindBy(xpath = "//*[@id='ui-multiselect-accessorylist-option-0'][@title='TV Remote']")
+    private WebElement selectAccessory;
+
+    @FindBy(xpath = "//*[@id='IcqAnswerButton'][contains(text(),'Finished')]")
+    private WebElement clickFinish;
+
 
     public QandAProcessPage(BasePage base, SeleniumHelper seleniumHelper, CommonUtils commonUtils, PlanDetails planDetails, FMIEnabledPopup fmiEnabledPopup
             ,BankAccountDetailsCapturePage bankAccountDetailsCapturePage) {
@@ -514,4 +523,21 @@ public class QandAProcessPage {
         }
     }
 
+    public void answerForAccessoryCapture() throws InterruptedException {
+        try {
+            if (accessoryCaption.isDisplayed()) {
+                Thread.sleep(3000);
+                base.highlightElement(accessoryCaption);
+                base.clickWithJsExecutor(accessoryDropdown);
+                Thread.sleep(2000);
+                base.clickWithJsExecutor(selectAccessory);
+                Thread.sleep(2000);
+                base.clickWithJsExecutor(saveAccessory);
+                Thread.sleep(2000);
+                base.clickWithJsExecutor(clickFinish);
+            }
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -27,16 +27,40 @@ public class LoginPage {
     @FindBy(xpath = "//*[@id=\"displayLoginButton\"]/button")
     private WebElement LoginButton;
 
-    @FindBy(xpath = "//div[@id='loginOuter']//button[@id='signInBtn']")
+    //    @FindBy(xpath = "//div[@id='loginOuter']//button[@id='signInBtn']")
+    @FindBy(xpath = "//button[@class='btnStandardLogin']")
     private WebElement SignInButton;
 
-    @FindBy(xpath = "//*//input[@id='username']")
+
+
+    //    @FindBy(xpath = "//*//input[@id='username']")
+    @FindBy(xpath = "//*//input[@id='name']")
     private WebElement SignInCCUser;
 
     @FindBy(xpath = "//*//input[@id='password']")
     private WebElement SignInCCPassword;
 
+    @FindBy(xpath = "//*[@id=\"app\"]/div/h1[contains(text(),'TOTP Token Generator')]")
+    private WebElement tokenGeneratorPage;
 
+    @FindBy(xpath = "//*[@id=\"app\"]/div/div[1]/div[@class='control']/input")
+    private WebElement SecretKey;
+
+    @FindBy(xpath = "//*[@id=\"app\"]/div/div[3]/div[@class='control']/input")
+    private WebElement tokenPeriod;
+
+    @FindBy(xpath = "//*[@id=\"token\"]")
+    private WebElement tokenNumber;
+
+    @FindBy(xpath = "//*[@id=\"idTxtBx_SAOTCC_OTC\"]")
+    private WebElement authenticationCode;
+
+    @FindBy(xpath = "//*[@id=\"idSubmit_SAOTCC_Continue\"]")
+    private WebElement verifyButton;
+
+    //*[@id="idSubmit_SAOTCC_Continue"]
+
+    private final String TokenPeriodInSeconds = "100";
 
     public LoginPage(BasePage base, SeleniumHelper seleniumHelper, CommonUtils commonUtils) {
         this.base = base;
@@ -93,7 +117,8 @@ public class LoginPage {
 
         base.waitForElementVisible(SignInCCPassword);
         base.sendFieldInputData(SignInCCPassword, password);
-        base.clickElement(SignInButton);
+//        base.clickElement(SignInButton);
+        base.clickWithJsExecutor(SignInButton);
 
     }
 
@@ -111,5 +136,49 @@ public class LoginPage {
         }
         return status;
     }
+
+    public boolean isTOTPPageDisplayed() {
+        boolean status = false;
+        try {
+            base.waitTillElementFound(tokenGeneratorPage);
+            if (tokenGeneratorPage.isDisplayed()) {
+                base.highlightElement(tokenGeneratorPage);
+                status = true;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public void enterSecretKey(String totpSecretKey) {
+        base.checkIfELementIsAvailable(SecretKey);
+        base.clearText(SecretKey);
+        base.sendFieldInputData(SecretKey, totpSecretKey);
+
+    }
+
+    public void adjustTheTokenPeriods() {
+        base.clearText(tokenPeriod);
+        base.sendFieldInputData(tokenPeriod, TokenPeriodInSeconds);
+    }
+
+    public boolean fetchAndEnterTOTP() {
+        boolean status = false;
+        try {
+            String token;
+            token = tokenNumber.getText();
+            base.navigateToLandingPage();
+            seleniumHelper.waitForPageLoaded();
+            base.sendFieldInputData(authenticationCode, token);
+            base.clickWithJsExecutor(verifyButton);
+            status = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
 
 }

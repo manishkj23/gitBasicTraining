@@ -12,6 +12,7 @@ import com.test.pages.CCAgent_OLDUI.DialogPopups.RepeatRepairNotice;
 import com.test.pages.CCAgent_OLDUI.ProductConfirmationSections.ProductConfirmationMobile;
 import com.test.pages.DataTools.SessionCachePage;
 import com.test.pages.ExcessPayment.CallOutChargePopupPage;
+import com.test.pages.SiteMap.Whirlpoolimport.ImportJobWhirlpool;
 import com.test.utils.BasePage;
 import com.test.utils.CommonUtils;
 import com.test.utils.OrbitJobImports.Whirlpool.JobImportUtilityWhirlpool;

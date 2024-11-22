@@ -45,9 +45,12 @@ public class ProductConfirmationMobile {
     @FindBy(xpath = "//*[@id=\"custVerifiedIMEI\"]")
     private WebElement verifiedWithCustomer;
 
-    private final String confirmPath = "//*[@id=\"SubUnitTypeSelectionFormID\"]//button[contains(.,\"Confirm\")]";
+    private final String confirmPath = "//*[@id=\"newUISubUnitType\"]//button[contains(.,\"Confirm\")]";
     @FindBy(xpath = confirmPath)
     private WebElement confirmButton;
+
+    @FindBy(id = "makeClaimBut")
+    private WebElement continueBtn;
 
     private final String productSelectionDropdownPath = "//*[@id=\"SubUnitTypeSelectionFormID\"]/span/a/span[1]";
 
@@ -92,6 +95,8 @@ public class ProductConfirmationMobile {
             if (isCurrentIMEIExist() && base.isClickable(verifiedWithCustomer) && base.isClickable(confirmButton)) {
                 base.clickElement(verifiedWithCustomer);
                 base.clickElement(confirmButton);
+                base.isClickable(continueBtn);
+                base.clickElement(continueBtn);
             } else {
                 LOGGER.error("Unable to confirm the IMEI on the Product confirmation Page");
             }

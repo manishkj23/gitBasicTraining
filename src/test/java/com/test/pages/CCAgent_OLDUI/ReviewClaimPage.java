@@ -484,6 +484,9 @@ public class ReviewClaimPage {
     @FindBy(xpath = "//table[@id=\"ContactHistory\"]//td[text()='Import Repair Status']//following-sibling::td")
     private WebElement estimateNotes;
 
+    @FindBy(xpath = "//div[@id='nav_RequestAuthorisation']//i")
+    private WebElement repairAuthorityTab;
+
 
     public ReviewClaimPage(BasePage base, SeleniumHelper seleniumHelper, CommonUtils commonUtils, DialogPoppupPage popupPage) {
         this.base = base;
@@ -1739,4 +1742,14 @@ public class ReviewClaimPage {
         return status;
     }
 
+    public void clickRepairAuthority() throws InterruptedException {
+        if (base.checkIfELementIsAvailable(repairAuthorityTab)) {
+            base.clickWithJsExecutor(repairAuthorityTab);
+            Thread.sleep(3000);
+        }
+        Assert.assertTrue("Repair Authority Page not loaded", repairAuthorityTab.isDisplayed());
+        Thread.sleep(2000);
+    }
 }
+
+
