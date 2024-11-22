@@ -1,0 +1,2 @@
+Customer|Address|Town|Postcode|Country|Home Phone|Mobile Phone|Work Phone|Work Extension|Brand|Current Model|Purchase Date|Authority Number|Policy Number|Exchange Type|Reason|Brand|Replacement Model|OOS Part|OOS Description|Gold Plan|Email ID
+MR FRAN REPAIRPLUSONE|2 TEST LANE|| PE2 7AB|GB|||||WHIR|AWB5123UKBQ|02.05.2023|2691848969|3BA9042404|D&G FULL|PNLA||||||ijqr27@domesticandgeneral.com
